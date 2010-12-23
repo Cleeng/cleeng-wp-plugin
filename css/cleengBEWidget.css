@@ -1,0 +1,51 @@
+#cleeng-createContent {
+    outline: 0;
+    margin: 0 4px 0 0;
+    padding: .4em 1em;
+    text-decoration: none !important;
+    cursor: pointer;
+    position: relative;
+    text-align: center;    
+    width: 100%;
+}
+
+#cleeng-contentForm label {
+/*	display: block;*/
+}
+
+#cleeng-contentForm input {
+}
+
+.cleeng-ContentForm-wide {
+    
+	width: 100%;
+}
+
+#cleeng-ContentForm-LayerStartDate, #cleeng-ContentForm-LayerEndDate {
+    width: 140px;
+}
+
+#cleeng-ContentForm-PriceSlider {
+    margin-bottom: 5px;
+}
+
+#cleeng-ContentList li {
+    font-size: 11px;
+}
+#cleeng-ContentList {
+    margin-bottom: 10px;
+}
+
+#cleeng-ContentForm-Description {
+    height: 70px;
+}
+
+.cleeng_error p {
+    font-weight: bold;
+}
+
+.cleeng_error ul {
+    list-style-type: disc;
+    margin-left: 30px;
+    font-style: italic;
+}
