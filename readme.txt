@@ -15,10 +15,11 @@ Cleeng is a patented technical solution that brings innovation to content
 monetization.
 
 It enables website publishers, bloggers and other content creators to generate
-micro payments and make (incremental) money from their creations. It simplifies
+micro payments and make (incremental) money from their creations. For visitors it simplifies
 the access to unique quality content by offering a one-click, pay as you go
 solution to online consumers. It works on web-enabled devices and for any kind
 of online content and avoids the hassle of multiple subscriptions.
+
 With the Cleeng for WordPress plugin you can start monetizing your content
 within minutes. After installation of Cleeng and signing up as a publisher,
 within the editor you can simply select the content you want to protect and click
@@ -32,6 +33,7 @@ protected. Now your visitors can with the one-click, pay as you go solution
 instantly access this content.
 
 Have a try: it really works this easy!
+
 NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
 are able to fully try us out.
 
@@ -41,8 +43,11 @@ are able to fully try us out.
 2. Activate it in "Plugins" menu in WordPress.
 3. Within the right hand site of your edit pages (blog and pages)
    the Cleeng widget should appear.
-4. To be able to protect and charge for your content, you first need
+4. To be able to protect and charge for your content, you need
    to sign-up with Cleeng as a publisher. Check cleeng.com for more information.
+
+NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
+are able to fully try us out.
 
 == Frequently Asked Questions ==
 
@@ -51,7 +56,7 @@ You can find the FAQ on www.cleeng.com/p/faq
 == Screenshots ==
 
 1. This is how Cleeng layer looks before user purchases content
-2. Purchase screen
+2. Purchase confirmation screen
 3. Creating new content (Admin)
 4. Cleeng Widget (Admin)
 
