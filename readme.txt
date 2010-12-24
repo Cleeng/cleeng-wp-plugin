@@ -17,7 +17,7 @@ monetization.
 It enables website publishers, bloggers and other content creators to generate
 micro payments and make (incremental) money from their creations. For visitors it simplifies
 the access to unique quality content by offering a one-click, pay as you go
-solution to online consumers. It works on web-enabled devices and for any kind
+solution. It works on web-enabled devices and for any kind
 of online content and avoids the hassle of multiple subscriptions.
 
 With the Cleeng for WordPress plugin you can start monetizing your content
