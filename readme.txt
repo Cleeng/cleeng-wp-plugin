@@ -14,6 +14,9 @@ a pay as you go solution for your site visitors.
 Cleeng is a patented technical solution that brings innovation to content
 monetization.
 
+**NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
+are able to fully try it out.**
+
 It enables website publishers, bloggers and other content creators to generate
 micro payments and make (incremental) money from their creations. For visitors it simplifies
 the access to unique quality content by offering a one-click, pay as you go
@@ -34,8 +37,7 @@ instantly access this content.
 
 Have a try: it really works this easy!
 
-NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
-are able to fully try us out.
+
 
 == Installation ==
 
@@ -46,8 +48,8 @@ are able to fully try us out.
 4. To be able to protect and charge for your content, you need
    to sign-up with Cleeng as a publisher. Check cleeng.com for more information.
 
-NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
-are able to fully try us out.
+**NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
+are able to fully try us out.**
 
 == Frequently Asked Questions ==
 
