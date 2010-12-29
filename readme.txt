@@ -1,4 +1,4 @@
-=== Cleeng For WordPress ===
+=== Cleeng Content Monetization ===
 Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, charge, pay
 Requires at least: 2.9.2
