@@ -1,6 +1,6 @@
 === Cleeng For WordPress ===
 Contributors: mtymek, Donald Res
-Tags: cleeng, content monetization, micropayment, protect
+Tags: cleeng, content monetization, micropayment, protect, monetize, money, charge, pay
 Requires at least: 2.9.2
 Tested up to: 3.0.3
 Stable tag: trunk
