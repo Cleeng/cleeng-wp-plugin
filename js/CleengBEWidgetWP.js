@@ -107,17 +107,7 @@ var CleengWidget = {
                 'Cancel' : function() {
                     jQuery(this).dialog('close');
                 }
-            },
-            close: function() {
-            },
-            open: function() {
-                /* This line may look strange, but it is required to display
-                   dialog in Firefox and jQuery 1.3.X (which is bundled with
-                   older WordPress installations */
-                var parent = jQuery('#cleeng-contentForm').parent().hide();
-            },
-            show: 'drop',
-            hide: 'clip'
+            }                        
         });
 
         jQuery('#cleeng-ContentForm-PriceSlider').slider({
