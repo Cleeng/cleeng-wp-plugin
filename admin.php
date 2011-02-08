@@ -31,7 +31,30 @@ add_action( 'admin_menu', 'cleeng_add_custom_box' );
 add_action( 'admin_notices', 'cleeng_admin_notices' );
 
 add_action('admin_menu', 'cleeng_plugin_menu');
+add_filter('plugin_action_links', 'cleeng_settings_link', 10, 2 );
 
+/**
+ * Display "settings" link next to "deactivate"
+ *
+ * @param array $links
+ * @param string $file
+ * @return array
+ */
+function cleeng_settings_link($links, $file)
+{
+    $this_plugin = plugin_basename(dirname(__FILE__) . '/cleengWP.php');
+    if ($file == $this_plugin) {
+        $settings_link = '<a href="options-general.php?page=cleeng">' . __("Settings", "cleeng") . '</a>';
+        array_unshift($links, $settings_link);
+    }
+    return $links;
+}
+
+/**
+ * Available settings in Options page:
+ * - whether to display prompt message just before the layer
+ * - which environment should be used: production or sandbox?
+ */
 
 function cleeng_settings_page() {
     ?>
@@ -39,7 +62,7 @@ function cleeng_settings_page() {
     <?php screen_icon(); ?>
     <h2>Cleeng For WordPress Settings</h2>
     <form method="post" action="options.php">
-        <?php settings_fields('cleeng_settings'); ?>
+        <?php settings_fields('cleeng'); ?>
         <?php do_settings_sections('cleeng'); ?>
         <p class="submit">
             <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
@@ -49,19 +72,68 @@ function cleeng_settings_page() {
 <?php
 }
 
-function cleeng_display_settings_description() {
-    echo '<p>Some description</p>';
-}
 
 function cleeng_plugin_menu() {
-    add_submenu_page('options-general.php', __('Cleeng For WordPress Settings'), __('Cleeng'), 'manage_options', 'cleeng_settings', 'cleeng_settings_page');
-    register_setting( 'cleeng_options', 'cleeng_options', 'cleeng_options_validate' );
+    add_submenu_page('options-general.php', __('Cleeng For WordPress Settings'), __('Cleeng'), 'manage_options', 'cleeng', 'cleeng_settings_page');
+    
+    register_setting( 'cleeng', 'cleeng_options');
 
-    add_settings_section('cleeng_main', 'Display Settings', 'cleeng_display_settings_description', 'cleeng');
-    add_settings_field('cleeng_widget_width', 'Widget width (in pixels):', 'intval', 'cleeng', 'cleeng_main');
+    add_settings_section('cleeng_environment', 'Choose LIVE or SANDBOX', 'cleeng_settings_environment_description', 'cleeng');
+    add_settings_section('cleeng_prompt', 'Text above layer', 'cleeng_settings_prompt_description', 'cleeng');
+    
+    add_settings_field('environment', '', 'cleeng_settings_environment_render', 'cleeng', 'cleeng_environment');
+    add_settings_field('show_prompt', '', 'cleeng_settings_show_prompt_render', 'cleeng', 'cleeng_prompt');
+}
+
+function cleeng_settings_environment_render() {
+    $options = get_option('cleeng_options');
+    if (!isset($options['environment']) || @$options['environment'] == 'cleeng.com') {
+        $ch1 = ' checked="checked"';
+        $ch2 = '';
+    } else {
+        $ch1 = '';
+        $ch2 = ' checked="checked"';
+    }
+    echo <<<EOS
+       <label for="cleeng_environment_live">
+           <input type="radio" name="cleeng_options[environment]"
+                id="cleeng_environment_live" $ch1 value="cleeng.com"/>
+           LIVE (real transactions!)
+       </label>
+       <br />
+       <label for="cleeng_environment_sandbox">
+           <input type="radio" name="cleeng_options[environment]"
+                id="cleeng_environment_sandbox" $ch2 value="sandbox.cleeng.com" />
+           SANDBOX (test transactions)
+       </label>
+EOS;
+}
+
+function cleeng_settings_show_prompt_render() {
+    $options = get_option('cleeng_options');
+    if (!isset($options['show_prompt']) || $options['show_prompt']) {
+        $ch = ' checked="checked"';
+    } else {
+        $ch = '';
+    }
+    echo <<<EOS
+       <label for="cleeng_show_prompt">
+           <input type="hidden" name="cleeng_options[show_prompt]" value="0" />
+           <input type="checkbox" name="cleeng_options[show_prompt]"
+                value="1" id="cleeng_show_prompt" $ch />
+           Enable text above layer.
+       </label>
+EOS;
 
 }
 
+function cleeng_settings_environment_description() {
+    echo '<p>Here you can select if you want to enable real transactions and earn money (LIVE) or just experiment and test with the Cleeng service using the sandbox environment (SANDBOX). In case you have selected "SANDBOX", please avoid covering content on your public website as your visitors might be very confused. Also note that your settings, content references and accounts are NOT copied in between SANDBOX servers and the LIVE servers. So only use SANDBOX if you want to test on a non-public website.</p>';
+}
+
+function cleeng_settings_prompt_description() {
+    echo '<p>With protected content, Cleeng would automatically add a short text above the layer. This text will increase the likelyhood to buy for consumers. If you prefer to write this text yourself just enable the text below.</p>';
+}
 
 /**
  * Wordpress action.
@@ -89,7 +161,7 @@ function cleeng_load_scripts() {
 function cleeng_format_open_tag( $content ) {
     $str = '[cleeng_content'
             . ' id="' . $content['contentId'] . '"'
-            . ' description="' . $content['shortDescription'] . '"'
+            . ' description="' . addslashes($content['shortDescription']) . '"'
             . ' price="' . $content['price'] . '"';
     if ( $content['referralProgramEnabled'] ) {
         $str .= ' referral="' . $content['referralRate'] . '"';
@@ -125,14 +197,16 @@ function cleeng_parse_post( $postId ) {
     $post_content = $my_post->post_content;
     $cleeng_content = array( );
 
-    $expr = '/\[cleeng_content(.*[^\\\])?\](.*[^\\\])?\[\/cleeng_content\]/is';
-    preg_match_all( $expr, $post_content, $m );
-    foreach ( $m[0] as $key => $content ) {
-        $paramLine = $m[1][$key];
+    $expr = '/\[cleeng_content(.*?[^\\\])\](.*?[^\\\])\[\/cleeng_content\]/is';
+    preg_match_all( $expr, $post_content, $matched_content );
 
-        $expr = '/(\w+)\s*=\s*\"(.*?[^\\\])\"/si';
+    foreach ( $matched_content[0] as $key => $content ) {
+        $paramLine = $matched_content[1][$key];
+        
+        $expr = '/(\w+)\s*=\s*\"(.*?)(?<!\\\)\"/si';
         preg_match_all( $expr, $paramLine, $m );
-        if ( ! isset( $m[0] ) || ! count( $m[0] ) ) {
+
+        if ( !isset( $m[0] ) || !$m[0] ) {            
             continue;
         }
 
@@ -143,6 +217,7 @@ function cleeng_parse_post( $postId ) {
             'description' => '',
             'ls' => null,
             'le' => null,
+            't' => null,
             'referral' => null
         );
         foreach ( $m[1] as $key => $paramName ) {
@@ -152,7 +227,7 @@ function cleeng_parse_post( $postId ) {
         $c = array(
             'contentId' => $a['id'],
             'price' => floatval( $a['price'] ),
-            'itemType' => $a['type'],
+            'itemType' => $a['t']?$a['t']:'article',
             'shortDescription' => html_entity_decode( stripslashes( $a['description'] ) )
         );
         if ( $a['ls'] && $a['le'] ) {
@@ -281,18 +356,22 @@ function cleeng_inner_custom_box() {
             <div id="cleeng-ajaxErrorDetails"></div>
         </div>
         <div>
-            <div id="cleeng-connecting"><h3><?php echo __( 'Connecting to Cleeng Platform...' ) ?></h3></div>
+            <div id="cleeng-connecting"><?php echo __( 'Connecting to Cleeng Platform...' ) ?></div>
             <div style="display:none;">
 <?php echo __( 'Welcome' ) ?>, <a href="<?php echo $cleeng->getUrl() . '/my-account' ?>" id="cleeng-username" target="_blank" title="Visit my account"></a>
                 <a class="CleengWidget-auth-link" id="cleeng-logout" href="#"><?php echo __( 'Log out' ) ?></a>
             </div>
             <div style="display:none;">
+                Thanks for installing <strong class="cleeng-name">Cleeng</strong>.
+                <br />
+                Please
                 <a class="CleengWidget-auth-link" id="cleeng-login" href="#">
-<?php echo __( 'Authenticate with Cleeng Platform' ) ?>
+                    log in with Cleeng
                 </a>
+                to protect your content.
             </div>
             <div id="cleeng-notPublisher" style="display:none;">
-<?php echo __( 'You need to have a Publisher account bfore using this widget.' ) ?>
+<?php echo __( 'You need to have a Publisher account before using this widget.' ) ?>
             <a target="_blank" href="<?php echo $cleeng->getUrl() . '/my-account/upgrade' ?>">
 <?php echo __( 'Please upgrade your account here' ) ?></a>.
         </div>
@@ -333,6 +412,16 @@ function cleeng_inner_custom_box() {
                         <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-Price"><?php echo __( 'Price' ) ?>: $<span id="cleeng-ContentForm-PriceValue">0.00</span></label>
                         <input style="display:none" type="text" name="CleengWidget-ContentForm-Price" id="cleeng-ContentForm-Price" value="" class="text ui-widget-content ui-corner-all" />
                         <div id="cleeng-ContentForm-PriceSlider"></div>
+                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-ItemType"><?php echo __( 'Item type' ) ?>:</label>
+                        <select id="cleeng-ContentForm-ItemType">
+                            <option value="article">Article</option>
+                            <option value="chart">Chart</option>
+                            <option value="file">File</option>
+                            <option value="image">Image</option>
+                            <option value="spreadsheet">Spreadsheet</option>
+                            <option value="video">Video</option>
+                        </select>
+                        <br />
                         <input type="checkbox" id="cleeng-ContentForm-LayerDatesEnabled" />
                         <label for="CleengWidget-ContentForm-LayerDatesEnabled"><?php echo __( 'Enable layer dates.' ) ?></label>
             <div id="cleeng-ContentForm-LayerDates">
@@ -340,6 +429,8 @@ function cleeng_inner_custom_box() {
                          name="layerStartDate" value="<?php echo date( 'Y-m-d' ) ?>" />
 <?php echo __( 'to' ) ?>: <input type="text" id="cleeng-ContentForm-LayerEndDate"
                          name="layerEndDate" value="<?php echo date( 'Y-m-d', time() + 3600 * 24 * 7 ) ?>" />
+
+
             </div>
             <input type="checkbox" id="cleeng-ContentForm-ReferralProgramEnabled" />
             <label for="CleengWidget-ContentForm-ReferralProgramEnabled"><?php echo __( 'Enable referral program' ) ?></label>
@@ -354,4 +445,3 @@ function cleeng_inner_custom_box() {
 <?php
             }
 
-            

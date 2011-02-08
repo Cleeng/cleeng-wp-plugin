@@ -1,23 +1,23 @@
 === Cleeng Content Monetization ===
 Contributors: mtymek, Donald Res
-Tags: cleeng, content monetization, micropayment, protect, monetize, money, charge, pay
+Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
-Tested up to: 3.0.3
+Tested up to: 3.0.5
 Stable tag: trunk
 License: New BSD License
 
-Cleeng for WordPress allows you to easily charge for your content by offering
-a pay as you go solution for your site visitors.
+Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
+charge for your text, images and videos.
 
 == Description ==
 
-Cleeng is a patented technical solution that brings innovation to content
-monetization.
+Cleeng makes one-click content monetization incredibly easy. The solution allows bloggers and 
+publishers to sell as much or as little of their digital content as they want. Visitors of a blog or website using Cleeng get a frictionless experience. 
+They pay with one click and get access to the protected content instantly.
 
-**NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
-are able to fully try it out.**
+See http://cleeng.com/features for 5 good reasons why to use Cleeng.
 
-It enables website publishers, bloggers and other content creators to generate
+Cleeng enables website publishers, bloggers and other content creators to generate
 micro payments and make (incremental) money from their creations. For visitors it simplifies
 the access to unique quality content by offering a one-click, pay as you go
 solution. It works on web-enabled devices and for any kind
@@ -38,7 +38,6 @@ instantly access this content.
 Have a try: it really works this easy!
 
 
-
 == Installation ==
 
 1. Upload Cleeng For WordPress to your wp-content/plugins directory.
@@ -46,23 +45,33 @@ Have a try: it really works this easy!
 3. Within the right hand site of your edit pages (blog and pages)
    the Cleeng widget should appear.
 4. To be able to protect and charge for your content, you need
-   to sign-up with Cleeng as a publisher. Check cleeng.com for more information.
+   to sign-up with Cleeng as a publisher. Check http://cleeng.com for more information
 
-**NOTE: Cleeng is currently in Private Beta, but by signing up on cleeng.com you
-are able to fully try us out.**
 
 == Frequently Asked Questions ==
 
-You can find the FAQ on www.cleeng.com/p/faq
+You can find the FAQ on http://cleeng.com/support or read and contribute on the Publisher 
+Community on http://cleeng.com/forum/publishers/
 
 == Screenshots ==
 
-1. This is how Cleeng layer looks before user purchases content
-2. Purchase confirmation screen
-3. Creating new content (Admin)
-4. Cleeng Widget (Admin)
+1. This is how Cleeng layer looks when the visitor sees Cleeng for the first time
+2. This is how Cleeng layer looks when the visitor is registered
+3. Purchase confirmation screen - all new users get 5 free credits
+4. Creating new content (Admin)
+5. Cleeng Widget (Admin)
 
 == Changelog ==
+
+= 0.9.7 =
+* improved the **layout of the layer**: cleaner, simpler, focused on ONE given transaction.
+* improved the **color scheme**, to better integrate within most common sites
+* publisher/bloggers **co-branding** to increase user confidence
+* improved support for **multiple content types**: article, chart, file, image, spreadsheet, video (embed)
+* different behavior for users who encounter Cleeng for the first time
+* improved usability of the bottom bar (visible after content is revealed)
+* improved regular expressions
+* other fixes
 
 = 0.9.6 =
 * made plugin compatible with jQuery 1.3.2

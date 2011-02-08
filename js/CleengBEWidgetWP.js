@@ -45,7 +45,7 @@ var CleengWidget = {
             jQuery('#cleeng-ContentForm-ReferralRateSlider').slider("disable");
         }
     },
-    init : function(){
+    init: function(){
         jQuery(document).ajaxError(function(e, xhr, settings, exception) {
                 console.log(e);
                 console.log(xhr);
@@ -99,7 +99,7 @@ var CleengWidget = {
 
         CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
             autoOpen: false,
-            height: 345,
+            height: 365,
             width: 400,
             modal: true,
             buttons: {
@@ -122,7 +122,7 @@ var CleengWidget = {
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({
             animate:false,
             min:5,
-            max:30,
+            max:50,
             step:1,
             slide: function(event, ui) {
                 jQuery('#cleeng-ContentForm-ReferralRateValue').html(ui.value);
@@ -132,9 +132,11 @@ var CleengWidget = {
         jQuery('#cleeng-ContentList a').live('click', function() {
             if (jQuery(this).hasClass('cleeng-editContentLink')) {
                 id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
+                id = id.replace(/\./g, '');
                 CleengWidget.editContent(id);
             } else if (jQuery(this).hasClass('cleeng-removeContentLink')) {
                 id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
+                id = id.replace(/\./g, '');
                 CleengWidget.removeMarkers(id);
             }
             return false;
@@ -189,16 +191,18 @@ var CleengWidget = {
         content.price = typeof content.price === 'undefined' ? '0.15' : content.price;
         content.shortDescription = typeof content.shortDescription === 'undefined' ? '' : content.shortDescription.replace(/\\"/g, '"');
         content.referralProgramEnabled = typeof content.referralProgramEnabled === 'undefined' ? 0 : content.referralProgramEnabled;
+        content.itemType = typeof content.itemType === 'undefined' ? 'article' : content.itemType;
         content.referralRate = typeof content.referralRate === 'undefined' ? 0.05 : content.referralRate;
         content.hasLayerDates = typeof content.hasLayerDates === 'undefined' ? 0 : content.hasLayerDates;
         content.layerStartDate = typeof content.layerStartDate === 'undefined' ? '' : content.layerStartDate;
         content.layerEndDate = typeof content.layerEndDate === 'undefined' ? '' : content.layerEndDate;
         CleengWidget.newContentForm.contentId = content.contentId;
-        jQuery('#cleeng-ContentForm-Description').val(decodeURI(content.shortDescription));
+        jQuery('#cleeng-ContentForm-Description').val(content.shortDescription.replace(/\/"/g, '\"'));
         jQuery('#cleeng-ContentForm-PriceSlider').slider('value', content.price);
         jQuery('#cleeng-ContentForm-LayerStartDate').datetimepicker({dateFormat: 'yy-mm-dd'});
         jQuery('#cleeng-ContentForm-LayerEndDate').datetimepicker({dateFormat: 'yy-mm-dd'});
         jQuery('#cleeng-ContentForm-PriceValue').html(content.price);
+        jQuery('#cleeng-ContentForm-ItemType').val(content.itemType);
         jQuery('#cleeng-ContentForm-ReferralRateValue').html(content.referralRate * 100);
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', content.referralRate * 100);
         jQuery('#cleeng-ContentForm-ReferralProgramEnabled').attr('checked', content.referralProgramEnabled?'checked':null);
@@ -226,6 +230,7 @@ var CleengWidget = {
             );
             jQuery('#cleeng-ContentForm-LayerStartDate, #cleeng-ContentForm-LayerEndDate')
                 .attr('disabled', 'disabled');
+            jQuery('#cleeng-ContentForm-ItemType').val('article');
             jQuery('#cleeng-ContentForm-LayerDatesEnabled').attr('checked', false);
             jQuery('#cleeng-ContentForm-ReferralRateSlider').slider("disable");
             CleengWidget.showContentForm({});
@@ -240,7 +245,7 @@ var CleengWidget = {
             price: jQuery('#cleeng-ContentForm-PriceSlider').slider('value'),
             shortDescription: jQuery('#cleeng-ContentForm-Description').val()            
         };
-        content.itemType = 'article';
+        content.itemType = jQuery('#cleeng-ContentForm-ItemType').val();
         if (jQuery('#cleeng-ContentForm-LayerDatesEnabled:checked').length) {
             content.hasLayerDates = 1;
             content.layerStartDate = jQuery('#cleeng-ContentForm-LayerStartDate').val();
@@ -273,6 +278,10 @@ var CleengWidget = {
 
         if (content.referralProgramEnabled && content.referralRate) {
             startMarker += ' referral=\"' + content.referralRate + '\"';
+        }
+        
+        if (content.itemType && content.itemType != 'article') {
+            startMarker += ' t=\"' + content.itemType + '\"';
         }
 
         if (content.hasLayerDates && content.layerStartDate && content.layerEndDate) {
@@ -312,7 +321,12 @@ var CleengWidget = {
                     } else {
                         price = 0;
                     }
-                    contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">' + id + '</span> price: ' + price +
+                    if (id[0] != 't') {
+                        parsedId = id.substring(0,3) + '.' + id.substring(3,6) + '.' + id.substring(6,9);
+                    } else {
+                        parsedId = id;
+                    }
+                    contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">' + parsedId + '</span> price: ' + price +
                             ' <a class="cleeng-editContentLink" href="#">edit</a> ' +
                             '<a class="cleeng-removeContentLink" href="#">remove</a></li>';
                     if (id[0] == 't') { // temporary ID?
@@ -349,6 +363,7 @@ var CleengWidget = {
                 var price = opening[0].match(/price="(.*?)"/i);
                 var description = opening[0].match(/description="(.*?[^\\])"/i);
                 var referral = opening[0].match(/referral="(.*?)"/i);
+                var itemType = opening[0].match(/t="(.*?)"/i);
                 var ls = opening[0].match(/ls="(.*?)"/i);
                 var le = opening[0].match(/le="(.*?)"/i);
 
@@ -357,6 +372,10 @@ var CleengWidget = {
                 } else {
                     content.price = 0;
                 }
+                if (!itemType) {
+                    itemType = 'article';
+                }
+                content.itemType = itemType;
                 if (description && description[1]) {
                     content.shortDescription = description[1];
                 } else {
@@ -401,8 +420,7 @@ var CleengWidget = {
         CleengWidget.setEditorText(editorText);
         CleengWidget.findContent();
         return false;
-    },
-
+    },   
     // helper functions for accessing editor
     // works for TinyMCE and textarea ("HTML Mode")
     getEditorText: function() {

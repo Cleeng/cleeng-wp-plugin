@@ -17,6 +17,8 @@
 global $cleeng;
 global $cleeng_has_content;
 global $cleeng_preload_content;
+global $cleeng_content;
+global $cleeng_user;
 
 /**
  * If set to true, plugin will fetch content information on server side,
@@ -29,10 +31,12 @@ $cleeng_preload_content = true;
  */
 $cleeng_has_content = false;
 
+wp_enqueue_script( 'ZeroClipboard', CLEENG_WP_PLUGIN_PATH . 'js/ZeroClipboard.js', array( 'jquery' ) );
 wp_enqueue_script( 'CleengFEWidgetWP', CLEENG_WP_PLUGIN_PATH . 'js/CleengFEWidgetWP.js', array( 'jquery' ) );
 wp_enqueue_style( 'cleengFEWidget', CLEENG_WP_PLUGIN_PATH . 'css/cleengFEWidget.css' );
 
 add_action( 'wp_print_footer_scripts', 'cleeng_autologin_script' );
+add_action( 'wp_footer', 'cleeng_script_footer' );
 add_action( 'wp_head', 'cleeng_script_head' );
 add_action( 'loop_start', 'cleeng_loop_start' );
 add_filter( 'the_content', 'cleeng_add_layers', 100 );
@@ -55,16 +59,37 @@ function cleeng_autologin_script() {
     }
 }
 
+function cleeng_script_head() {
+    echo
+    '<script type="text/javascript">
+    // <![CDATA
+    Cleeng_PluginPath = "' . CLEENG_WP_PLUGIN_PATH . '";
+    // ]]>
+    </script> ';
+}
+
 /**
  * Wordpress action.
  * Output javascript code setting Cleeng Plugin URL
  */
-function cleeng_script_head() {
-    echo '
-    <script type="text/javascript">
-        Cleeng_PluginPath = "' . CLEENG_WP_PLUGIN_PATH . '";
-    </script>
-	';
+function cleeng_script_footer() {
+    global $cleeng_user, $cleeng_content;
+    echo
+    '<script type="text/javascript">
+    // <![CDATA
+    jQuery(function() {';
+    if ( $cleeng_user ) {
+        echo 'CleengWidget.userInfo = ' . json_encode($cleeng_user) , ";\n";
+    }
+    if ( $cleeng_content && count($cleeng_content) ) {
+        echo 'CleengWidget.contentInfo = ' . json_encode($cleeng_content) , ";\n";
+    }
+    echo
+        'CleengWidget.init();
+    });
+    // ]]>
+    </script> ';
+
 }
 
 /**
@@ -73,12 +98,16 @@ function cleeng_script_head() {
  * items. Then it fetches information about the content using WebAPI
  *
  * @global array $posts
+ * @global array $cleeng_preload_content
+ * @global array $cleeng_has_content
  * @global array $cleeng_content
+ * @global array $cleeng_user
  * @global boolean $cleeng_preload_content
  * @global CleengClient $cleeng
  */
 function cleeng_loop_start() {
-    global $posts, $cleeng_content, $cleeng_preload_content, $cleeng, $cleeng_has_content;
+    global $posts, $cleeng_content, $cleeng_preload_content, $cleeng, 
+            $cleeng_has_content, $cleeng_user;
 
     $cleeng_content = array( );
     foreach ( $posts as $post ) {
@@ -91,7 +120,7 @@ function cleeng_loop_start() {
         preg_match_all( $expr, $post->post_content, $m );
         foreach ( $m[0] as $key => $content ) {
             $paramLine = $m[1][$key];
-            $expr = '/(\w+)\s*=\s*\"(.*?[^\\\])\"/si';
+            $expr = '/(\w+)\s*=\s*\"(.*?)(?<!\\\)\"/si';
             preg_match_all( $expr, $paramLine, $mm );
 
             if ( ! isset( $mm[0] ) || ! count( $mm[0] ) ) {
@@ -110,12 +139,12 @@ function cleeng_loop_start() {
                 'contentId' => $params['id'],
                 'shortDescription' => @$params['shortDescription'],
                 'price' => @$params['price'],
-                'type' => 'article',
+                'itemType' => 'article',
                 'purchased' => false,
                 'shortUrl' => '',
                 'referred' => false,
                 'referralProgramEnabled' => false,
-                'rated' => false
+                'rated' => false,
             );
 
             if ( isset( $params['referral'] ) ) {
@@ -136,16 +165,17 @@ function cleeng_loop_start() {
     if ( count( $cleeng_content ) ) {
         $cleeng_has_content = true;
 
-
         /**
          * Compatibility with other plugins
          */
         // WP Super Cache - should be disabled for pages with Cleeng
-        define( 'DONOTCACHEPAGE', true );
-
+        if (!defined('DONOTCACHEPAGE')) {
+            define( 'DONOTCACHEPAGE', true );
+        }
         /**
          * End of compatibility code
          */
+        
     } else {
         return;
     }
@@ -153,10 +183,22 @@ function cleeng_loop_start() {
     // we have found all cleeng items on current page. Now let's use Cleeng
     // API to get content information    
     if ( $cleeng_preload_content ) {
+        if ($cleeng->isUserAuthenticated()) {
+            $cleeng_user = $cleeng->getUserInfo();
+        }
         $ids = array_keys( $cleeng_content );
-        $contentInfo = $cleeng->getContentInfo( $ids );
-        foreach ( $contentInfo as $key => $val ) {
-            $cleeng_content[$key] = $val;
+
+        $contentInfoIds = array();
+        foreach ($ids as $key => $value) {
+            if (is_numeric($value)) {
+                $contntInfoIds[] = $value;
+            }
+        }
+        if (count($contntInfoIds)) {
+            $contentInfo = $cleeng->getContentInfo( $contntInfoIds );
+            foreach ( $contentInfo as $key => $val ) {
+                $cleeng_content[$key] = $val;
+            }
         }
     }
 }
@@ -172,12 +214,11 @@ function cleeng_loop_start() {
  */
 function cleeng_add_layers( $content ) {
     global $post, $cleeng_content;
-    $expr = '/\[cleeng_content.*?id\s*=\s*\"(\d+)\".*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
+    $expr = '/\[cleeng_content.*?id\s*=\s*\"([\dt]+)\".*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
     preg_match_all( $expr, $content, $m );
 
     if ( count( $m[1] ) ) {
         foreach ( $m[1] as $key => $contentId ) {
-
             $expr = '/\[cleeng_content.*?id\s*=\s*\"' . $contentId . '\".*?[^\\\]\].*?[^\\\]\[\/cleeng_content\]/is';
             $content = preg_replace( $expr,
                             cleeng_get_layer_markup(
@@ -187,7 +228,7 @@ function cleeng_add_layers( $content ) {
                             ),
                             $content );
         }
-    }
+    }    
     return $content;
 }
 
@@ -197,6 +238,10 @@ function cleeng_add_layers( $content ) {
  */
 function cleeng_get_layer_markup( $postId, $text, $content ) {
     global $cleeng;
+
+    $options = get_option('cleeng_options');
+
+    $noCookie = (isset($_COOKIE['cleeng_user_auth']))?false:true;
 
     if ( $cleeng->isUserAuthenticated() ) {
         $info = $cleeng->getUserInfo();
@@ -209,54 +254,100 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
     extract( $content ); // contentId, shortDescription, price, purchased, shortUrl...
     ob_start();
 ?>
+
+    <?php if (!isset($options['show_prompt']) || $options['show_prompt']) : ?>
+    <p class="cleeng-prompt"<?php if ($purchased) echo ' style="display:none"'; ?>>
+        <span class="cleeng-firsttime"<?php if ($auth || !$noCookie) { echo  ' style="display:none"'; } ?>>
+            The rest of this article is protected, use Cleeng to view it.
+        </span>
+        <span class="cleeng-nofirsttime"<?php if ($auth || $noCookie) { echo  ' style="display:none"'; } ?>>
+            The rest of this article is protected, use Cleeng again to view it.
+        </span>
+        <span class="cleeng-auth"<?php if (!$auth) { echo  ' style="display:none"'; } ?>>
+            The rest of this article is protected,
+            <span class="cleeng-username"><?php echo $userName ?></span>,
+            click "buy" and view it instantly.
+        </span>
+    </p>
+    <?php endif ?>
+
     <div id="cleeng-layer-<?php echo $contentId ?>" class="cleeng-layer" <?php
     if ( $purchased ) {
         echo 'style="display:none"';
     }
 ?>>
-        <div class="cleeng-logo">
-            <img src="<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-tagline', 630 ) ?>" alt="Cleeng" />
-    </div>
+    <div class="cleeng-layer-left"></div>
+
+
     <div class="cleeng-text">
-        <div class="cleeng-itemType"></div>
-        <div class="cleeng-title"><?php echo the_title() . ' | ' . get_bloginfo( 'title' ) ?></div>
-        <h2 class="cleeng-description"><?php echo $shortDescription ?></h2>
-        <div class="cleeng-noauth"<?php
+        <div class="cleeng-publisher">
+            <img src="<?php echo $cleeng->getPublisherLogoUrl($publisherId); ?>" 
+                 alt="<?php echo $publisherName ?>"
+                 title="<?php echo $publisherName ?>" />
+
+        </div>
+        <div class="cleeng-logo">
+            <a href="http://cleeng.com/what-is-cleeng">
+                <img src="<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-light', 630 ) ?>" alt="Cleeng" />
+            </a>
+        </div>
+        <div class="cleeng-noauth-bar"<?php
     if ( $auth ) {
         echo ' style="display:none"';
     } ?>>
+            
+            <span class="cleeng-welcome-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?>>Already have a Cleeng account?</span>
+            
+            <span class="cleeng-welcome-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?>>Welcome back!</span>
             <a class="cleeng-hlink cleeng-login" href="javascript:">Log-in</a>
-            or
-            <a class="cleeng-hlink" target="blank" href="<?php echo $cleeng->getUrl() . '/register' ?>">Register</a>
-            to reveal this content
         </div>
-        <div class="cleeng-auth"<?php
+        <div class="cleeng-auth-bar"<?php
              if ( ! $auth ) {
                  echo ' style="display:none"';
              }
 ?>>
-            Welcome, <a target="_blank" class="cleeng-username" href="<?php echo $cleeng->getUrl() . '/my-account' ?>"><?php echo $userName ?></a>.
             <a class="cleeng-hlink cleeng-logout" href="#">Logout</a>
-            <span class="cleeng-free-content-views">
-                You have <span></span> free purchase left (out of 5).
-            </span>
+            Welcome, <a target="_blank" class="cleeng-username" href="<?php echo $cleeng->getUrl() . '/my-account' ?>"><?php echo $userName ?></a>
         </div>
+        <div class="cleeng-itemType cleeng-it-<?php echo $itemType ?>"></div>
+        <h2 class="cleeng-description"><?php echo $shortDescription ?></h2>
         <div class="cleeng-rating">
-            Cleeng user rating <a class="cleeng-hlink" target="_blank" href="#" title="This is the average rating from Cleeng users who bought this content.">?</a>
-            <div class="cleeng-stars cleeng-stars-0"></div>
+            <span>Customer rating:</span>
+            <div class="cleeng-stars cleeng-stars-<?php echo $averageRating ?>"></div>
         </div>
 
+        <span class="cleeng-free-content-views" <?php echo 'style="display:none"' ?>>
+            Good news! You still have <span></span> free purchase(s).
+        </span>
+    </div>
+    <div class="cleeng-text-bottom">
         <div class="cleeng-textBottom">
+            <div class="cleeng-purchaseInfo-grad">
+            </div>
             <div class="cleeng-purchaseInfo">
-                <img class="cleeng-shoppingCart" src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/shopping-cart.png" alt="Shopping cart" />
-                <a class="cleeng-buy" href="#"><img src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/buy-button.png" width="96" height="39" alt="Buy" /></a>
-                <div class="cleeng-price"><?php echo $currencySymbol ?><span><?php echo $price; ?></span></div>
+                <div class="cleeng-purchaseInfo-text">
+                    <a class="cleeng-buy-wide cleeng-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?> href="#">
+                        To view this <?php echo $itemType ?>,<br />
+                        Sign-up for free in 1-Click
+                    </a>                    
+                    <a class="cleeng-buy-wide cleeng-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?> href="#">
+                        To view this article,<br />
+                        Please sign-in
+                    </a>                    
+                    <div class="cleeng-price" style="display: none"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
+                    <a class="cleeng-buy cleeng-auth" style="display: none" href="#">
+                        Buy & Access<br /> Instantly
+                    </a>                    
+                </div>
             </div>
             <div class="cleeng-whatsCleeng">
-                What is <a href="http://cleeng.com">Cleeng?</a>
+                What is <a href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng">Cleeng?</a>
             </div>
         </div>
     </div>
+    
+
+    <div class="cleeng-layer-right"></div>
 </div>
 <script type="text/javascript">
     // <![CDATA[
@@ -269,10 +360,12 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
              }
 ?>>
             <div class="cleeng-nolayer-top">
-                <img src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/cleeng-small.png" alt="Cleeng: Instant access to quality content" />
-                <div class="cleeng-auth">
-                    Welcome, <a class="cleeng-username" href="<?php echo $cleeng->getUrl() . '/my-account' ?>"><?php echo $userName ?></a>.
+                <a href="http://cleeng.com">
+                    <img src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/cleeng-small.png" alt="Cleeng: Instant access to quality content" />
+                </a>
+                <div class="cleeng-auth-bar">
                     <a class="cleeng-hlink cleeng-logout" href="#">Logout</a>
+                    Welcome, <a class="cleeng-username" href="<?php echo $cleeng->getUrl() . '/my-account' ?>"><?php echo $userName ?></a>
                 </div>
             </div>
 
@@ -285,53 +378,33 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
          </div>
 
          <div class="cleeng-nolayer-bottom">
-             <div class="cleeng-rating">
-                 Cleeng user rating:
-             </div>
-             <div class="cleeng-stars cleeng-stars-0"></div>
-
-             <div class="cleeng-share"<?php
-             if ( ! $referred ) {
-                 echo 'style="display:none"';
-             }
-?>>
-            <a class="cleeng-facebook" href="#">
-                <img src="<?php echo CLEENG_WP_PLUGIN_PATH . 'img/facebook.png' ?>"  alt="Share on Facebook" title="Share on Facebook" />
-            </a>
-            <a class="cleeng-twitter" href="#">
-                <img src="<?php echo CLEENG_WP_PLUGIN_PATH . 'img/twitter.png' ?>"  alt="Share on Twitter" title="Share on Twitter" />
-              </a>
-              &nbsp;
-              <span>Referral URL:</span>
-              <span class="cleeng-referral-url"><?php echo $shortUrl ?></span>
-             </div>
-             <a href="#" class="cleeng-vote-liked"<?php
-             if ( ! $canVote ) {
-                 echo ' style="display:none"';
-             } ?>>
-            <img src="<?php echo CLEENG_WP_PLUGIN_PATH . 'img/up.png' ?>" alt="Click here if you liked this content" title="Click here if you liked this content"/>
-        </a>
-        <a href="#" class="cleeng-vote-didnt-like"<?php
-              if ( ! $canVote ) {
-                  echo ' style="display:none"';
-              } ?>>
-               <img src="<?php echo CLEENG_WP_PLUGIN_PATH . 'img/down.png' ?>" alt="Click here if you didn't like this content" title="Click here if you didn't like this content"/>
-           </a>
-           <span class="cleeng-referral-rate"<?php if ( ! $referralProgramEnabled )
-                  echo ' style="display:none"'; ?>>
-               Referral rate:
+             
+            <span class="cleeng-rate"<?php if ( !$canVote ) echo ' style="display:none"'; ?>>
+                Rate:
+                <a href="#" class="cleeng-icon cleeng-vote-liked">&nbsp;</a>
+                <a href="#" class="cleeng-icon cleeng-vote-didnt-like">&nbsp;</a>
+            </span>
+            <span class="cleeng-rating"<?php if ( $canVote ) echo ' style="display:none"'; ?>>
+                Customer rating:
+                <span class="cleeng-stars cleeng-stars-<?php echo $averageRating ?>"></span>
+            </span>
+            <span class="cleeng-share">
+                Share:
+                <a class="cleeng-icon cleeng-facebook" href="#">&nbsp</a>
+                <a class="cleeng-icon cleeng-twitter" href="#">&nbsp</a>
+                <a class="cleeng-icon cleeng-email" href="mailto:?subject=&amp;body=">&nbsp</a>
+                <span class="cleeng-referral-url-label">URL:</span>
+                <span class="cleeng-referral-url"><?php echo empty($referralUrl)?$shortUrl:$referralUrl ?></span>
+                <span class="cleeng-icon cleeng-copy">&nbsp</span>
+            </span>
+            <span class="cleeng-referral-rate"<?php if ( ! $referralProgramEnabled ) echo ' style="display:none"'; ?>>
+               Earn:
                <span><?php if ( $referralProgramEnabled )
-                  echo round( $referralRate ) . '%'; ?></span>
-                      </span>
-                      <a href="#" class="cleeng-it"<?php
-              if ( $referred ) {
-                  echo ' style="display:none"';
-              }
-?>>
-                          Cleeng It!
-                      </a>
-                  </div>
-              </div>
+                  echo round( $referralRate * 100 ) . '%'; ?></span>
+               commission
+            </span>
+          </div>
+      </div>
 <?php
               $cleengLayer = ob_get_contents();
               ob_end_clean();

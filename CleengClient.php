@@ -19,7 +19,7 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ * DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDER BE LIABLE FOR ANY
  * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -28,10 +28,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @package CleengClient
- * @copyright Copyright (c) 2010 DG2ALL B.V (http://dg2all.com)
+ * @copyright Copyright (c) 2011 DG2ALL B.V (http://dg2all.com)
  * @license New BSD License
  * 
- * @version 0.9.3
+ * @version 0.9.7
  */
 
 /**
@@ -385,6 +385,8 @@ class CleengClient
                 return 'https://' . $this->_platformUrl . '/oauth';
             case 'logo':
                 return 'http://' . $this->_platformUrl . '/logo';
+            case 'publisher_logo':
+                return 'http://' . $this->_platformUrl . '/media/users';
             case 'api':
                 return 'https://' . $this->_platformUrl . '/api/json';
             case 'autologin':
@@ -399,13 +401,25 @@ class CleengClient
      * @param string $size
      * @param integer $contentId
      */
-    public function getLogoUrl($contentId, $type='cleeng-tagline', $width='500')
+    public function getLogoUrl($contentId, $type='cleeng-light', $width='500')
     {        
         $params = 'contentId=' . (int)$contentId;
         if ($this->isUserAuthenticated()) {
             $params .= '&amp;oauth_token=' . urlencode($this->getAccessToken());
         }
         return $this->getUrl('logo') . '/' . $type . '-' . $width . '.png?' . $params;
+    }
+
+    /**
+     * Returns publisher's logo url
+     * @param integer $publisherId
+     */
+    public function getPublisherLogoUrl($publisherId)
+    {
+        $params = 'contentId=' . (int)$publisherId;        
+        return $this->getUrl('publisher_logo')
+                . '/' . implode('/',str_split($publisherId, 3))
+                . '_mini.png';
     }
 
     /**

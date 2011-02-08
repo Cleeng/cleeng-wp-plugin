@@ -14,8 +14,14 @@
  *
  * Configuration for CleengClient class
  */
+
+$options = get_option('cleeng_options');
+if (!@$options['environment']) {
+    $options['environment'] = 'cleeng.com';
+}
+
 return array(
     'clientId' => '992580aa70b4',
     'clientSecret' => '19e53488afa1921403c8',
-//    'platformUrl' => CleengClient::PRODUCTION
+    'platformUrl' => $options['environment']
 );

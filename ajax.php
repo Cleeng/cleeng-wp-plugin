@@ -13,6 +13,8 @@
  * to theteam@cleeng.com so we can send you a copy immediately.
  *
  */
+define( 'WP_USE_THEMES', false );
+require('../../../wp-load.php');
 require_once dirname( __FILE__ ) . '/CleengClient.php';
 
 header( 'pragma: no-cache' );
@@ -99,7 +101,7 @@ switch ( $mode ) {
         /**
          * Login: redirect to Cleeng authentication page
          */
-        $cleeng->authenticate();
+        $cleeng->authenticate();        
         break;
     case 'callback':
         /**
@@ -109,10 +111,16 @@ switch ( $mode ) {
          * status.
          */
         $cleeng->processCallback();
+        if ($cleeng->isUserAuthenticated()) {
+            setcookie('cleeng_user_auth', 1, time()+3600*24*60, '/');
+        }        
         echo '<script type="text/javascript">
+            //<![CDATA[
                 opener.CleengWidget.authUser();
                 self.close();
-            </script>';
+            //]]>
+            </script>            
+            ';
         break;
     case 'purchase':
         /**
@@ -165,8 +173,6 @@ switch ( $mode ) {
                 if ( count( $ids ) ) {
                     $contentInfo = $cleeng->getContentInfo( $ids );
                     if ( sizeof( $contentInfo ) ) {
-                        define( 'WP_USE_THEMES', false );
-                        require('../../../wp-load.php');
                         foreach ( $contentInfo as $key => $val ) {
                             if ( $val['purchased'] == true ) {
                                 $contentInfo[$key]['content'] = cleeng_extract_content( $content[$key]['postId'], $key );
