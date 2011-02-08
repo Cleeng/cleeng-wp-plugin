@@ -60,7 +60,7 @@ class CleengClient
      * Base URL to Cleeng server
      * @var string
      */
-    protected $_platformUrl = 'sandbox.cleeng.com';
+    protected $_platformUrl = 'cleeng.com';
 
     /**
      * Name of the cookie that is used for storing OAuth token
