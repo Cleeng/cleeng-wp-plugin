@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
 Tested up to: 3.0.5
-Stable tag: 0.9.7
+Stable tag: 1.0
 License: New BSD License
 
 Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
