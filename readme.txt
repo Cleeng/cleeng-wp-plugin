@@ -63,6 +63,9 @@ Community on http://cleeng.com/forum/publishers/
 
 == Changelog ==
 
+= 1.0 =
+* public available
+
 = 0.9.7 =
 * improved the **layout of the layer**: cleaner, simpler, focused on ONE given transaction.
 * improved the **color scheme**, to better integrate within most common sites
