@@ -54,7 +54,6 @@ class CleengClient
      */
     const SANDBOX = 'sandbox.cleeng.com';
     const PRODUCTION = 'cleeng.com';
-    const STAGING = 'staging.cleeng.com';
 
     /**
      * Base URL to Cleeng server
