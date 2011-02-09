@@ -173,8 +173,6 @@ var CleengWidget = {
     },
     updateUserInfo: function(user) {
         user = CleengWidget.userInfo;
-        console.log('dd');
-        console.log(user);
         
         if (!user || !user.name) {
             jQuery('.cleeng-auth-bar').hide();
