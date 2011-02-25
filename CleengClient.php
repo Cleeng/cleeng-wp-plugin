@@ -31,7 +31,7 @@
  * @copyright Copyright (c) 2011 DG2ALL B.V (http://dg2all.com)
  * @license New BSD License
  * 
- * @version 0.9.7
+ * @version 1.0.1
  */
 
 /**
@@ -208,8 +208,13 @@ class CleengClient
      * @return bool true if success
      */
     public function isUserAuthenticated()
-    {
-        return ((bool)$this->getAccessToken() && (bool)$this->getUserInfo());
+    {        
+        try {
+            $userInfo = (bool)$this->getUserInfo();
+        } catch (Exception $e) {
+            $userInfo = null;
+        }
+        return ((bool)$this->getAccessToken() && $userInfo);
     }
 
     /**
@@ -307,7 +312,7 @@ class CleengClient
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params, '', '&'));
 
             /**
-             * TODO: Remove password, validate certificate
+             * TODO: validate certificate
              */
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);            
@@ -387,7 +392,7 @@ class CleengClient
             case 'publisher_logo':
                 return 'http://' . $this->_platformUrl . '/media/users';
             case 'api':
-                return 'https://' . $this->_platformUrl . '/api/json';
+                return 'https://api.' . $this->_platformUrl . '/json';
             case 'autologin':
                 return 'https://' . $this->_platformUrl . '/autologin/autologin.js';
             default:
@@ -400,13 +405,13 @@ class CleengClient
      * @param string $size
      * @param integer $contentId
      */
-    public function getLogoUrl($contentId, $type='cleeng-light', $width='500')
+    public function getLogoUrl($contentId, $type='cleeng-light', $unused='500')
     {        
-        $params = 'contentId=' . (int)$contentId;
+        $params = 'contentId=' . (int)$contentId;        
         if ($this->isUserAuthenticated()) {
             $params .= '&amp;oauth_token=' . urlencode($this->getAccessToken());
         }
-        return $this->getUrl('logo') . '/' . $type . '-' . $width . '.png?' . $params;
+        return $this->getUrl('logo') . '/' . $type . '-' . $unused . '.png?' . $params;
     }
 
     /**
@@ -506,7 +511,7 @@ class CleengClient
             if (!$this->getAccessToken()) {
                 throw new CleengClientException('Method getUserInfo() requires valid access token.');
             }
-
+            
             $ret = $this->callApi('getUserInfo');
 
             if ($ret['success'] == false) {
@@ -709,5 +714,23 @@ class CleengClient
             }
         }
         return false;        
+    }
+
+    /**
+     * Check if CleengClient is compatible with current environment
+     *
+     * @throws CleengClientException if not compatible
+     */
+    public static function checkCompatibility()
+    {
+        if (!function_exists('curl_init')) {
+            throw new CleengClientException('Cleeng needs the CURL PHP extension.');
+        }
+        if (!function_exists('json_decode')) {
+            throw new CleengClientException('Cleeng needs the JSON PHP extension.');
+        }
+        if (version_compare(PHP_VERSION, '5.1.0') == -1) {
+            throw new CleengClientException('Cleeng requires PHP version 5.1 or higher');
+        }
     }
 }

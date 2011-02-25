@@ -121,7 +121,6 @@ var CleengWidget = {
             return false;
         });
 
-//        CleengWidget.authUser(true);
         CleengWidget.updateUserInfo();
         if (CleengWidget.contentInfo) {
             for (i in CleengWidget.contentInfo) {
@@ -152,26 +151,37 @@ var CleengWidget = {
                         + '&key=' + CleengAutologin.key,
                     function(resp) {
                         if (resp && resp.success) {
-                            CleengWidget.authUser(false);
+                            CleengWidget.getUserInfo(false);
                         }
                     }
                 );
             }
         }
     },
-    authUser: function(dontFetchContentInfo) {
+    /**
+     * Fetch information about currently authenticated user
+     */
+    getUserInfo: function(dontFetchContentInfo) {
+//        jQuery('.cleeng-ajax-loader').show();
         jQuery.getJSON(
             Cleeng_PluginPath+'ajax.php?cleengMode=getUserInfo',
             function(resp) {
                 CleengWidget.userInfo = resp;
-                CleengWidget.updateUserInfo();
                 if (!dontFetchContentInfo) {
-                    CleengWidget.getContentInfo();
+                    CleengWidget.getContentInfo(function() {
+                        CleengWidget.updateUserInfo();
+                    });
+                } else {
+                    CleengWidget.updateUserInfo();
                 }
+//                jQuery('.cleeng-ajax-loader').hide();
             }
         );
     },
-    updateUserInfo: function(user) {
+    /**
+     * Update user information
+     */
+    updateUserInfo: function() {
         user = CleengWidget.userInfo;
         
         if (!user || !user.name) {
@@ -209,7 +219,10 @@ var CleengWidget = {
             jQuery('.cleeng-auth').css('display', 'block');
         }        
     },
-    logIn: function() {        
+    /**
+     * Displays login popup window
+     */
+    logIn: function() {
         if (this.popupWindow) {
             this.popupWindow.close();
             this.popupWindow = null;
@@ -217,15 +230,18 @@ var CleengWidget = {
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp', 
                     'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
     },
+    /**
+     * Logout
+     */
     logOut: function() {
         jQuery.post(
             Cleeng_PluginPath + 'ajax.php?cleengMode=logout',
             function(resp) {
-                CleengWidget.authUser();
+                CleengWidget.getUserInfo();
             }
         );
     },
-    getContentInfo: function() {
+    getContentInfo: function(callbackFunction) {
             var content = [];
             var i = 0;
             jQuery('.cleeng-layer').each(function() {
@@ -240,57 +256,61 @@ var CleengWidget = {
             jQuery.post(
                 Cleeng_PluginPath + 'ajax.php?cleengMode=getContentInfo',
                 content.join('&'),
-                function(resp) {                                        
+                function(resp) {
                     CleengWidget.contentInfo = resp;
+                    CleengWidget.updateContentInfo();
 
-                    if (CleengWidget.contentInfo) {
-                        jQuery.each(resp, function(k, v){
-                            var layerId = '#cleeng-layer-' + k;
-                            var noLayerId = '#cleeng-nolayer-' + k;
-                            jQuery(layerId + ' .cleeng-price').html(v.currencySymbol + '' + v.price.toFixed(2));
-                            jQuery('.cleeng-stars', jQuery(layerId)).attr('class', 'cleeng-stars').addClass('cleeng-stars-' + Math.round(v.averageRating));
-                            jQuery('.cleeng-stars', jQuery(noLayerId)).attr('class', 'cleeng-stars').addClass('cleeng-stars-' + Math.round(v.averageRating));
-                            if (v.purchased == true && v.content) {
-                                jQuery(layerId).prev('.cleeng-prompt').hide();                                
-                                if (v.canVote) {
-                                    jQuery('.cleeng-rate', noLayerId).show();
-                                    jQuery('.cleeng-rating', noLayerId).hide();
-                                } else {
-                                    jQuery('.cleeng-rate', noLayerId).hide();
-                                    jQuery('.cleeng-rating', noLayerId).show();
-                                }
-
-                                if (v.referralProgramEnabled) {
-                                    jQuery('.cleeng-referral-rate', noLayerId).show()
-                                        .find('span').text(Math.round(v.referralRate*100)+'%');
-                                } else {
-                                    jQuery('.cleeng-referral-rate', noLayerId).hide();
-                                }
-
-                                if (v.referralUrl) {
-                                    shortUrl = v.referralUrl;
-                                } else {
-                                    shortUrl = v.shortUrl;
-                                }
-
-                                CleengWidget.updateBottomBar(v);
-
-                                jQuery('.cleeng-referral-url', noLayerId).text(shortUrl);
-                                jQuery(layerId).hide();
-                                jQuery('.cleeng-content', noLayerId).html(v.content);
-                                jQuery(noLayerId).show();
-                            } else {
-                                jQuery(layerId).prev('.cleeng-prompt').show();
-                                jQuery(noLayerId).hide();
-                                jQuery(layerId).show();
-                            }
-                        });
+                    if (typeof callbackFunction !== 'undefined') {
+                        callbackFunction();
                     }
+
                 },
             "json"
         );
     },
+    updateContentInfo: function() {
+        jQuery.each(CleengWidget.contentInfo, function(k, v){
+            var layerId = '#cleeng-layer-' + k;
+            var noLayerId = '#cleeng-nolayer-' + k;
+            jQuery(layerId + ' .cleeng-price').html(v.currencySymbol + '' + v.price.toFixed(2));
+            jQuery('.cleeng-stars', jQuery(layerId)).attr('class', 'cleeng-stars').addClass('cleeng-stars-' + Math.round(v.averageRating));
+            jQuery('.cleeng-stars', jQuery(noLayerId)).attr('class', 'cleeng-stars').addClass('cleeng-stars-' + Math.round(v.averageRating));
+            if (v.purchased == true && v.content) {
+                jQuery(layerId).prev('.cleeng-prompt').hide();
+                if (v.canVote) {
+                    jQuery('.cleeng-rate', noLayerId).show();
+                    jQuery('.cleeng-rating', noLayerId).hide();
+                } else {
+                    jQuery('.cleeng-rate', noLayerId).hide();
+                    jQuery('.cleeng-rating', noLayerId).show();
+                }
 
+                if (v.referralProgramEnabled) {
+                    jQuery('.cleeng-referral-rate', noLayerId).show()
+                        .find('span').text(Math.round(v.referralRate*100)+'%');
+                } else {
+                    jQuery('.cleeng-referral-rate', noLayerId).hide();
+                }
+
+                if (v.referralUrl) {
+                    shortUrl = v.referralUrl;
+                } else {
+                    shortUrl = v.shortUrl;
+                }
+
+                CleengWidget.updateBottomBar(v);
+
+                jQuery('.cleeng-referral-url', noLayerId).text(shortUrl);
+                jQuery(layerId).hide();
+                jQuery('.cleeng-content', noLayerId).html(v.content);
+                jQuery(noLayerId).show();
+            } else {
+                jQuery(layerId).prev('.cleeng-prompt').show();
+                jQuery(noLayerId).hide();
+                jQuery(layerId).show();
+            }
+        });
+    },
     updateBottomBar: function(content) {
         layerId = '#cleeng-layer-' + content.contentId;
         noLayerId = '#cleeng-nolayer-' + content.contentId;
@@ -321,7 +341,6 @@ var CleengWidget = {
                 + shortUrl
         );
     },
-
     purchaseContent: function(contentId) {        
         if (this.popupWindow) {
             this.popupWindow.close();

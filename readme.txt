@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
 Tested up to: 3.0.5
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: New BSD License
 
 Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
@@ -63,8 +63,16 @@ Community on http://cleeng.com/forum/publishers/
 
 == Changelog ==
 
+= 1.0.1 =
+* try to load content again with ajax if it fails on the backend
+* fixed behaviour when revealing content after user is logged in
+* compatibility check on startup
+* made plugin more "tolerant" to special situations like connection problems  
+  or server errors
+* now api.cleeng.com is used as JSON-RPC endpoint
+
 = 1.0 =
-* public available
+* official release
 
 = 0.9.7 =
 * improved the **layout of the layer**: cleaner, simpler, focused on ONE given transaction.

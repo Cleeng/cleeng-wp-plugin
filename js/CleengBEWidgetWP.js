@@ -56,7 +56,7 @@ var CleengWidget = {
           }
         });
         
-        CleengWidget.authUser();
+        CleengWidget.getUserInfo();
 
         jQuery('#cleeng-login').click(function() {
             window.open(Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp', 'menubar=no,width=607,height=567,toolbar=no');
@@ -66,7 +66,7 @@ var CleengWidget = {
             jQuery.post(
                 Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=logout',
                 function(resp) {
-                   CleengWidget.authUser();
+                   CleengWidget.getUserInfo();
                 }
             );
             return false;
@@ -150,7 +150,7 @@ var CleengWidget = {
                         + '&key=' + CleengAutologin.key,
                     function(resp) {
                         if (resp.success) {
-                            CleengWidget.authUser(false);
+                            CleengWidget.getUserInfo(false);
                         }
                     }
                 );
@@ -160,7 +160,7 @@ var CleengWidget = {
             CleengWidget.findContent();
         }, 1000);
     },    
-    authUser: function() {
+    getUserInfo: function() {
         jQuery.getJSON(
             Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=getUserInfo',
             function(resp) {

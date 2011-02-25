@@ -319,7 +319,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     background-color: #e6e6e6;
     text-align: right;
     font-family: Verdana, Tahoma, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     height: 22px;
 }
 .cleeng-nolayer-top img {
@@ -427,4 +427,11 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     padding: 0;
     width: 23px;
     height: 22px;
+}
+.cleeng-ajax-loader {
+    height: 22px;
+    width: 24px;
+    float: right;
+    background: #5BAC36 url(../img/ajax-loader.gif) left center no-repeat;
+
 }

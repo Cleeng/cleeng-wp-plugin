@@ -42,7 +42,9 @@ $mode = @$_REQUEST['cleengMode'];
  */
 
 // WP Super Cache
-define('DONOTCACHEPAGE', true);
+if (!defined('DONOTCACHEPAGE')) {
+    define('DONOTCACHEPAGE', true);
+}
 
 /**
  * End of compatibility code
@@ -110,13 +112,16 @@ switch ( $mode ) {
          * Parent window is refreshed so that widget will know that user is authenticated
          * status.
          */
-        $cleeng->processCallback();
-        if ($cleeng->isUserAuthenticated()) {
-            setcookie('cleeng_user_auth', 1, time()+3600*24*60, '/');
-        }        
+        try {
+            $cleeng->processCallback();
+            if ($cleeng->isUserAuthenticated()) {
+                setcookie('cleeng_user_auth', 1, time()+3600*24*60, '/');
+            }    
+        } catch (Exception $e) {
+        }
         echo '<script type="text/javascript">
             //<![CDATA[
-                opener.CleengWidget.authUser();
+                opener.CleengWidget.getUserInfo();
                 self.close();
             //]]>
             </script>            
@@ -129,7 +134,6 @@ switch ( $mode ) {
         try {
             $cleeng->purchaseContent( (int) $_REQUEST['contentId'] );
         } catch ( Exception $e ) {
-            print_r( $cleeng->getApiOutputBuffer() );
         }
         break;
     case 'logout':
@@ -140,13 +144,12 @@ switch ( $mode ) {
         break;
     case 'getUserInfo':
         header( 'content-type: application/json' );
-        if ( $cleeng->isUserAuthenticated() ) {
-            try {
+        try {
+            if ( $cleeng->isUserAuthenticated() ) {
                 echo json_encode( $cleeng->getUserInfo( @$_REQUEST['backendWidget'] ) );
                 exit;
-            } catch ( Exception $e ) {
-                echo $e->getMessage();
             }
+        } catch ( Exception $e ) {                
         }
         echo json_encode( array() );
         exit;
@@ -171,7 +174,7 @@ switch ( $mode ) {
                     }
                 }
                 if ( count( $ids ) ) {
-                    $contentInfo = $cleeng->getContentInfo( $ids );
+                        $contentInfo = $cleeng->getContentInfo( $ids );
                     if ( sizeof( $contentInfo ) ) {
                         foreach ( $contentInfo as $key => $val ) {
                             if ( $val['purchased'] == true ) {
@@ -185,7 +188,7 @@ switch ( $mode ) {
             echo json_encode( $contentInfo );
         } catch ( Exception $e ) {
             header( 'content-type: application/json' );
-            echo json_encode( $cleeng->getApiOutputBuffer() );
+            echo json_encode( array() );
         }
         exit;
     case 'saveContent':
