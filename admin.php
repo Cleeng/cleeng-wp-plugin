@@ -19,8 +19,18 @@ if ( ! session_id() )
     session_start();
 
 wp_enqueue_script( 'jquery-ui-dialog' );
-wp_enqueue_script( 'jquery-ui-slider', CLEENG_WP_PLUGIN_PATH . 'js/ui.slider.min.js', array( 'jquery-ui-core' ), false, true );
-wp_enqueue_script( 'jquery-ui-datepicker', CLEENG_WP_PLUGIN_PATH . 'js/ui.datepicker.min.js', array( 'jquery-ui-core' ), false, true );
+
+
+global $wp_version;
+
+if (version_compare($wp_version, '3.1', '<')) {
+    wp_enqueue_script( 'jquery-ui-slider', CLEENG_WP_PLUGIN_PATH . 'js/ui.slider.min-1.7.3.js', array( 'jquery-ui-core' ), false, true );
+    wp_enqueue_script( 'jquery-ui-datepicker', CLEENG_WP_PLUGIN_PATH . 'js/ui.datepicker.min-1.7.3.js', array( 'jquery-ui-core' ), false, true );
+} else {
+    wp_enqueue_script( 'jquery-ui-slider', CLEENG_WP_PLUGIN_PATH . 'js/ui.slider.min-1.8.10.js', array( 'jquery-ui-core' ), false, true );
+    wp_enqueue_script( 'jquery-ui-datepicker', CLEENG_WP_PLUGIN_PATH . 'js/ui.datepicker.min-1.8.10.js', array( 'jquery-ui-core' ), false, true );
+}
+wp_enqueue_script( 'jquery-ui-timepicker', CLEENG_WP_PLUGIN_PATH . 'js/ui.timepicker.min.js', array( 'jquery-ui-datepicker' ), false, true );
 
 add_action( "admin_head-post.php", 'cleeng_load_scripts' );
 add_action( "admin_head-page.php", 'cleeng_load_scripts' );

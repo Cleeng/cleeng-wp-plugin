@@ -99,7 +99,7 @@ var CleengWidget = {
 
         CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
             autoOpen: false,
-            height: 365,
+            height: 380,
             width: 400,
             modal: true,
             buttons: {

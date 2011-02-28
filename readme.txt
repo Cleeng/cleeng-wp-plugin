@@ -64,6 +64,7 @@ Community on http://cleeng.com/forum/publishers/
 == Changelog ==
 
 = 1.0.1 =
+* compatibility with WordPress 3.1
 * try to load content again with ajax if it fails on the backend
 * fixed behaviour when revealing content after user is logged in
 * compatibility check on startup
