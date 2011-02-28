@@ -2,7 +2,7 @@
 Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
-Tested up to: 3.0.5
+Tested up to: 3.1
 Stable tag: 1.0.1
 License: New BSD License
 
