@@ -382,7 +382,7 @@ function cleeng_inner_custom_box() {
             </div>
             <div id="cleeng-notPublisher" style="display:none;">
 <?php echo __( 'You need to have a Publisher account before using this widget.' ) ?>
-            <a target="_blank" href="<?php echo $cleeng->getUrl() . '/my-account/upgrade' ?>">
+            <a target="_blank" href="<?php echo $cleeng->getUrl() . '/my-account/upgrade/1' ?>">
 <?php echo __( 'Please upgrade your account here' ) ?></a>.
         </div>
     </div>
