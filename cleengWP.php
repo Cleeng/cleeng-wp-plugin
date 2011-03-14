@@ -2,8 +2,8 @@
 /*
   Plugin Name: Cleeng for WordPress
   Plugin URI: http://www.cleeng.com/
-  Plugin Version: 1.0.1
-  Description: Cleeng helps you to make money with your digital content. The Cleeng plugin offers a single-click pay as you go solution to your website visitors; it avoids the hassle of multiple subscriptions. When publishing a post or page you as the publisher can define for which part of your content visitors need to pay (in between 0.15 and 0.99$/€). Read more tips and tricks on how to earn money on <a href="http://cleeng.com">http://cleeng.com</a>
+  Plugin Version: 1.0.2
+  Description: Cleeng helps you to make money with your digital content. The Cleeng plugin offers a single-click pay as you go solution to your website visitors; it avoids the hassle of multiple subscriptions. When publishing a post or page you as the publisher can define for which part of your content visitors need to pay (in between 0.14 and 19.99$/€). Read more tips and tricks on how to earn money on <a href="http://cleeng.com">http://cleeng.com</a>
   Author: Cleeng
   Author URI: http://cleeng.com
   License: New BSD License (http://cleeng.com/license/new-bsd.txt)
@@ -24,6 +24,8 @@ try {
 }
 
 
+load_plugin_textdomain( 'cleeng', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
 /*
   CleengWP_Init includes necesarry plugin files in WP
  */
@@ -31,8 +33,8 @@ add_action( 'init', 'CleengWP_Init' );
 
 function cleeng_display_incompatibility_warning() {
     echo '<div class="error cleeng_error"><p>';
-    echo 'Your current environment is incompatible with Cleeng Plugin. Please make sure that you have PHP v5.1 or later, '
-         . 'with JSON and CURL extensions enabled.';
+    echo __('Your current environment is incompatible with Cleeng Plugin. Please make sure that you have PHP v5.1 or later, '
+         . 'with JSON and CURL extensions enabled.', 'cleeng');
     echo '</p></div>';
 }
 

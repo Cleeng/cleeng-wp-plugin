@@ -138,11 +138,11 @@ EOS;
 }
 
 function cleeng_settings_environment_description() {
-    echo '<p>Here you can select if you want to enable real transactions and earn money (LIVE) or just experiment and test with the Cleeng service using the sandbox environment (SANDBOX). In case you have selected "SANDBOX", please avoid covering content on your public website as your visitors might be very confused. Also note that your settings, content references and accounts are NOT copied in between SANDBOX servers and the LIVE servers. So only use SANDBOX if you want to test on a non-public website.</p>';
+    _e('<p>Here you can select if you want to enable real transactions and earn money (LIVE) or just experiment and test with the Cleeng service using the sandbox environment (SANDBOX). In case you have selected "SANDBOX", please avoid covering content on your public website as your visitors might be very confused. Also note that your settings, content references and accounts are NOT copied in between SANDBOX servers and the LIVE servers. So only use SANDBOX if you want to test on a non-public website.</p>', 'cleeng');
 }
 
 function cleeng_settings_prompt_description() {
-    echo '<p>With protected content, Cleeng would automatically add a short text above the layer. This text will increase the likelyhood to buy for consumers. If you prefer to write this text yourself just enable the text below.</p>';
+    _e('<p>With protected content, Cleeng would automatically add a short text above the layer. This text will increase the likelyhood to buy for consumers. If you prefer to write this text yourself just enable the text below.</p>', 'cleeng');
 }
 
 /**
@@ -152,13 +152,32 @@ function cleeng_settings_prompt_description() {
  */
 function cleeng_load_scripts() {
     global $cleeng;
+
+    // JavaScript Translations
+  
+    switch (WPLANG) {
+	case 'fr_FR':
+	case 'fr':
+	    $lang = 'fr_FR';
+	    break;	
+	default:
+	    $lang = null;
+    }
     echo '<script type="text/javascript" language="javascript">//<![CDATA[
-                Cleeng_PluginPath = "' . CLEENG_WP_PLUGIN_PATH . '";
-         // ]]>
-         </script>';
+                Cleeng_PluginPath = "' . CLEENG_WP_PLUGIN_PATH . '";';
+    echo '// ]]></script>';
     echo '<script src="' . CLEENG_WP_PLUGIN_PATH . 'js/CleengBEWidgetWP.js" type="text/javascript"></script>';
+    if ($lang) {
+	echo "<script type='text/javascript' language='javascript'>//<![CDATA[
+	CleengWidget.locale = '$lang';
+	// ]]>
+         </script>";    
+    }    
     if ( ! $cleeng->isUserAuthenticated() ) {
         echo '<script src="' . $cleeng->getAutologinScriptUrl() . '" type="text/javascript"></script>';
+    }
+    if ($lang) {
+	echo '<script src="' . CLEENG_WP_PLUGIN_PATH . 'languages/fr_FR.js" type="text/javascript"></script>';
     }
     add_action( 'in_admin_footer', 'cleeng_content_form' );
 }
@@ -325,7 +344,7 @@ function cleeng_parse_post( $postId ) {
 function cleeng_admin_notices() {
     if ( isset( $_SESSION['cleeng_errors'] ) ) {
         echo '<div class="error cleeng_error"><p>';
-        echo __( 'Unable to save Cleeng content:' );
+        _e( 'Unable to save Cleeng content:', 'cleeng' );
         echo '</p><ul>';
 
         foreach ( $_SESSION['cleeng_errors'] as $err ) {
@@ -345,9 +364,9 @@ function cleeng_add_custom_box() {
     wp_enqueue_style( 'cleengBEWidget.css', CLEENG_WP_PLUGIN_PATH . 'css/cleengBEWidget.css' );
 
     if ( function_exists( 'add_meta_box' ) ) {
-        add_meta_box( 'cleengwpplugin_sectionid', __( '<span>Cleeng Content Widget</span>', 'cleengwpplugin_textdomain' ),
+        add_meta_box( 'cleengwpplugin_sectionid', __( '<span>Cleeng Content Widget</span>', 'cleeng' ),
                 'cleeng_inner_custom_box', 'page', 'side' );
-        add_meta_box( 'cleengwpplugin_sectionid', __( '<span>Cleeng Content Widget</span>', 'cleengwpplugin_textdomain' ),
+        add_meta_box( 'cleengwpplugin_sectionid', __( '<span>Cleeng Content Widget</span>', 'cleeng' ),
                 'cleeng_inner_custom_box', 'post', 'side' );
     } else {
         add_action( 'dbx_post_advanced', 'cleeng_old_custom_box' );
@@ -362,42 +381,38 @@ function cleeng_inner_custom_box() {
 ?>
     <div>
         <div id="cleeng-ajaxErrorWindow" title="Cleeng: Request Error" style="display:none">
-            <h3><?php echo __( 'An error occured while processing your request' ) ?></h3>
+            <h3><?php _e( 'An error occured while processing your request', 'cleeng' ) ?></h3>
             <div id="cleeng-ajaxErrorDetails"></div>
         </div>
         <div>
-            <div id="cleeng-connecting"><?php echo __( 'Connecting to Cleeng Platform...' ) ?></div>
+            <div id="cleeng-connecting"><?php _e( 'Connecting to Cleeng Platform...', 'cleeng' ) ?></div>
             <div style="display:none;">
-<?php echo __( 'Welcome' ) ?>, <a href="<?php echo $cleeng->getUrl() . '/my-account' ?>" id="cleeng-username" target="_blank" title="Visit my account"></a>
-                <a class="CleengWidget-auth-link" id="cleeng-logout" href="#"><?php echo __( 'Log out' ) ?></a>
+                <?php
+                    echo sprintf(_e('Welcome, <a href="%s/my-account" id="cleeng-username" target="_blank" title="Visit my account"></a>', 'cleeng'), $cleeng->getUrl());
+                ?>
+                <a class="CleengWidget-auth-link" id="cleeng-logout" href="#"><?php _e( 'Log out', 'cleeng' ) ?></a>
             </div>
             <div style="display:none;">
-                Thanks for installing <strong class="cleeng-name">Cleeng</strong>.
-                <br />
-                Please
-                <a class="CleengWidget-auth-link" id="cleeng-login" href="#">
-                    log in with Cleeng
-                </a>
-                to protect your content.
+                <?php _e('Thanks for installing <strong class="cleeng-name">Cleeng</strong>.<br />Please <a class="CleengWidget-auth-link" id="cleeng-login" href="#"> log in with Cleeng</a>to protect your content.', 'cleeng') ?>
             </div>
             <div id="cleeng-notPublisher" style="display:none;">
-<?php echo __( 'You need to have a Publisher account before using this widget.' ) ?>
-            <a target="_blank" href="<?php echo $cleeng->getUrl() . '/edit-profile/upgrade/1' ?>">
-<?php echo __( 'Please upgrade your account here' ) ?></a>.
+<?php _e( 'You need to have a Publisher account before using this widget.', 'cleeng' ) ?>
+            <a target="_blank" href="<?php echo $cleeng->getUrl() . '/my-account/upgrade' ?>">
+<?php _e( 'Please upgrade your account here', 'cleeng' ) ?></a>.
         </div>
     </div>
     <div id="cleeng-auth-options">
         <div id="cleeng-ContentList">
-            <h4><?php echo __( 'Content on the current page' ) ?>:</h4>
+            <h4><?php _e( 'Content on the current page:', 'cleeng' ) ?></h4>
             <ul>
 
             </ul>
         </div>
-        <h4 id="cleeng_SelectionError" style="color:red; display:none"><?php echo __( 'Please make a selection first!' ) ?></h4>
-        <h4 id="cleeng_NoContent"><?php echo __( 'Just select the content you want to protect in the editing window and press below green button.' ) ?></h4>
+        <h4 id="cleeng_SelectionError" style="color:red; display:none"><?php _e( 'Please make a selection first!', 'cleeng' ) ?></h4>
+        <h4 id="cleeng_NoContent"><?php _e( 'Just select the content you want to protect in the editing window and press below green button.', 'cleeng' ) ?></h4>
         <div style="text-align:center;">
             <button id="cleeng-createContent" type="button" class="fg-button ui-state-default ui-corner-all">
-<?php echo __( 'Create Cleeng Content from selection.' ) ?>
+<?php _e( 'Create Cleeng Content from selection.', 'cleeng' ) ?>
             </button>
         </div>
     </div>
@@ -410,42 +425,40 @@ function cleeng_inner_custom_box() {
         function cleeng_content_form() {
             global $cleeng;
 ?>
-            <div id="cleeng-contentForm" title="Cleeng: Create new content element" style="display:none;">
+            <div id="cleeng-contentForm" title="<?php _e('Cleeng: Create new content element', 'cleeng') ?>" style="display:none;">
                 <form action="" method="post" style="position: relative;">
                     <fieldset>
                         <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-Description">
-<?php echo __( 'Description' ) ?>
-                            (<span id="cleeng-ContentForm-DescriptionCharsLeft">110</span> <?php echo __( 'characters left' ) ?>)
+<?php _e( 'Description', 'cleeng' ) ?>
+                            (<span id="cleeng-ContentForm-DescriptionCharsLeft">110</span> <?php _e( 'characters left', 'cleeng' ) ?>)
                         </label>
                         <textarea class="cleeng-ContentForm-wide" rows="2" cols="50" name="CleengWidget-ContentForm-Description" id="cleeng-ContentForm-Description" class="text ui-widget-content ui-corner-all">
                         </textarea>
-                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-Price"><?php echo __( 'Price' ) ?>: $<span id="cleeng-ContentForm-PriceValue">0.00</span></label>
+                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-Price"><?php _e( 'Price:', 'cleeng' ) ?> $<span id="cleeng-ContentForm-PriceValue">0.00</span></label>
                         <input style="display:none" type="text" name="CleengWidget-ContentForm-Price" id="cleeng-ContentForm-Price" value="" class="text ui-widget-content ui-corner-all" />
                         <div id="cleeng-ContentForm-PriceSlider"></div>
-                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-ItemType"><?php echo __( 'Item type' ) ?>:</label>
+                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-ItemType"><?php _e( 'Item type:', 'cleeng' ) ?></label>
                         <select id="cleeng-ContentForm-ItemType">
-                            <option value="article">Article</option>
-                            <option value="chart">Chart</option>
-                            <option value="file">File</option>
-                            <option value="image">Image</option>
-                            <option value="spreadsheet">Spreadsheet</option>
-                            <option value="video">Video</option>
+                            <option value="article"><?php _e('Article', 'cleeng') ?></option>
+                            <option value="chart"><?php _e('Chart', 'cleeng') ?></option>
+                            <option value="file"><?php _e('File', 'cleeng') ?></option>
+                            <option value="image"><?php _e('Image', 'cleeng') ?></option>
+                            <option value="spreadsheet"><?php _e('Spreadsheet', 'cleeng') ?></option>
+                            <option value="video"><?php _e('Video', 'cleeng') ?></option>
                         </select>
                         <br />
                         <input type="checkbox" id="cleeng-ContentForm-LayerDatesEnabled" />
-                        <label for="CleengWidget-ContentForm-LayerDatesEnabled"><?php echo __( 'Enable layer dates.' ) ?></label>
+                        <label for="CleengWidget-ContentForm-LayerDatesEnabled"><?php _e( 'Enable layer dates.', 'cleeng' ) ?></label>
             <div id="cleeng-ContentForm-LayerDates">
-<?php echo __( 'from' ) ?>: <input type="text" id="cleeng-ContentForm-LayerStartDate"
+<?php _e( 'from:', 'cleeng' ) ?> <input type="text" id="cleeng-ContentForm-LayerStartDate"
                          name="layerStartDate" value="<?php echo date( 'Y-m-d' ) ?>" />
-<?php echo __( 'to' ) ?>: <input type="text" id="cleeng-ContentForm-LayerEndDate"
+<?php _e( 'to:', 'cleeng' ) ?> <input type="text" id="cleeng-ContentForm-LayerEndDate"
                          name="layerEndDate" value="<?php echo date( 'Y-m-d', time() + 3600 * 24 * 7 ) ?>" />
-
-
             </div>
             <input type="checkbox" id="cleeng-ContentForm-ReferralProgramEnabled" />
-            <label for="CleengWidget-ContentForm-ReferralProgramEnabled"><?php echo __( 'Enable referral program' ) ?></label>
+            <label for="CleengWidget-ContentForm-ReferralProgramEnabled"><?php echo __( 'Enable referral program', 'cleeng' ) ?></label>
             <br />
-            <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-ReferralRate"><?php echo __( 'Referral rate' ) ?>: <span id="cleeng-ContentForm-ReferralRateValue">5</span>%</label>
+            <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-ReferralRate"><?php _e( 'Referral rate:', 'cleeng' ) ?> <span id="cleeng-ContentForm-ReferralRateValue">5</span>%</label>
             <input style="display:none" type="text" name="CleengWidget-ContentForm-ReferralRate" id="cleeng-ContentForm-ReferralRate" value="" class="text ui-widget-content ui-corner-all" />
             <div id="cleeng-ContentForm-ReferralRateSlider"></div>
         </fieldset>

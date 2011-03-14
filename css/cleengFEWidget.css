@@ -137,7 +137,7 @@
 }
 .cleeng-description {
     margin: 20px 0 0 88px !important;
-    padding: 0  !important;
+    padding: 0 20px 0 0 !important;
     clear: none !important;
     font-family: Verdana, Tahoma, Arial  !important;
     font-size: 16px !important;

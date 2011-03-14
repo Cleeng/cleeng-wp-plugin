@@ -20,6 +20,32 @@ var CleengWidget = {
     editorBookmark : {},
     saveContentServiceURL : Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=saveContent',
     tempId: 1,
+    locale: 'en_US',
+
+    sliderToPrice: [
+        0.14, 0.19, 0.24, 0.29, 0.34, 0.39, 0.44, 0.49, 0.54, 0.59, 0.64, 0.69, 0.74, 0.79, 0.84, 0.89, 0.94, 0.99,
+        1.24, 1.49, 1.74, 1.99, 2.24, 2.49, 2.74, 2.99, 3.24, 3.49, 3.74, 3.99, 4.24, 4.49, 4.74, 4.99, 5.24, 5.49, 5.74, 5.99,
+        6.49, 6.99, 7.49, 7.99, 8.49, 8.99, 9.49, 9.99, 10.49, 10.99, 11.49, 11.99, 12.49, 12.99, 13.49, 13.99, 14.49, 14.99, 15.49, 15.99, 16.49, 16.99, 17.49, 17.99, 18.49, 18.99, 19.49, 19.99
+    ],
+
+    regional: {
+      'en_US':  {
+	    timePicker: {
+		timeOnlyTitle: 'Choose Time',
+		timeText: 'Time',
+		hourText: 'Hour',
+		minuteText: 'Minute',
+		secondText: 'Second',
+		currentText: 'Now',
+		closeText: 'Done'
+	    },	    
+       
+	    cancelText: 'Cancel',
+	    saveMarkersText: 'Save markers',
+	    editText: 'edit',
+	    removeText: 'remove'
+	}
+    },
 
     teserInputWatcher: function() {
         desc = jQuery('#cleeng-ContentForm-Description');
@@ -55,6 +81,11 @@ var CleengWidget = {
             jQuery(this).text(e.toString());
           }
         });
+	
+	
+	// Setup calendar's locale
+	jQuery.datepicker.setDefaults(CleengWidget.regional[CleengWidget.locale].datePicker);
+	jQuery.timepicker.setDefaults(CleengWidget.regional[CleengWidget.locale].timePicker);
         
         CleengWidget.getUserInfo();
 
@@ -97,26 +128,27 @@ var CleengWidget = {
                 }
             });
 
+	    
+	var buttons = {};
+	buttons[CleengWidget['regional'][CleengWidget.locale]['saveMarkersText']] =  CleengWidget.newContentFormRegisterContent;
+	buttons[CleengWidget['regional'][CleengWidget.locale]['cancelText']] = function() {
+                    jQuery(this).dialog('close');
+                };
         CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
             autoOpen: false,
             height: 380,
             width: 400,
             modal: true,
-            buttons: {
-                'Save markers' : CleengWidget.newContentFormRegisterContent,
-                'Cancel' : function() {
-                    jQuery(this).dialog('close');
-                }
-            }                        
+            buttons: buttons                
         });
 
         jQuery('#cleeng-ContentForm-PriceSlider').slider({
             animate:false,
-            min:0.15,
-            max:0.99,
-            step:0.01,
+            min:0,
+            max:65,
+            step:1,
             slide: function(event, ui) {
-                jQuery('#cleeng-ContentForm-PriceValue').html(ui.value.toFixed(2));
+                jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[ui.value]);
             }
         });
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({
@@ -188,7 +220,7 @@ var CleengWidget = {
     },    
     showContentForm: function(content) {
         content.contentId = typeof content.contentId === 'undefined' ? 0 : content.contentId;
-        content.price = typeof content.price === 'undefined' ? '0.15' : content.price;
+        content.price = typeof content.price === 'undefined' ? '0.15' : content.price;        
         content.shortDescription = typeof content.shortDescription === 'undefined' ? '' : content.shortDescription.replace(/\\"/g, '"');
         content.referralProgramEnabled = typeof content.referralProgramEnabled === 'undefined' ? 0 : content.referralProgramEnabled;
         content.itemType = typeof content.itemType === 'undefined' ? 'article' : content.itemType;
@@ -198,10 +230,17 @@ var CleengWidget = {
         content.layerEndDate = typeof content.layerEndDate === 'undefined' ? '' : content.layerEndDate;
         CleengWidget.newContentForm.contentId = content.contentId;
         jQuery('#cleeng-ContentForm-Description').val(content.shortDescription.replace(/\/"/g, '\"'));
-        jQuery('#cleeng-ContentForm-PriceSlider').slider('value', content.price);
         jQuery('#cleeng-ContentForm-LayerStartDate').datetimepicker({dateFormat: 'yy-mm-dd'});
         jQuery('#cleeng-ContentForm-LayerEndDate').datetimepicker({dateFormat: 'yy-mm-dd'});
-        jQuery('#cleeng-ContentForm-PriceValue').html(content.price);
+
+        /* lookup for price */        
+        for (var i in CleengWidget.sliderToPrice) {
+            if (CleengWidget.sliderToPrice[i] >= content.price) {                
+                break;
+            }
+        }
+        jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[i]);
+        jQuery('#cleeng-ContentForm-PriceSlider').slider('value', i);
         jQuery('#cleeng-ContentForm-ItemType').val(content.itemType);
         jQuery('#cleeng-ContentForm-ReferralRateValue').html(content.referralRate * 100);
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', content.referralRate * 100);
@@ -242,7 +281,7 @@ var CleengWidget = {
         var content = {
             contentId: CleengWidget.newContentForm.contentId,
             pageTitle: jQuery('#title').val() + ' | ' + jQuery('#site-title').html(),
-            price: jQuery('#cleeng-ContentForm-PriceSlider').slider('value'),
+            price: CleengWidget.sliderToPrice[jQuery('#cleeng-ContentForm-PriceSlider').slider('value')],
             shortDescription: jQuery('#cleeng-ContentForm-Description').val()            
         };
         content.itemType = jQuery('#cleeng-ContentForm-ItemType').val();
@@ -327,8 +366,12 @@ var CleengWidget = {
                         parsedId = id;
                     }
                     contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">' + parsedId + '</span> price: ' + price +
-                            ' <a class="cleeng-editContentLink" href="#">edit</a> ' +
-                            '<a class="cleeng-removeContentLink" href="#">remove</a></li>';
+                            ' <a class="cleeng-editContentLink" href="#">'
+			    + CleengWidget.regional[CleengWidget.locale].editText
+			    + '</a> '
+                            + '<a class="cleeng-removeContentLink" href="#">'
+			    + CleengWidget.regional[CleengWidget.locale].removeText
+                            '</a></li>';
                     if (id[0] == 't') { // temporary ID?
                         CleengWidget.tempId = Math.max(CleengWidget.tempId, parseInt(id.split('t')[1]) + 1);
                     }

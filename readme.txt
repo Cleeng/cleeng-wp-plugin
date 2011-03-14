@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
 Tested up to: 3.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: New BSD License
 
 Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
@@ -57,11 +57,15 @@ Community on http://cleeng.com/forum/publishers/
 
 1. This is how Cleeng layer looks when the visitor sees Cleeng for the first time
 2. This is how Cleeng layer looks when the visitor is registered
-3. Purchase confirmation screen - all new users get 5 free credits
+3. Purchase confirmation screen - all new users get 2 free credits
 4. Creating new content (Admin)
 5. Cleeng Widget (Admin)
 
 == Changelog ==
+
+= 1.0.2 =
+* support for translations 
+* minor visual improvements
 
 = 1.0.1 =
 * compatibility with WordPress 3.1

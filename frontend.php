@@ -269,20 +269,21 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
     
     extract( $content ); // contentId, shortDescription, price, purchased, shortUrl...
     ob_start();
+    
 ?>
 
     <?php if (!isset($options['show_prompt']) || $options['show_prompt']) : ?>
     <p class="cleeng-prompt"<?php if ($purchased) echo ' style="display:none"'; ?>>
         <span class="cleeng-firsttime"<?php if ($auth || !$noCookie) { echo  ' style="display:none"'; } ?>>
-            The rest of this article is protected, use Cleeng to view it.
+            <?php _e('The rest of this article is protected, use Cleeng to view it.', 'cleeng'); ?>
         </span>
         <span class="cleeng-nofirsttime"<?php if ($auth || $noCookie) { echo  ' style="display:none"'; } ?>>
-            The rest of this article is protected, use Cleeng again to view it.
+            <?php _e('The rest of this article is protected, use Cleeng again to view it.', 'cleeng'); ?>
         </span>
         <span class="cleeng-auth"<?php if (!$auth) { echo  ' style="display:none"'; } ?>>
-            The rest of this article is protected,
+            <?php _e('The rest of this article is protected,', 'cleeng') ?>
             <span class="cleeng-username"><?php echo $userName ?></span>,
-            click "buy" and view it instantly.
+            <?php _e('click "buy" and view it instantly.', 'cleeng') ?>
         </span>
     </p>
     <?php endif ?>
@@ -312,10 +313,14 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
         echo ' style="display:none"';
     } ?>>
             <div class="cleeng-ajax-loader" style="display:none"></div>
-            <span class="cleeng-welcome-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?>>Already have a Cleeng account?</span>
+            <span class="cleeng-welcome-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?>>
+                <?php _e('Already have a Cleeng account?', 'cleeng'); ?>
+            </span>
             
-            <span class="cleeng-welcome-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?>>Welcome back!</span>
-            <a class="cleeng-hlink cleeng-login" href="javascript:">Log-in</a>
+            <span class="cleeng-welcome-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?>>
+            <?php _e('Welcome back!', 'cleeng'); ?>
+            </span>
+            <a class="cleeng-hlink cleeng-login" href="javascript:"><?php _e('Log in') ?></a>
         </div>
         <div class="cleeng-auth-bar"<?php
              if ( ! $auth ) {
@@ -323,18 +328,20 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
              }
 ?>>
             <div class="cleeng-ajax-loader" style="display:none"></div>
-            <a class="cleeng-hlink cleeng-logout" href="#">Logout</a>
-            Welcome, <a target="_blank" class="cleeng-username" href="<?php echo $cleeng->getUrl() . '/my-account' ?>"><?php echo $userName ?></a>
+            <a class="cleeng-hlink cleeng-logout" href="#"><?php _e('Logout', 'cleeng') ?></a>
+            <?php
+                echo sprintf(__('Welcome, <a class="cleeng-username" href="%s/my-account">%s</a>', 'cleeng'), $cleeng->getUrl(), $userName);
+            ?>
         </div>
         <div class="cleeng-itemType cleeng-it-<?php echo $itemType ?>"></div>
         <h2 class="cleeng-description"><?php echo $shortDescription ?></h2>
         <div class="cleeng-rating">
-            <span>Customer rating:</span>
+            <span><?php _e('Customer rating:', 'cleeng') ?></span>
             <div class="cleeng-stars cleeng-stars-<?php echo $averageRating ?>"></div>
         </div>
 
         <span class="cleeng-free-content-views" <?php echo 'style="display:none"' ?>>
-            Good news! You still have <span></span> free purchase(s).
+            <?php _e('Good news! You still have <span></span> free purchase(s).', 'cleeng') ?>
         </span>
     </div>
     <div class="cleeng-text-bottom">
@@ -344,21 +351,22 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
             <div class="cleeng-purchaseInfo">
                 <div class="cleeng-purchaseInfo-text">
                     <a class="cleeng-buy-wide cleeng-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?> href="#">
-                        To view this <?php echo $itemType ?>,<br />
-                        Sign-up for free in 1-Click
+                        <?php _e('To view this ', 'cleeng') ?> <?php echo $itemType ?>,<br />
+                        <?php _e('Sign-up for free in 1-Click', 'cleeng') ?>
                     </a>                    
                     <a class="cleeng-buy-wide cleeng-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?> href="#">
-                        To view this article,<br />
-                        Please sign-in
+                        <?php _e('To view this article,<br />Please sign-in', 'cleeng') ?>
                     </a>                    
                     <div class="cleeng-price" style="display: none"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
                     <a class="cleeng-buy cleeng-auth" style="display: none" href="#">
-                        Buy & Access<br /> Instantly
+                        <?php _e('Buy & Access<br /> Instantly', 'cleeng') ?>
                     </a>                    
                 </div>
             </div>
             <div class="cleeng-whatsCleeng">
-                What is <a href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng">Cleeng?</a>
+                <?php
+                    echo sprintf(__('What is <a href="%s/what-is-cleeng">Cleeng?</a>', 'cleeng'), $cleeng->getUrl());
+                ?>
             </div>
         </div>
     </div>
@@ -382,8 +390,12 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
                 </a>
                 <div class="cleeng-auth-bar">
                     <div class="cleeng-ajax-loader" style="display:none"></div>
-                    <a class="cleeng-hlink cleeng-logout" href="#">Logout</a>
-                    Welcome, <a class="cleeng-username" href="<?php echo $cleeng->getUrl() . '/my-account' ?>"><?php echo $userName ?></a>
+                    <a class="cleeng-hlink cleeng-logout" href="#">
+                        <?php _e('Logout', 'cleeng') ?>
+                    </a>
+                    <?php
+                        echo sprintf(__('Welcome, <a class="cleeng-username" href="%s/my-account">%s</a>', 'cleeng'), $cleeng->getUrl(), $userName);
+                    ?>
                 </div>
             </div>
 
@@ -398,16 +410,16 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
          <div class="cleeng-nolayer-bottom">
              
             <span class="cleeng-rate"<?php if ( !$canVote ) echo ' style="display:none"'; ?>>
-                Rate:
+                <?php _e('Rate:', 'cleeng') ?>
                 <a href="#" class="cleeng-icon cleeng-vote-liked">&nbsp;</a>
                 <a href="#" class="cleeng-icon cleeng-vote-didnt-like">&nbsp;</a>
             </span>
             <span class="cleeng-rating"<?php if ( $canVote ) echo ' style="display:none"'; ?>>
-                Customer rating:
+                <?php _e('Customer rating:', 'cleeng') ?>
                 <span class="cleeng-stars cleeng-stars-<?php echo $averageRating ?>"></span>
             </span>
             <span class="cleeng-share">
-                Share:
+                <?php _e('Share:', 'cleeng') ?>
                 <a class="cleeng-icon cleeng-facebook" href="#">&nbsp;</a>
                 <a class="cleeng-icon cleeng-twitter" href="#">&nbsp;</a>
                 <a class="cleeng-icon cleeng-email" href="mailto:?subject=&amp;body=">&nbsp;</a>
@@ -416,10 +428,9 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
                 <span class="cleeng-icon cleeng-copy">&nbsp;</span>
             </span>
             <span class="cleeng-referral-rate"<?php if ( ! $referralProgramEnabled ) echo ' style="display:none"'; ?>>
-               Earn:
-               <span><?php if ( $referralProgramEnabled )
-                  echo round( $referralRate * 100 ) . '%'; ?></span>
-               commission
+                <?php
+                    echo sprintf(__('Earn: <span>%s%%</span> commission', 'cleeng'), round($referralRate*100));
+                ?>
             </span>
           </div>
       </div>
