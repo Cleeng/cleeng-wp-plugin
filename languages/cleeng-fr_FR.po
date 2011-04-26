@@ -1,0 +1,336 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Cleeng For Wordpress\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-11 13:04+0100\n"
+"PO-Revision-Date: 2011-04-11 14:51+0100\n"
+"Last-Translator: Farid HUMBLOT <fhumblot@cleeng.com >\n"
+"Language-Team: Cleeng Team <theteam@cleeng.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: France\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ./..\n"
+
+#: ../includes/admin.php:64
+msgid "Settings"
+msgstr "Paramètres"
+
+#: ../includes/admin.php:94
+#: ../includes/admin.php:136
+msgid "Cleeng For WordPress Settings"
+msgstr "Cleeng pour les Paramètres WordPress"
+
+#: ../includes/admin.php:96
+msgid "Register with Cleeng"
+msgstr "Enregistrez-vous avec Cleeng"
+
+#: ../includes/admin.php:97
+msgid "Sign up with Cleeng to protect your content."
+msgstr "Inscrivez-vous avec Cleeng afin de protéger votre contenu."
+
+#: ../includes/admin.php:98
+msgid "Welcome, you need to log-in to protect your content."
+msgstr "Bienvenue, vous devez vous identifier pour protéger votre contenu. "
+
+#: ../includes/admin.php:100
+msgid "Register as publisher"
+msgstr "S'inscrire en tant qu'éditeur"
+
+#: ../includes/admin.php:103
+#, php-format
+msgid "Welcome, <span id=\"cleeng-username\">%s</span>"
+msgstr "Bienvenue, <span id=\"cleeng-username\">%s</span>"
+
+#: ../includes/admin.php:108
+msgid "Sales report"
+msgstr "Rapport des ventes "
+
+#: ../includes/admin.php:111
+#, fuzzy
+msgid "Your settings"
+msgstr "Paramètres"
+
+#: ../includes/admin.php:114
+msgid "Logout from Cleeng"
+msgstr "Déconnexion de Cleeng"
+
+#: ../includes/admin.php:119
+#, fuzzy
+msgid "You need to have a Publisher account before using this widget. Please upgrade your account:"
+msgstr "Vous devez posséder un compte éditeur avant de pouvoir utiliser ce widget."
+
+#: ../includes/admin.php:120
+msgid "Become publisher"
+msgstr "Devenez éditeur"
+
+#: ../includes/admin.php:136
+msgid "Cleeng"
+msgstr "Cleeng"
+
+#: ../includes/admin.php:140
+msgid "Payment activation mechanism"
+msgstr "Méchanisme d'activation de paiement "
+
+#: ../includes/admin.php:141
+msgid "Text above layer"
+msgstr "Texte au dessus du cache"
+
+#: ../includes/admin.php:142
+msgid "Choose LIVE or SANDBOX"
+msgstr "Choissisez Live ou Test"
+
+#: ../includes/admin.php:162
+msgid "LIVE (real transactions!)"
+msgstr "Live (transactions réelles) "
+
+#: ../includes/admin.php:168
+msgid "SANDBOX (test transactions)"
+msgstr "Test (transactions test) "
+
+#: ../includes/admin.php:185
+#, fuzzy
+msgid "Enable text above layer."
+msgstr "Activez les dates sur le cache"
+
+#: ../includes/admin.php:203
+#, fuzzy
+msgid "<strong>Standard</strong>: Multiple payment options including PayPal, using credits stored on the Cleeng account"
+msgstr "<strong>Standard</strong>: Plusieurs options de paiement dont PayPal, utilisant les crédits du compte Cleeng)"
+
+#: ../includes/admin.php:209
+#, fuzzy
+msgid ""
+"<strong>PayPal only</strong>: direct PayPal Digital Goods payment from the layer<br />\n"
+"Note: PayPal only payments are applicable for payments above 0.49 cents. All other functionalities (user library, social commission) will remain identical."
+msgstr ""
+"<strong>PayPal seulement </strong>: direct PayPal Digital Goods depuis le cache\n"
+"Note Les paiement par PayPal sont réalisables seulement pour des paiement au-dessus de 0.49 cents. Toutes les fonctionnalités (librairie utilisateurs, commission sociale) restent identiques. "
+
+#: ../includes/admin.php:216
+msgid "<p>Here you can select if you want to enable real transactions and earn money (LIVE) or just experiment and test with the Cleeng service using the sandbox environment (SANDBOX). In case you have selected \"SANDBOX\", please avoid covering content on your public website as your visitors might be very confused. Also note that your settings, content references and accounts are NOT copied in between SANDBOX servers and the LIVE servers. So only use SANDBOX if you want to test on a non-public website.</p>"
+msgstr "<p>Ici vous pouvez choisir si vous souhaitez activer les transactions réelles et gagner de l'argent (LIVE) ou tout simplement expérimenter et tester avec le service Cleeng utilisant l'environnement de test (SANDBOX). Au cas où vous avez sélectionné \"SANDBOX\", merci de ne pas cacher le contenu de votre site Web car vos visiteurs pourraient être très confus. Notez également que vos paramètres, les références et le contenu des comptes ne sont PAS copiés entre les serveurs et les serveurs SANDBOX. Alors que l'utilisation SANDBOX si vous voulez tester sur un site Web non-public. </ p>"
+
+#: ../includes/admin.php:220
+#, fuzzy
+msgid "<p>With protected content, Cleeng would automatically add a short text above the layer. This text will increase the likelyhood to buy for consumers. If you prefer to write this text yourself just, just un-tick the box below.</p>"
+msgstr "<p>Lorsqu'un contenu est protégé, Cleeng ajoute automatiquement un court texte sur le cache. Ce texte augmente la probabilité d'achat pour les consommateurs. Si vous préférez écrire ce texte vous le faire ci-dessous. </ p>"
+
+#: ../includes/admin.php:224
+msgid "<p>You may choose between 2 different payment options on the Cleeng layers.</p>"
+msgstr "<p> Vous pouvez choisir entre deux options de paiments sur les caches Cleeng.</p>"
+
+#: ../includes/admin.php:354
+msgid "You have to be authenticated to Cleeng Platform before saving Cleeng Content."
+msgstr "Vous devez être identifié par la plateforme Cleeng afin de pouvoir sauvegarder le Contenu Cleeng."
+
+#: ../includes/admin.php:406
+msgid "Unable to save Cleeng content:"
+msgstr "Impossible de sauvegarder le contenu Cleeng:"
+
+#: ../includes/admin.php:426
+#: ../includes/admin.php:428
+msgid "<span>Cleeng Content Widget</span>"
+msgstr "<span>Cleeng Content Widget</span>"
+
+#: ../includes/admin.php:443
+msgid "An error occured while processing your request"
+msgstr "Une erreur est survenue pendant l'exécution de la requête"
+
+#: ../includes/admin.php:447
+msgid "Connecting to Cleeng Platform..."
+msgstr "Connexion à la plateforme Cleeng..."
+
+#: ../includes/admin.php:450
+#, php-format
+msgid "Welcome, <a href=\"%s/my-account\" id=\"cleeng-username\" target=\"_blank\" title=\"Visit my account\"></a>"
+msgstr "Bienvenue, <a href=\"%s/my-account\" id=\"cleeng-username\" target=\"_blank\" title=\"Visit my account\"></a>"
+
+#: ../includes/admin.php:452
+msgid "Log out"
+msgstr "Déconnexion"
+
+#: ../includes/admin.php:455
+#, fuzzy
+msgid "Thanks for using <strong class=\"cleeng-name\">Cleeng</strong>.<br /><br />Please <a class=\"CleengWidget-auth-link\" id=\"cleeng-login\" href=\"#\">log in</a> to protect your content."
+msgstr "Merci d'avoir installé <strong class=\"cleeng-name\">Cleeng</strong>.<br />Merci <a class=\"CleengWidget-auth-link\" id=\"cleeng-login\" href=\"#\">enregistrez-vous avec Cleeng</a>pour protéger votre content."
+
+#: ../includes/admin.php:458
+msgid "You need to have a Publisher account before using this widget."
+msgstr "Vous devez posséder un compte éditeur avant de pouvoir utiliser ce widget."
+
+#: ../includes/admin.php:460
+msgid "Please upgrade your account here"
+msgstr "Creez un compte éditeur ici"
+
+#: ../includes/admin.php:465
+msgid "Content on the current page:"
+msgstr "Contenu sur la page actuelle:"
+
+#: ../includes/admin.php:470
+msgid "Please make a selection first!"
+msgstr "Merci de séléctionner d'abord! "
+
+#: ../includes/admin.php:471
+msgid "Just select the content you want to protect in the editing window and press below green button."
+msgstr "Sélectionnez simplement le contenu que vous voulez protéger dans la fenêtre d'édition et appuyez le bouton vert ci-dessous."
+
+#: ../includes/admin.php:474
+msgid "Create Cleeng Content from selection."
+msgstr "Creez du Contenu Cleeng à partir de la séléction"
+
+#: ../includes/admin.php:491
+msgid "Description"
+msgstr "Description"
+
+#: ../includes/admin.php:492
+msgid "characters left"
+msgstr "Caractères restants"
+
+#: ../includes/admin.php:496
+msgid "Price:"
+msgstr "Prix:"
+
+#: ../includes/admin.php:499
+msgid "Item type:"
+msgstr "Type d'item:"
+
+#: ../includes/admin.php:501
+msgid "Article"
+msgstr "Article"
+
+#: ../includes/admin.php:502
+msgid "Chart"
+msgstr "Graphique"
+
+#: ../includes/admin.php:503
+msgid "File"
+msgstr "Fichier"
+
+#: ../includes/admin.php:504
+msgid "Image"
+msgstr "Image"
+
+#: ../includes/admin.php:505
+msgid "Spreadsheet"
+msgstr "Tableur"
+
+#: ../includes/admin.php:506
+msgid "Video"
+msgstr "Vidéo"
+
+#: ../includes/admin.php:510
+msgid "Enable layer dates."
+msgstr "Activez les dates sur le cache"
+
+#: ../includes/admin.php:512
+msgid "from:"
+msgstr "de:"
+
+#: ../includes/admin.php:514
+msgid "to:"
+msgstr "à:"
+
+#: ../includes/admin.php:518
+msgid "Enable referral program"
+msgstr "Activez le programme de recommandation"
+
+#: ../includes/admin.php:520
+msgid "Referral rate:"
+msgstr "Evaluation: "
+
+#: ../includes/frontend.php:293
+msgid "The rest of this article is protected, use Cleeng to view it."
+msgstr "Le reste de l'article est protégé, utilisez Cleeng pour le voir."
+
+#: ../includes/frontend.php:296
+msgid "The rest of this article is protected, use Cleeng again to view it."
+msgstr "le reste de l'article est protégé, utilisez Cleeng pour le voir à nouveau."
+
+#: ../includes/frontend.php:299
+msgid "The rest of this article is protected,"
+msgstr "Le reste de l'article est protégé,"
+
+#: ../includes/frontend.php:301
+msgid "click \"buy\" and view it instantly."
+msgstr "click \"buy\" et visionner instantanément."
+
+#: ../includes/frontend.php:332
+msgid "Already have a Cleeng account?"
+msgstr "Vous possédez déjà un compte Cleeng?"
+
+#: ../includes/frontend.php:336
+msgid "Welcome back!"
+msgstr "Bienvenue a nouveau! "
+
+#: ../includes/frontend.php:346
+#: ../includes/frontend.php:424
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: ../includes/frontend.php:348
+#: ../includes/frontend.php:427
+#, php-format
+msgid "Welcome, <a class=\"cleeng-username\" href=\"%s/my-account\">%s</a>"
+msgstr "Bienvenue, <a class=\"cleeng-username\" href=\"%s/my-account\">%s</a>"
+
+#: ../includes/frontend.php:354
+#: ../includes/frontend.php:448
+msgid "Customer rating:"
+msgstr "Evaluation clientéle: "
+
+#: ../includes/frontend.php:359
+msgid "Good news! You still have <span></span> free purchase(s)."
+msgstr "Bonne nouvelle! Il vous reste encore <span></span> essai(s) gratuit(s)."
+
+#: ../includes/frontend.php:370
+msgid "To view this "
+msgstr "Pour voir ceci"
+
+#: ../includes/frontend.php:371
+msgid "Sign-up for free in 1-Click"
+msgstr "Enregristrez-vous en 1-Click"
+
+#: ../includes/frontend.php:374
+msgid "To view this article,<br />Please sign-in"
+msgstr "Afin de voir cet article, <br />Merci de vous enregistrer"
+
+#: ../includes/frontend.php:379
+msgid "Free"
+msgstr "Gratuit"
+
+#: ../includes/frontend.php:382
+msgid "Buy & Access<br /> Instantly"
+msgstr "Achetez & Accédez<br /> Instantanément"
+
+#: ../includes/frontend.php:386
+msgid "or pay with <em>PayPal</em>"
+msgstr "ou payer avec <em>PayPal</em>"
+
+#: ../includes/frontend.php:391
+msgid "Pay with <em>PayPal</em>"
+msgstr "Payez avec <em>PayPal</em>"
+
+#: ../includes/frontend.php:398
+#, php-format
+msgid "What is <a href=\"%s/what-is-cleeng\">Cleeng?</a>"
+msgstr "Qu'est-ce-que <a href=\"%s/what-is-cleeng\">Cleeng?</a>"
+
+#: ../includes/frontend.php:443
+msgid "Rate:"
+msgstr "Evaluation:"
+
+#: ../includes/frontend.php:452
+msgid "Share:"
+msgstr "Partagez:"
+
+#: ../includes/frontend.php:462
+#, php-format
+msgid "Earn: <span>%s%%</span> commission"
+msgstr "Touchez: <span>%s%%</span> commission"
+
