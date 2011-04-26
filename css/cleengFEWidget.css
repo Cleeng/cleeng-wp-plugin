@@ -1,0 +1,461 @@
+.cleeng-layer {
+    height: 331px;
+    position: relative;
+    text-align: left;
+}
+.cleeng-layer-left {
+    height: 331px;
+    background: url(../img/plugin_grad_sides.png) 0 0 no-repeat;
+    width: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.cleeng-layer-right {
+    height: 331px;
+    background: url(../img/plugin_grad_sides.png) -10px 0 no-repeat;
+    width: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.cleeng-text {
+    background: url(../img/plugin_grad_center.png) repeat-x;
+    padding:0;
+    margin:0 10px;
+    height: 235px;
+}
+.cleeng-textBottom{
+    position:relative;
+    padding:0;
+    margin:0;
+}
+.cleeng-text-bottom {
+    padding:0;
+    margin:0 10px;
+    height: 100px;
+}
+.cleeng-layer, .cleeng-nolayer-top, .cleeng-nolayer-bottom {
+    font-family: Verdana, Tahoma, Arial;
+    font-size: 11px;
+    text-align: left;
+}
+
+.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal {
+    background: none;
+    color: #66ac00 !important;
+    font-weight: normal;
+    border: none;
+    text-shadow: none;
+    text-decoration: none;
+}
+a.cleeng-pay-with-paypal {
+    display: block;
+    margin-left: 16px;
+    margin-top: -2px;
+    padding: 0px 0 8px 0;
+}
+a.cleeng-pay-with-paypal img {
+    padding-top: 12px;
+}
+.cleeng-layer img, .cleeng-nolayer-top img, .cleeng-nolayer-bottom img{
+    border: none;
+    padding: 0;
+    margin: 0 !important;
+}
+.cleeng-auth-bar, .cleeng-noauth-bar  {
+    color: black;
+    background-color: #e6e6e6;
+    color: #60bb28;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-left: 16px;
+    height: 22px;
+    line-height: 22px;
+    text-align: right;
+}
+.cleeng-auth-bar span, .cleeng-noauth-bar span {
+    color: #60bb28;
+
+}
+.cleeng-auth-bar a, .cleeng-noauth-bar a {
+    color: #66ac00 !important;
+}
+.cleeng-auth-bar a.cleeng-hlink, .cleeng-noauth-bar a.cleeng-hlink {
+    color: #fff !important;
+}
+.cleeng-noauth-bar {
+    text-align: right;
+    padding-right: 0px;
+}
+.cleeng-logout {
+    float: right;
+    line-height: 22px;
+    height: 22px;
+    margin-left: 5px;
+}
+
+.cleeng-logo {
+    text-align: right;
+    height: 61px;
+    margin-bottom:20px;
+    position:relative;
+    top:25px;
+    right:16px;
+}
+.cleeng-logo img {
+    float: right;
+    display: block;
+    padding: 0;
+}
+.cleeng-publisher{
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 22px;
+    left: 27px;
+    overflow: hidden;
+    z-index: 2;
+    border: 1px solid #f6f6f6;
+}
+.cleeng-itemType {
+    background: url("../img/item-types.png") 0 0 no-repeat;
+    height: 62px;
+    width: 72px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 16px;
+}
+.cleeng-it-spreadsheet {
+    background-position: 0 -310px;
+}
+.cleeng-it-chart {
+    background-position: 0 -248px;
+}
+.cleeng-it-article {
+    background-position: 0 -186px;
+}
+.cleeng-it-file {
+    background-position: 0 -124px;
+}
+.cleeng-it-image {
+    background-position: 0 -62px;
+}
+.cleeng-it-video {
+    background-position: 0 0px;
+}
+.cleeng-description {
+    margin: 20px 0 0 88px !important;
+    padding: 0 20px 0 0 !important;
+    clear: none !important;
+    font-family: Verdana, Tahoma, Arial  !important;
+    font-size: 16px !important;
+    color: black !important;
+    text-shadow: none;
+    background: none  !important;
+}
+.cleeng-rating {
+    color: #555;
+}
+.cleeng-layer .cleeng-rating {
+    margin: 12px 0 0 88px;
+}
+.cleeng-rating span {
+    color: #555;
+
+}
+.cleeng-free-content-views {
+    margin-left: 88px;
+    color: #555;
+    margin-top: 12px;
+}
+a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
+    background: #5BAC36;
+    color: white !important;
+    text-decoration: none;
+    border: none;
+    padding: 0 12px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    text-shadow: none;
+}
+.cleeng-stars {
+    background: url('../img/stars.png') -80px 0 no-repeat;
+    vertical-align: middle;
+    height: 21px;
+    width: 80px;
+    display: inline-block;
+    margin: -1px 0 0 5px;
+}
+.cleeng-nolayer-bottom .cleeng-stars {
+    background-position: -80px -22px;
+}
+.cleeng-stars-0 {
+    background-position: -80px 0;
+}
+.cleeng-stars-1 {
+    background-position: -64px 0;
+}
+.cleeng-stars-2 {
+    background-position: -48px 0;
+}
+.cleeng-stars-3 {
+    background-position: -32px 0;
+}
+.cleeng-stars-4 {
+    background-position: -16px 0;
+}
+.cleeng-stars-5 {
+    background-position: 0 0px;
+}
+.cleeng-nolayer-bottom .cleeng-stars-0 {
+    background-position: -80px -22px;
+}
+.cleeng-nolayer-bottom .cleeng-stars-1 {
+    background-position: -64px -22px;
+}
+.cleeng-nolayer-bottom .cleeng-stars-2 {
+    background-position: -48px -22px;
+}
+.cleeng-nolayer-bottom .cleeng-stars-3 {
+    background-position: -32px -22px;
+}
+.cleeng-nolayer-bottom .cleeng-stars-4 {
+    background-position: -16px -22px;
+}
+.cleeng-nolayer-bottom .cleeng-stars-5 {
+    background-position: 0 -22px;
+}
+.cleeng-whatsCleeng {
+    position: absolute;
+    bottom: 28px;
+    color: black;
+    padding-left: 16px;
+}
+.cleeng-whatsCleeng a {
+    text-decoration: none;
+    text-shadow: none;
+    color: #66ac00 !important;
+    background: none;
+    border: none;
+}
+.cleeng-whatsCleeng a {
+    background: none;
+
+}
+.cleeng-purchaseInfo {
+	background: url("../img/plugin_bg.png") top left no-repeat;
+	padding: 0;
+	width: 267px;
+	height: 96px;
+	position:absolute;
+        top: 0px;
+        right: 0;
+	margin:0px;
+}
+.cleeng-purchaseInfo-text{
+    margin-top:16px;
+}
+.cleeng-purchaseInfo-grad{
+	height: 96px;
+  margin-top:0px;
+	background: url(../img/plugin_grad_center.png) bottom repeat-x;
+	margin-right: 267px;
+}
+
+
+.cleeng-username, .cleeng-username:link, .cleeng-username:visited,
+.cleeng-nolayer-bottom a, .cleeng-nolayer-bottom a:link, .cleeng-nolayer-bottom a:visited {
+    font-weight: bold;
+    text-decoration: none;
+}
+.cleeng-clear {
+     clear: both;
+}
+.cleeng-layer a.cleeng-buy {
+    vertical-align: middle;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    height: 39px;
+    display: block;
+    width: 96px;
+    height: 38px;
+    background: url(../img/plugin_buy_button.png) 0 0 no-repeat;
+    line-height: 120%;
+    text-align: center;
+    color: white !important;
+    text-decoration: none;
+    margin-left: 16px;
+    padding-top: 11px;
+    font-size: 12px;
+}
+.cleeng-layer a.cleeng-buy-wide {
+    vertical-align: middle;
+    cursor: pointer;
+    outline: none;
+    padding-top: 11px;
+    border: none;
+    height: 39px;
+    display: block;
+    width: 194px;
+    height: 38px;
+    background: url(../img/plugin_buy_button_wide.png) 0 0 no-repeat;
+    line-height: 120%;
+    text-align: center;
+    color: white !important;
+    text-decoration: none;
+    margin-left: 16px;
+    font-size: 12px;
+}
+.cleeng-price {
+    display: block;
+    height: 20px;
+    padding-top: 1px;
+    text-align: center;
+    float: right;
+    margin-right: 20px;
+    height: 45px;
+    line-height: 45px;
+    width: 100px;
+}
+.cleeng-price, .cleeng-price span {
+    font-size: 14pt;
+    color: #68af0b;    
+}
+.cleeng-price-paypal {
+    display: block;
+    height: 20px;
+    padding-top: 1px;
+    text-align: center;
+    float: right;
+    margin-right: 20px;
+    height: 45px;
+    line-height: 45px;
+    width: 60px;
+}
+.cleeng-price-paypal, .cleeng-price-paypal span {
+    font-size: 14pt;
+    color: #68af0b;
+}
+.cleeng-nolayer-top {
+    background-color: #e6e6e6;
+    text-align: right;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    height: 22px;
+}
+.cleeng-nolayer-top img {
+    display: block;
+    padding: 1px;
+    float: left;
+}
+.cleeng-nolayer-top .cleeng-auth-bar {
+    height: 22px;
+    line-height: 22px;
+}
+.cleeng-nolayer-bottom {
+    background-color: #e6e6e6;
+    margin: 5px 0 10px 0;
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-size: 11px;
+    padding: 0 5px;
+    min-height: 22px;
+    line-height: 22px;
+    text-align: right;
+}
+.cleeng-nolayer-bottom .cleeng-rate {
+    float: left;
+    margin-right: 5px;
+}
+.cleeng-nolayer-bottom img {
+    vertical-align: middle;
+}
+.cleeng-share span.cleeng-referral-url {
+    background-color: #f0f0f0;
+    display: inline-block;
+    font-size: 10px !important;
+    font-family: Arial, Verdana, sans-serif;
+    margin: 0;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 5px;
+    margin: 1px;
+
+}
+.cleeng-share span.cleeng-referral-url.cleeng-copied {
+    background-color: #a0ffa0;
+}
+/*.cleeng-rating span {
+    float:left;
+    display:block;
+}*/
+/*.cleeng-nolayer-bottom .cleeng-rating {
+    height: 22px;
+    line-height: 22px;
+    margin: 0;
+}*/
+.cleeng-nolayer-bottom .cleeng-stars {    
+    height: 21px;
+    display: inline-block;    
+}
+.cleeng-icon {
+    width: 23px;
+    height: 22px;
+    background: url('../img/icons.png') no-repeat !important;
+    display: inline-block;
+}
+.cleeng-vote-liked {
+    background-position: 0 0 !important;
+}
+.cleeng-vote-didnt-like {
+    background-position: -23px 0 !important;
+}
+.cleeng-facebook {
+    background-position: -93px 0 !important;
+}
+.cleeng-twitter {
+    background-position: -69px 0 !important;
+}
+.cleeng-email {
+    background-position: -117px 0 !important;
+}
+.cleeng-copy {
+    background-position: -46px 0 !important;
+    position: relative;
+}
+.cleeng-nolayer-bottom {
+    white-space: normal;
+    overflow: hidden;
+}
+.cleeng-nolayer-bottom .cleeng-rate,
+.cleeng-nolayer-bottom .cleeng-rating,
+.cleeng-nolayer-bottom .cleeng-share,
+.cleeng-nolayer-bottom .cleeng-referral-rate {
+    white-space: nowrap;
+    height: 22px;
+    display: inline-block;
+    color: #555;
+}
+.cleeng-share span {
+    color: #555;
+}
+.cleeng-prompt {
+    font-style: italic;
+
+}
+.cleeng-copy embed {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 23px;
+    height: 22px;
+}
+.cleeng-ajax-loader {
+    height: 22px;
+    width: 24px;
+    float: right;
+    background: #5BAC36 url(../img/ajax-loader.gif) left center no-repeat;
+
+}
