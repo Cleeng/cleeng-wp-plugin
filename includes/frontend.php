@@ -319,7 +319,7 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
 
         </div>
         <div class="cleeng-logo">
-            <a href="http://cleeng.com/what-is-cleeng">
+            <a href="http://cleeng.com/what-is-cleeng" target="_blank">
                 <img src="<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-light' ) ?>" alt="Cleeng" />
             </a>
         </div>
