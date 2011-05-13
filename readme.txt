@@ -63,6 +63,12 @@ Community on http://cleeng.com/forum/publishers/
 
 == Changelog ==
 
+= 1.1.1 =
+* improvements in CSS file
+* removed call to error_reporting from ajax.php (should help for external plugins generating E_NOTICE)
+* "what is Cleeng" link opens in new window
+* use window.postMessage to communicate between popup and main window if possible
+
 = 1.1.0 =
 * 1.1 embedded full PayPal Digital Goods support
 

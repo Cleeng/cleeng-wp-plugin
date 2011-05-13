@@ -57,11 +57,13 @@ a.cleeng-pay-with-paypal {
 }
 a.cleeng-pay-with-paypal img {
     padding-top: 12px;
+    background: transparent;
 }
 .cleeng-layer img, .cleeng-nolayer-top img, .cleeng-nolayer-bottom img{
     border: none;
     padding: 0;
     margin: 0 !important;
+    background: transparent;
 }
 .cleeng-auth-bar, .cleeng-noauth-bar  {
     color: black;
@@ -350,6 +352,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     display: block;
     padding: 1px;
     float: left;
+    background: transparent;
 }
 .cleeng-nolayer-top .cleeng-auth-bar {
     height: 22px;
@@ -371,6 +374,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 }
 .cleeng-nolayer-bottom img {
     vertical-align: middle;
+    background: transparent;
 }
 .cleeng-share span.cleeng-referral-url {
     background-color: #f0f0f0;

@@ -23,7 +23,6 @@ header( 'pragma: no-cache' );
 header( 'cache-control: no-cache' );
 header( 'expires: 0' );
 
-error_reporting(E_ALL);
 $config = include dirname( __FILE__ ) . '/includes/config.php';
 $cleeng = new CleengClient( $config );
 
@@ -128,10 +127,23 @@ switch ( $mode ) {
         } catch (Exception $e) {
         }
     case 'closePopup':
-        echo '<script type="text/javascript">
-            //<![CDATA[
+        echo '
+            <!--[if lte IE 8]>
+            <script type="text/javascript">
                 if (opener) {
                     opener.CleengWidget.getUserInfo();
+                    self.close();
+                }
+            </script>
+            <![endif]-->
+            <script type="text/javascript">
+            //<![CDATA[            
+                if (opener) {
+                    if (typeof opener.postMessage !== "undefined") {
+                        opener.postMessage("cleengGetUserInfo", "*");
+                    } else {
+                        opener.CleengWidget.getUserInfo();
+                    }
                     self.close();
                 } else if (parent) {
                     parent.CleengWidget.getUserInfo();
@@ -139,7 +151,6 @@ switch ( $mode ) {
                         parent.document.body.removeChild(parent.document.getElementById("PPDGFrame"));
                     }
                 }
-
             //]]>
             </script>            
             ';

@@ -189,6 +189,15 @@ var CleengWidget = {
             };
         }
 
+        // event listener
+        if (typeof window.postMessage !== 'undefined') {
+            window.addEventListener("message", function(event) {
+                if (event.data == 'cleengGetUserInfo') {
+                    CleengWidget.getUserInfo();
+                }
+            }, false);
+        }
+
         // autologin
         if (typeof CleengAutologin !== 'undefined') {
             if (CleengAutologin.available) {
