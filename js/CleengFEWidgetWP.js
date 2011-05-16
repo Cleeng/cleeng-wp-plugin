@@ -151,7 +151,7 @@ var CleengWidget = {
 
         // clipboard
         ZeroClipboard.setMoviePath(Cleeng_PluginPath + '/js/ZeroClipboard.swf');        
-        jQuery('.cleeng-copy').each(function() {
+        jQuery('.cleeng-copy').each(function() {            
             clip = new ZeroClipboard.Client();
             clip.setHandCursor(true);
             clip.addEventListener('onMouseOver', function(client) {

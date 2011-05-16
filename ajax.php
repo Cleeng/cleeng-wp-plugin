@@ -104,7 +104,7 @@ switch ( $mode ) {
         /**
          * Login: redirect to Cleeng authentication page
          */
-        $cleeng->authenticate();        
+        $cleeng->authenticate();
         exit;
     case 'registerPublisher':
         /**

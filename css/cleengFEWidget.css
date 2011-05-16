@@ -385,7 +385,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     height: 18px;
     line-height: 18px;
     padding: 0 5px;
-    margin: 1px;
+    margin: 1px 28px 1px 1px;
 
 }
 .cleeng-share span.cleeng-referral-url.cleeng-copied {
@@ -426,8 +426,14 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     background-position: -117px 0 !important;
 }
 .cleeng-copy {
-    background-position: -46px 0 !important;
-    position: relative;
+    background-position: -46px 0 !important;        
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    position: absolute;
+    margin-left: -25px;
+    z-index: 2000;
 }
 .cleeng-nolayer-bottom {
     white-space: normal;
@@ -444,17 +450,18 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 }
 .cleeng-share span {
     color: #555;
+    margin-right: 1px;
 }
 .cleeng-prompt {
     font-style: italic;
 
 }
-.cleeng-copy embed {
+.cleeng-copy embed, .cleeng-copy object {
     display: inline-block;
     margin: 0;
     padding: 0;
     width: 23px;
-    height: 22px;
+    height: 22px;    
 }
 .cleeng-ajax-loader {
     height: 22px;
