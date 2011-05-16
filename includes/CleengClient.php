@@ -303,7 +303,7 @@ class CleengClient
             // User will get new token after purchasing content,
             // but we need to pass old one to check if the same
             // user is authenticated on widet and on Cleeng Website
-            $params['oauth_token'] = $this->getAccessoTken();    
+            $params['oauth_token'] = $this->getAccessToken();    
         }
         if ($this->getOption('popupWindowMode')) {
             $params['popup'] = 1;
