@@ -211,12 +211,12 @@ function cleeng_loop_start() {
         $contentInfoIds = array();
         foreach ($ids as $key => $value) {
             if (is_numeric($value)) {
-                $contntInfoIds[] = $value;
+                $contentInfoIds[] = $value;
             }
         }
-        if (count($contntInfoIds)) {
+        if (count($contentInfoIds)) {
             try {
-                $contentInfo = $cleeng->getContentInfo( $contntInfoIds );                
+                $contentInfo = $cleeng->getContentInfo( $contentInfoIds );                
                 foreach ( $contentInfo as $key => $val ) {
                     $cleeng_content[$key] = $val;
                 }
