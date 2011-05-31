@@ -243,13 +243,15 @@ function cleeng_add_layers( $content ) {
     if ( count( $m[1] ) ) {
         foreach ( $m[1] as $key => $contentId ) {            
             $expr = '/\[cleeng_content.*?id\s*=\s*(?:\"|&quot;)' . $contentId . '(?:\"|&quot;).*?[^\\\]\].*?[^\\\]\[\/cleeng_content\]/is';
-            $content = preg_replace( $expr,
-                            cleeng_get_layer_markup(
-                                    $post->ID,
-                                    $m[2][$key],
-                                    $cleeng_content[$contentId]
-                            ),
-                            $content );
+            if (isset($cleeng_content[$contentId])) {
+                $content = preg_replace( $expr,
+                                cleeng_get_layer_markup(
+                                        $post->ID,
+                                        $m[2][$key],
+                                        $cleeng_content[$contentId]
+                                ),
+                                $content );
+            }
         }
     }    
     return $content;

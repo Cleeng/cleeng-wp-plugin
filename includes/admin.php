@@ -190,12 +190,13 @@ function cleeng_settings_show_prompt_render() {
 
 function cleeng_settings_payment_method_render() {
     $options = get_option('cleeng_options');
-    if (!isset($options['payment_method']) || $options['payment_method'] == 'paypal-only') {        
+    if (!isset($options['payment_method']) || $options['payment_method'] == 'cleeng-only') {        
+        $ch1 = ' checked="checked"';
+        $ch2 = '';
+    } else {
         $ch1 = '';
         $ch2 = ' checked="checked"';
-    } else {
-        $ch1 = ' checked="checked"';
-        $ch2 = '';        
+        
     }
     echo '       
        <label for="cleeng_payment_method_cleeng_only">
