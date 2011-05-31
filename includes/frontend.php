@@ -267,7 +267,7 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
     $options = get_option('cleeng_options');
 
     if (!isset($options['payment_method'])) {        
-        $options['payment_method'] = 'paypal-only';
+        $options['payment_method'] = 'cleeng-only';
     }
 
     $noCookie = (isset($_COOKIE['cleeng_user_auth']))?false:true;
