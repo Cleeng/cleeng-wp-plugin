@@ -313,6 +313,35 @@ class CleengClient
     }
 
     /**
+     * Redirect user to Cleeng subscribe page
+     * @param int $contentId
+     */
+    public function subscribe($publisherId)
+    {
+        // filter $contentId
+        $publisherId = (int)$publisherId;
+
+        $url = $this->getUrl('oauth') . '/authenticate?';
+        $params = array(
+            'client_id' => $this->getOption('clientId'),
+            'response_type' => 'code',
+            'subscription_publisher_id' => $publisherId,
+            'redirect_uri' => $this->getOption('callbackUrl')
+        );
+        if ($this->isUserAuthenticated()) {
+            // User will get new token after purchasing content,
+            // but we need to pass old one to check if the same
+            // user is authenticated on widet and on Cleeng Website
+            $params['oauth_token'] = $this->getAccessToken();
+        }
+        if ($this->getOption('popupWindowMode')) {
+            $params['popup'] = 1;
+        }
+        header('Location:' . $url . http_build_query($params, '', '&'));
+        exit;
+    }
+
+    /**
      * Handle OAuth callback (usually simply retrieve access token)
      */
     public function processCallback()
@@ -432,8 +461,13 @@ class CleengClient
 
     /**
      * Returns logo url
-     * @param string $size
+     *
      * @param integer $contentId
+     * @param string $type
+     * @param string $unused
+     *
+     * @internal param string $size
+     * @return string
      */
     public function getLogoUrl($contentId, $type='cleeng-light', $unused='500')
     {        
@@ -447,6 +481,7 @@ class CleengClient
     /**
      * Returns publisher's logo url
      * @param integer $publisherId
+     * @return string
      */
     public function getPublisherLogoUrl($publisherId)
     {
@@ -533,6 +568,7 @@ class CleengClient
 
     /**
      * Returns information about currently authenticated user
+     * @return array|null
      */
     public function getUserInfo()
     {
@@ -653,10 +689,13 @@ class CleengClient
         }
         return true;
     }
-   
+
     /**
      * Returns information (like rating) about multiple contents
-     * @param array $contentIds
+     * 
+     * @param $ids
+     * @return array
+     *
      */
     public function getContentInfo($ids)
     {
@@ -675,7 +714,9 @@ class CleengClient
      *
      * @todo: This method will likely be removed as it seems that nobody needs it :)
      *
-     * @param array $contentIds
+     * @param $ids
+     *
+     * @return array
      */
     public function getContentDescription($ids)
     {
@@ -748,6 +789,7 @@ class CleengClient
     /**
      *
      * @param string $paypalToken
+     * @return bool
      */
     public function initDigitalGoodsPayment($paypalToken)
     {

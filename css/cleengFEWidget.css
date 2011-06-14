@@ -41,13 +41,17 @@
     text-align: left;
 }
 
-.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal {
+.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal, a.cleeng-subscribe {
     background: none;
     color: #66ac00 !important;
     font-weight: normal;
     border: none;
     text-shadow: none;
     text-decoration: none;
+}
+a.cleeng-subscribe {
+    text-align: center;
+    padding-left: 70px;
 }
 a.cleeng-pay-with-paypal {
     display: block;
@@ -367,6 +371,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     min-height: 22px;
     line-height: 22px;
     text-align: right;
+    position: relative;
 }
 .cleeng-nolayer-bottom .cleeng-rate {
     float: left;
@@ -381,7 +386,6 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     display: inline-block;
     font-size: 10px !important;
     font-family: Arial, Verdana, sans-serif;
-    margin: 0;
     height: 18px;
     line-height: 18px;
     padding: 0 5px;
@@ -431,8 +435,10 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     margin: 0;
     padding: 0;
     display: inline-block;
+    right: 0;
+    top: 0;
     position: absolute;
-    margin-left: -25px;
+    /*margin-left: -25px;*/
     z-index: 2000;
 }
 .cleeng-nolayer-bottom {

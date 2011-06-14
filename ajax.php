@@ -59,35 +59,37 @@ if (!defined('DONOTCACHEPAGE')) {
  * @param int $contentId
  * @return string
  */
-function cleeng_extract_content( $postId, $contentId ) {
-    global $post, $page, $pages;
+if (!function_exists('cleeng_extract_content')) {
+    function cleeng_extract_content( $postId, $contentId ) {
+        global $post, $page, $pages;
 
-    remove_filter( 'the_content', 'cleeng_add_layers', 100 );
+        remove_filter( 'the_content', 'cleeng_add_layers', 100 );
 
-    $wpQuery = new WP_Query( array( 'p' => $postId ) );
-    @$wpQuery->the_post();
-
-    if ( ! count( $pages ) || empty( $pages[0] ) ) {
-        $wpQuery = new WP_Query( array( 'page_id' => $postId ) );
+        $wpQuery = new WP_Query( array( 'p' => $postId ) );
         @$wpQuery->the_post();
-    }
 
-    if ( ! is_array( $pages ) || ! count( $pages ) ) {
+        if ( ! count( $pages ) || empty( $pages[0] ) ) {
+            $wpQuery = new WP_Query( array( 'page_id' => $postId ) );
+            @$wpQuery->the_post();
+        }
+
+        if ( ! is_array( $pages ) || ! count( $pages ) ) {
+            return '';
+        }
+
+        foreach ( $pages as $page ) {
+
+            $page = apply_filters( 'the_content', $page );
+
+            $pattern = '/\[cleeng_content.*?id\s*=\s*\"' . $contentId . '".*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
+
+            if ( preg_match( $pattern, $page, $mm ) ) {
+                return $mm[1];
+            }
+        }
+
         return '';
     }
-
-    foreach ( $pages as $page ) {
-
-        $page = apply_filters( 'the_content', $page );
-
-        $pattern = '/\[cleeng_content.*?id\s*=\s*\"' . $contentId . '".*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
-
-        if ( preg_match( $pattern, $page, $mm ) ) {
-            return $mm[1];
-        }
-    }
-
-    return '';
 }
 
 /**
@@ -126,24 +128,12 @@ switch ( $mode ) {
             }
         } catch (Exception $e) {
         }
+        // IE Hack - without this header IE won't accept cookie from IFRAME
+        header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
     case 'closePopup':
-        echo '
-            <!--[if lte IE 8]>
-            <script type="text/javascript">
+        echo '<script type="text/javascript">
+            //<![CDATA[
                 if (opener) {
-                    opener.CleengWidget.getUserInfo();
-                    self.close();
-                }
-            </script>
-            <![endif]-->
-            <script type="text/javascript">
-            //<![CDATA[            
-                if (opener) {
-                    if (typeof opener.postMessage !== "undefined") {
-                        opener.postMessage("cleengGetUserInfo", "*");
-                    } else {
-                        opener.CleengWidget.getUserInfo();
-                    }
                     self.close();
                 } else if (parent) {
                     parent.CleengWidget.getUserInfo();
@@ -152,7 +142,7 @@ switch ( $mode ) {
                     }
                 }
             //]]>
-            </script>            
+            </script>
             ';
         exit;
     case 'purchase':
@@ -161,6 +151,19 @@ switch ( $mode ) {
          */
         try {
             $cleeng->purchaseContent( (int) $_REQUEST['contentId'] );
+        } catch ( Exception $e ) {
+        }
+        exit;
+    case 'subscribe':
+        /**
+         * Subscribe
+         */
+        try {
+            $contenInfo = reset($cleeng->getContentInfo( array((int) $_REQUEST['contentId']) ));
+            if (isset($contenInfo['publisherId'])) {
+                $cleeng->subscribe(  $contenInfo['publisherId'] );
+            } else {
+            }
         } catch ( Exception $e ) {
         }
         exit;
@@ -202,7 +205,11 @@ switch ( $mode ) {
                     }
                 }
                 if ( count( $ids ) ) {
-                        $contentInfo = $cleeng->getContentInfo( $ids );
+                    $contentInfo = $cleeng->getContentInfo( $ids );
+
+
+//                    echo $cleeng->getApiOutputBuffer();die;
+
                     if ( sizeof( $contentInfo ) ) {
                         foreach ( $contentInfo as $key => $val ) {
                             if ( $val['purchased'] == true ) {
@@ -300,9 +307,9 @@ switch ( $mode ) {
                 echo $cleeng->getApiOutputBuffer();
                 die;
             }
-            echo json_encode( array( 'success' => $ret ) );
-            exit;
+            echo json_encode( array( 'success' => $ret ) );            
         }
+        exit;
     case 'paypal':
         $closePopupUrl = $scheme . $_SERVER['HTTP_HOST'] . '/' . trim( $_SERVER['PHP_SELF'], '/' ) . '?cleengMode=callback';
         $contentId = intval($_REQUEST['content_id']);

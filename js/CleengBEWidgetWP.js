@@ -18,6 +18,7 @@ var CleengWidget = {
     // New Content Form pop-up
     newContentForm : {content: {}},
     editorBookmark : {},
+    popupWindow: null,
     saveContentServiceURL : Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=saveContent',
     tempId: 1,
 
@@ -65,7 +66,7 @@ var CleengWidget = {
         CleengWidget.getUserInfo();
 
         jQuery('#cleeng-login').click(function() {
-            window.open(Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp', 'menubar=no,width=607,height=567,toolbar=no');
+            CleengWidget.logIn();
             return false;
         });
         jQuery('#cleeng-logout').click(function() {
@@ -154,15 +155,6 @@ var CleengWidget = {
             }
             return false;
         });
-
-        // event listener
-        if (typeof window.postMessage !== 'undefined') {
-            window.addEventListener("message", function(event) {
-                if (event.data == 'cleengGetUserInfo') {
-                    CleengWidget.getUserInfo();
-                }
-            }, false);
-        }
         
         // autologin
         if (typeof CleengAutologin !== 'undefined') {
@@ -183,7 +175,27 @@ var CleengWidget = {
         setTimeout(function() {
             CleengWidget.findContent();
         }, 1000);
-    },    
+    },
+    pollPopupWindow: function() {
+        if (!CleengWidget.popupWindow) {
+            return;
+        }
+        if (CleengWidget.popupWindow.closed) {
+            CleengWidget.getUserInfo();
+        } else {
+            setTimeout('CleengWidget.pollPopupWindow()', 250);
+        }
+    },
+    logIn: function() {
+        if (CleengWidget.popupWindow) {
+            CleengWidget.popupWindow.close();
+            CleengWidget.popupWindow = null;
+        }
+        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp',
+                    'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
+        CleengWidget.pollPopupWindow();
+    },
+
     getUserInfo: function() {
         jQuery.getJSON(
             Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=getUserInfo',
@@ -224,11 +236,11 @@ var CleengWidget = {
         content.hasLayerDates = typeof content.hasLayerDates === 'undefined' ? 0 : content.hasLayerDates;
         content.layerStartDate = typeof content.layerStartDate === 'undefined' ? '' : content.layerStartDate;
         content.layerEndDate = typeof content.layerEndDate === 'undefined' ? '' : content.layerEndDate;
+
         CleengWidget.newContentForm.contentId = content.contentId;
         jQuery('#cleeng-ContentForm-Description').val(content.shortDescription.replace(/\/"/g, '\"'));
         jQuery('#cleeng-ContentForm-LayerStartDate').datetimepicker({dateFormat: 'yy-mm-dd'});
         jQuery('#cleeng-ContentForm-LayerEndDate').datetimepicker({dateFormat: 'yy-mm-dd'});
-
         /* lookup for price */        
         for (var i in CleengWidget.sliderToPrice) {
             if (CleengWidget.sliderToPrice[i] >= content.price) {                
@@ -240,12 +252,19 @@ var CleengWidget = {
         jQuery('#cleeng-ContentForm-ItemType').val(content.itemType);
         jQuery('#cleeng-ContentForm-ReferralRateValue').html(content.referralRate * 100);
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', content.referralRate * 100);
-        jQuery('#cleeng-ContentForm-ReferralProgramEnabled').attr('checked', content.referralProgramEnabled?'checked':null);
-
         jQuery('#cleeng-ContentForm-LayerStartDate').val(content.layerStartDate);
         jQuery('#cleeng-ContentForm-LayerEndDate').val(content.layerEndDate);
-        jQuery('#cleeng-ContentForm-LayerDatesEnabled').attr('checked', content.hasLayerDates?'checked':null);
-        CleengWidget.newContentForm.dialog('open');        
+
+        if (typeof jQuery.prop !== 'undefined') {
+            jQuery('#cleeng-ContentForm-ReferralProgramEnabled').prop('checked', content.referralProgramEnabled?'checked':null);
+            jQuery('#cleeng-ContentForm-LayerDatesEnabled').prop('checked', content.hasLayerDates?'checked':null);
+        } else {
+            jQuery('#cleeng-ContentForm-ReferralProgramEnabled').attr('checked', content.referralProgramEnabled?'checked':null);
+            jQuery('#cleeng-ContentForm-LayerDatesEnabled').attr('checked', content.hasLayerDates?'checked':null);
+        }
+
+
+        CleengWidget.newContentForm.dialog('open');
     },
     isSelectionValid: function() {
         return !!(jQuery.trim(CleengWidget.getSelectedText()));
@@ -253,7 +272,7 @@ var CleengWidget = {
     createCleengContent: function() {
         CleengWidget.bookmarkSelection();
         if (CleengWidget.isSelectionValid()) {
-            jQuery('#cleeng-contentForm input[type=text]').val('')
+            jQuery('#cleeng-contentForm input[type="text"]').val('')
             jQuery('#cleeng_SelectionError').hide();
             var now = new Date();
             jQuery('#cleeng-ContentForm-LayerStartDate').val(
@@ -469,8 +488,11 @@ var CleengWidget = {
             }
             return text;
         } else {
-            return jQuery( edCanvas ).val();
+            if (typeof edCanvas !== 'undefined') {
+                return jQuery( edCanvas ).val();
+            }
         }
+        return '';
     },
     setEditorText: function(text) {
         if (typeof CKEDITOR !== 'undefined'

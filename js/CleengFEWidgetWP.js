@@ -1,44 +1,4 @@
 /**
-* jQuery Cookie plugin
-*
-* Copyright (c) 2010 Klaus Hartl (stilbuero.de)
-* Dual licensed under the MIT and GPL licenses:
-* http://www.opensource.org/licenses/mit-license.php
-* http://www.gnu.org/licenses/gpl.html
-*
-*/
-jQuery.cookie = function (key, value, options) {
-
-    // key and value given, set cookie...
-    if (arguments.length > 1 && (value === null || typeof value !== "object")) {
-        options = jQuery.extend({}, options);
-
-        if (value === null) {
-            options.expires = -1;
-        }
-
-        if (typeof options.expires === 'number') {
-            var days = options.expires, t = options.expires = new Date();
-            t.setDate(t.getDate() + days);
-        }
-
-        return (document.cookie = [
-            encodeURIComponent(key), '=',
-            options.raw ? String(value) : encodeURIComponent(String(value)),
-            options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-            options.path ? '; path=' + options.path : '',
-            options.domain ? '; domain=' + options.domain : '',
-            options.secure ? '; secure' : ''
-        ].join(''));
-    }
-
-    // key and possibly options given, get cookie...
-    options = value || {};
-    var result, decode = options.raw ? function (s) {return s;} : decodeURIComponent;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
-};
-
-/**
  * Cleeng For WordPress
  *
  * LICENSE
@@ -78,6 +38,11 @@ var CleengWidget = {
         jQuery('.cleeng-layer').each(function() {
             var contentId = jQuery(this).attr('id').split('-')[2];
             CleengWidget.contentIds.push(contentId);
+            jQuery('#cleeng-layer-' + contentId + ' .cleeng-subscribe')
+                .click(function() {
+                    CleengWidget.subscribe(contentId);
+                    return false;
+                });
             jQuery('#cleeng-layer-' + contentId + ' .cleeng-buy')
                 .click(function() {
                     CleengWidget.purchaseContent(contentId);
@@ -189,15 +154,6 @@ var CleengWidget = {
             };
         }
 
-        // event listener
-        if (typeof window.postMessage !== 'undefined') {
-            window.addEventListener("message", function(event) {
-                if (event.data == 'cleengGetUserInfo') {
-                    CleengWidget.getUserInfo();
-                }
-            }, false);
-        }
-
         // autologin
         if (typeof CleengAutologin !== 'undefined') {
             if (CleengAutologin.available) {
@@ -244,7 +200,7 @@ var CleengWidget = {
             jQuery('.cleeng-noauth-bar').show();
             jQuery('.cleeng-price').hide();
             jQuery('.cleeng-auth').css('display', 'none');
-            if (jQuery.cookie('cleeng_user_auth')
+            if (CleengWidget.cookie('cleeng_user_auth')
                 || (typeof CleengAutologin !== 'undefined'
                     && CleengAutologin.wasLoggedIn)
             ) {
@@ -265,18 +221,25 @@ var CleengWidget = {
                 jQuery('.cleeng-free-content-views').hide();
             }
             jQuery('.cleeng-username').html(user.name);
-            jQuery.cookie('cleeng_user_auth', 1, {path: '/'});
             jQuery('.cleeng-auth-bar').show();
             jQuery('.cleeng-price').show();
             jQuery('.cleeng-noauth-bar').hide();
             jQuery('.cleeng-nofirsttime').hide();
             jQuery('.cleeng-firsttime').hide();
             jQuery('.cleeng-auth').css('display', 'block');
-        }        
+            CleengWidget.cookie('cleeng_user_auth', 1, {path: '/'});
+        }
     },
-    /**
-     * Displays login popup window
-     */
+    pollPopupWindow: function() {
+        if (!CleengWidget.popupWindow) {
+            return;
+        }
+        if (CleengWidget.popupWindow.closed) {
+            CleengWidget.getUserInfo();
+        } else {
+            setTimeout('CleengWidget.pollPopupWindow()', 250);
+        }
+    },
     logIn: function() {
         if (this.popupWindow) {
             this.popupWindow.close();
@@ -284,10 +247,26 @@ var CleengWidget = {
         }
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp', 
                     'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
+        CleengWidget.pollPopupWindow();
     },
-    /**
-     * Logout
-     */
+    purchaseContent: function(contentId) {
+        if (this.popupWindow) {
+            this.popupWindow.close();
+            this.popupWindow = null;
+        }
+        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=purchase&contentId=' + contentId + '&cleengPopup=1','CleengConfirmationPopUp',
+            'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
+        CleengWidget.pollPopupWindow();
+    },
+    subscribe: function(publisherId) {
+        if (this.popupWindow) {
+            this.popupWindow.close();
+            this.popupWindow = null;
+        }
+        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=subscribe&contentId=' + publisherId + '&cleengPopup=1','CleengConfirmationPopUp',
+                    'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
+        CleengWidget.pollPopupWindow();
+    },
     logOut: function() {
         jQuery.post(
             Cleeng_PluginPath + 'ajax.php?cleengMode=logout',
@@ -396,12 +375,45 @@ var CleengWidget = {
                 + shortUrl
         );
     },
-    purchaseContent: function(contentId) {        
-        if (this.popupWindow) {
-            this.popupWindow.close();
-            this.popupWindow = null;
+
+    /**
+    * jQuery Cookie plugin
+    *
+    * Copyright (c) 2010 Klaus Hartl (stilbuero.de)
+    * Dual licensed under the MIT and GPL licenses:
+    * http://www.opensource.org/licenses/mit-license.php
+    * http://www.gnu.org/licenses/gpl.html
+    *
+    */
+    cookie: function (key, value, options) {
+
+        // key and value given, set cookie...
+        if (arguments.length > 1 && (value === null || typeof value !== "object")) {
+            options = jQuery.extend({}, options);
+
+            if (value === null) {
+                options.expires = -1;
+            }
+
+            if (typeof options.expires === 'number') {
+                var days = options.expires, t = options.expires = new Date();
+                t.setDate(t.getDate() + days);
+            }
+
+            return (document.cookie = [
+                encodeURIComponent(key), '=',
+                options.raw ? String(value) : encodeURIComponent(String(value)),
+                options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+                options.path ? '; path=' + options.path : '',
+                options.domain ? '; domain=' + options.domain : '',
+                options.secure ? '; secure' : ''
+            ].join(''));
         }
-        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=purchase&contentId=' + contentId + '&cleengPopup=1','CleengConfirmationPopUp', 
-            'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
+
+        // key and possibly options given, get cookie...
+        options = value || {};
+        var result, decode = options.raw ? function (s) {return s;} : decodeURIComponent;
+        return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
     }
+
 }

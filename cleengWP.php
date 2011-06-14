@@ -2,7 +2,7 @@
 /*
   Plugin Name: Cleeng for WordPress
   Plugin URI: http://www.cleeng.com/
-  Version: 1.1.4
+  Version: 1.1.6
   Description: Cleeng helps you to make money with your digital content. The Cleeng plugin offers a single-click pay as you go solution to your website visitors; it avoids the hassle of multiple subscriptions. When publishing a post or page you as the publisher can define for which part of your content visitors need to pay (in between 0.14 and 19.99$/€). Read more tips and tricks on how to earn money on <a href="http://cleeng.com">http://cleeng.com</a>
   Author: Cleeng
   Author URI: http://cleeng.com

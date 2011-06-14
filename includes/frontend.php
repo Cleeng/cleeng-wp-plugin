@@ -158,7 +158,7 @@ function cleeng_loop_start() {
                 'publisherName' => '',
                 'averageRating' => 4,
                 'canVote' => false,
-                'currencySymbol' => ''
+                'currencySymbol' => ''                
             );
 
             if ( isset( $params['referral'] ) ) {
@@ -244,16 +244,19 @@ function cleeng_add_layers( $content ) {
         foreach ( $m[1] as $key => $contentId ) {            
             $expr = '/\[cleeng_content.*?id\s*=\s*(?:\"|&quot;)' . $contentId . '(?:\"|&quot;).*?[^\\\]\].*?[^\\\]\[\/cleeng_content\]/is';
             if (isset($cleeng_content[$contentId])) {
-                $content = preg_replace( $expr,
-                                cleeng_get_layer_markup(
+
+                $layer_markup = cleeng_get_layer_markup(
                                         $post->ID,
                                         $m[2][$key],
                                         $cleeng_content[$contentId]
-                                ),
+                                );
+                $content = preg_replace( $expr,
+                                str_replace('$', '&dollar;', $layer_markup),
                                 $content );
+                $content = str_replace('&dollar;', '$', $content);
             }
         }
-    }    
+    }
     return $content;
 }
 
@@ -284,7 +287,12 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
     } catch (Exception $e) {
     }
 
-    extract( $content ); // contentId, shortDescription, price, purchased, shortUrl...
+    $referralRate = $purchased = $contentId = $publisherId = $publisherName = $itemType
+             = $shortDescription = $averageRating = $price = $currencySymbol = $shortUrl
+             = $referralProgramEnabled = $canVote = '';
+    $subscriptionOffer = false;
+
+    extract( $content ); // contentId, shortDescription, price, purchased, shortUrl...    
     ob_start();
     
 ?>
@@ -351,7 +359,7 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
             ?>
         </div>
         <div class="cleeng-itemType cleeng-it-<?php echo $itemType ?>"></div>
-        <h2 class="cleeng-description"><?php echo $shortDescription ?></h2>
+        <h2 class="cleeng-description"><?php echo $shortDescription; ?></h2>
         <div class="cleeng-rating">
             <span><?php _e('Customer rating:', 'cleeng') ?></span>
             <div class="cleeng-stars cleeng-stars-<?php echo $averageRating ?>"></div>
