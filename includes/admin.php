@@ -291,6 +291,8 @@ function cleeng_parse_post( $postId ) {
     $expr = '/\[cleeng_content(.*?[^\\\])\](.*?[^\\\])\[\/cleeng_content\]/is';
     preg_match_all( $expr, $post_content, $matched_content );
 
+
+
     foreach ( $matched_content[0] as $key => $content ) {
         $paramLine = $matched_content[1][$key];
         
@@ -320,6 +322,7 @@ function cleeng_parse_post( $postId ) {
             'itemType' => $a['t']?$a['t']:'article',
             'shortDescription' => html_entity_decode( stripslashes( $a['description'] ) )
         );
+
         if ( $a['ls'] && $a['le'] ) {
             $c['hasLayerDates'] = true;
 
@@ -359,15 +362,31 @@ function cleeng_parse_post( $postId ) {
 
     $result = array( );
     if ( count( $update ) ) {
+
+        $update_normalized = $update;
+        foreach ($update_normalized as $key => $val) {
+            if (strlen($val['shortDescription']) >= 110) {
+                $update_normalized[$key]['shortDescription'] = substr($val['shortDescription'], 0, 100) . '...';
+            }
+        }
+
         try {
-            $result += $cleeng->updateContent( $update );
+            $result += $cleeng->updateContent( $update_normalized );
         } catch ( Exception $e ) {
             $_SESSION['cleeng_errors'] = array( $e->getMessage() );
         }
     }
     if ( count( $create ) ) {
         try {
-            $result += $cleeng->createContent( $create );
+
+            $create_normalized = $create;
+            foreach ($create_normalized as $key => $val) {
+                if (strlen($val['shortDescription']) >= 110) {
+                    $create_normalized[$key]['shortDescription'] = substr($val['shortDescription'], 0, 100) . '...';
+                }
+            }
+
+            $result += $cleeng->createContent( $create_normalized );
         } catch ( Exception $e ) {
             $_SESSION['cleeng_errors'] = array( $e->getMessage() );
         }

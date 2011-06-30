@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
 Tested up to: 3.1.3
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: New BSD License
 
 Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
@@ -62,6 +62,13 @@ Community on http://cleeng.com/forum/publishers/
 5. Cleeng Widget (Admin)
 
 == Changelog ==
+
+= 1.1.7 =
+* compatibility with "Wordpress for Joomla!" component
+* verbose messages when admin is logged in but plugin can't fetch content info from platform
+* allowed descriptions longer than 110 characters (still only first 110 are saved on platform)
+* added loading indicator
+* fixed compatibility problems with Opera
 
 = 1.1.6 =
 * compatibility with WP 3.2RC1

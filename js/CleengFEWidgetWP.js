@@ -16,9 +16,10 @@
 var CleengWidget = {
 
     contentIds: [],
-    popupWindow: null,
+    popupWindow: false,
     userInfo: {},
     contentInfo: {},
+    loaderVisile: false,
 
     init: function() {
         jQuery(document).ajaxError(function(e, xhr, settings, exception) {
@@ -173,7 +174,7 @@ var CleengWidget = {
      * Fetch information about currently authenticated user
      */
     getUserInfo: function(dontFetchContentInfo) {
-//        jQuery('.cleeng-ajax-loader').show();
+        CleengWidget.showLoader();
         jQuery.getJSON(
             Cleeng_PluginPath+'ajax.php?cleengMode=getUserInfo',
             function(resp) {
@@ -181,10 +182,13 @@ var CleengWidget = {
                 if (!dontFetchContentInfo) {
                     CleengWidget.getContentInfo(function() {
                         CleengWidget.updateUserInfo();
+                        CleengWidget.hideLoader();
                     });
                 } else {
                     CleengWidget.updateUserInfo();
+                    CleengWidget.hideLoader();
                 }
+                jQuery('.cleeng-once').hide();
 //                jQuery('.cleeng-ajax-loader').hide();
             }
         );
@@ -193,7 +197,7 @@ var CleengWidget = {
      * Update user information
      */
     updateUserInfo: function() {
-        user = CleengWidget.userInfo;
+        var user = CleengWidget.userInfo;
         
         if (!user || !user.name) {
             jQuery('.cleeng-auth-bar').hide();
@@ -230,44 +234,54 @@ var CleengWidget = {
             CleengWidget.cookie('cleeng_user_auth', 1, {path: '/'});
         }
     },
-    pollPopupWindow: function() {
+    isPopupOpened: function() {
         if (!CleengWidget.popupWindow) {
-            return;
+            return false;
         }
-        if (CleengWidget.popupWindow.closed) {
-            CleengWidget.getUserInfo();
-        } else {
+        try {
+            if (!CleengWidget.popupWindow.closed) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            return false;
+        }
+    },
+    ensurePopupIsClosed: function() {
+        if (CleengWidget.isPopupOpened()) {
+            CleengWidget.popupWindow.close();
+        }
+        CleengWidget.popupWindow = false;
+    },
+    pollPopupWindow: function() {
+        if (CleengWidget.isPopupOpened()) {
             setTimeout('CleengWidget.pollPopupWindow()', 250);
+            return;
+        } else {
+            CleengWidget.getUserInfo();
         }
     },
     logIn: function() {
-        if (this.popupWindow) {
-            this.popupWindow.close();
-            this.popupWindow = null;
-        }
-        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp', 
+        CleengWidget.ensurePopupIsClosed();
+        CleengWidget.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp',
                     'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
         CleengWidget.pollPopupWindow();
     },
     purchaseContent: function(contentId) {
-        if (this.popupWindow) {
-            this.popupWindow.close();
-            this.popupWindow = null;
-        }
+        CleengWidget.ensurePopupIsClosed();
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=purchase&contentId=' + contentId + '&cleengPopup=1','CleengConfirmationPopUp',
             'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
         CleengWidget.pollPopupWindow();
     },
     subscribe: function(publisherId) {
-        if (this.popupWindow) {
-            this.popupWindow.close();
-            this.popupWindow = null;
-        }
+        CleengWidget.ensurePopupIsClosed();
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=subscribe&contentId=' + publisherId + '&cleengPopup=1','CleengConfirmationPopUp',
                     'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
         CleengWidget.pollPopupWindow();
     },
     logOut: function() {
+        CleengWidget.showLoader();
         jQuery.post(
             Cleeng_PluginPath + 'ajax.php?cleengMode=logout',
             function(resp) {
@@ -346,13 +360,13 @@ var CleengWidget = {
         });
     },
     updateBottomBar: function(content) {
-        layerId = '#cleeng-layer-' + content.contentId;
-        noLayerId = '#cleeng-nolayer-' + content.contentId;
+        var layerId = '#cleeng-layer-' + content.contentId;
+        var noLayerId = '#cleeng-nolayer-' + content.contentId;
 
         if (content.referralUrl) {
-            shortUrl = content.referralUrl;
+            var shortUrl = content.referralUrl;
         } else {
-            shortUrl = content.shortUrl;
+            var shortUrl = content.shortUrl;
         }
         var shortDescription = jQuery.trim(jQuery('.cleeng-description', jQuery(layerId)).text()).substring(0, 30);
         var subject = CleengWidget.userInfo.name
@@ -376,8 +390,29 @@ var CleengWidget = {
         );
     },
 
+    showLoader: function() {
+        if (CleengWidget.loaderVisile) {
+            return;
+        }
+        CleengWidget.overlay = [];
+        jQuery('.cleeng-layer, .cleeng-nolayer').each(function() {
+            if (!jQuery(this).is(':visible')) {
+                return;
+            }
+            jQuery('<div/>').addClass('cleeng-overlay').width(jQuery(this).width()).height(jQuery(this).height()).css('position','absolute').css('background-color', 'white').prependTo(this).css('z-index', 1000).fadeTo(0,0.6);
+        });
+        jQuery('.cleeng-ajax-loader').show();
+        CleengWidget.loaderVisile = true;
+    },
+
+    hideLoader: function() {
+        jQuery('.cleeng-overlay').remove();
+        jQuery('.cleeng-ajax-loader').hide();
+        CleengWidget.loaderVisile = false;
+    },
+
     /**
-    * jQuery Cookie plugin
+    * jQuery Cookie plugin (moved to CleengWidget namespace to prevent conflicts)
     *
     * Copyright (c) 2010 Klaus Hartl (stilbuero.de)
     * Dual licensed under the MIT and GPL licenses:

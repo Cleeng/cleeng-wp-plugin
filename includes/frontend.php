@@ -158,7 +158,8 @@ function cleeng_loop_start() {
                 'publisherName' => '',
                 'averageRating' => 4,
                 'canVote' => false,
-                'currencySymbol' => ''                
+                'currencySymbol' => '',
+                'sync' => false
             );
 
             if ( isset( $params['referral'] ) ) {
@@ -182,7 +183,7 @@ function cleeng_loop_start() {
         /**
          * Compatibility with other plugins
          */
-        // WP Super Cache - should be disabled for pages with Cleeng
+        // WP Super Cache, WP Total Cache - caching should be disabled for pages with Cleeng
         if (!defined('DONOTCACHEPAGE')) {
             define( 'DONOTCACHEPAGE', true );
         }
@@ -218,7 +219,14 @@ function cleeng_loop_start() {
             try {
                 $contentInfo = $cleeng->getContentInfo( $contentInfoIds );                
                 foreach ( $contentInfo as $key => $val ) {
+
+                    // don't load short desc. from platform, use one from tag
+                    if ($key == 'shortDescription') {
+                        continue;
+                    }
+
                     $cleeng_content[$key] = $val;
+                    $cleeng_content[$key]['sync'] = true;
                 }
             } catch (Exception $e) {
             }
@@ -236,16 +244,57 @@ function cleeng_loop_start() {
  * @return string
  */
 function cleeng_add_layers( $content ) {
-    global $post, $cleeng_content;
+    global $post, $cleeng_content, $cleeng_preload_content, $cleeng;
     $expr = '/\[cleeng_content.*?id\s*=\s*(?:\"|&quot;)([\dt]+)(?:\"|&quot;).*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
     preg_match_all( $expr, $content, $m );
 
     if ( count( $m[1] ) ) {
-        foreach ( $m[1] as $key => $contentId ) {            
-            $expr = '/\[cleeng_content.*?id\s*=\s*(?:\"|&quot;)' . $contentId . '(?:\"|&quot;).*?[^\\\]\].*?[^\\\]\[\/cleeng_content\]/is';
+        foreach ( $m[1] as $key => $contentId ) {
+            $expr = '/\[cleeng_content.*?id\s*=\s*(?:\"|&quot;)' . $contentId . '(?:\"|&quot;).*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
+
+            if ($contentId[0] == 't') {     // content was not created?
+                if (current_user_can('edit_posts') || (defined('WP_DEBUG') && true == WP_DEBUG)) {
+                    // give warning if in debug mode...
+                    $msg = "<span style='color: red'>
+                    <strong>Warning: Access to content fully blocked - Transactions can't be done.</strong><br />
+                    Cleeng needs a reference of your protected content stored on the Cleeng server. Due to some reason
+                    this is not properly saved. Please save this post/page again and make sure no errors are reported. [ERROR TEMPID]</span><br />";
+                    $content = preg_replace($expr, $msg . ' $1', $content);
+                } else {
+                    // ...remove Cleeng tags if not
+                    $content = preg_replace($expr, '$1', $content);
+                }
+                continue;
+            }
+            
             if (isset($cleeng_content[$contentId])) {
 
-                $layer_markup = cleeng_get_layer_markup(
+                if ($cleeng_preload_content && !$cleeng_content[$contentId]['sync']) {
+                    $displayId = number_format((int)$contentId, 0, '', '.');
+                    if (current_user_can('edit_posts') || (defined('WP_DEBUG') && true == WP_DEBUG)) {
+                        $msg = "<span style='color: red'><strong>Warning: Access to content fully blocked - Transactions can't be done.</strong><br />
+                                The protected content with ID $displayId is not known on the Cleeng servers. Please keep in mind that if you switched
+                                server (In the Cleeng settings you can choose to connect to SANDBOX or PRODUCTION) you need to re-create the content,
+                                as information is not exchanged between the two servers. [ERROR UNKOWNID]
+                                </span><br />";
+
+                        $content = preg_replace($expr, $msg . ' $1', $content);
+                    } else {
+                        $content = preg_replace($expr, '$1', $content);
+                    }
+                    continue;
+                }
+
+                $publisherInfo = '';
+                if ($cleeng->isUserAuthenticated()) {
+                    $user = $cleeng->getUserInfo();
+                    if ($user['id'] == $cleeng_content[$contentId]['publisherId']) {
+                        $publisherInfo = '<span class="cleeng-once" style="color: red">This article is revealed because you are logged in as its publisher.</span>';
+                    }
+                }
+
+                $layer_markup = $publisherInfo
+                              . cleeng_get_layer_markup(
                                         $post->ID,
                                         $m[2][$key],
                                         $cleeng_content[$contentId]
@@ -323,10 +372,10 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
 
     <div class="cleeng-text">
         <div class="cleeng-publisher">
-            <img src="<?php echo $cleeng->getPublisherLogoUrl($publisherId); ?>" 
+            <div class="cleeng-ajax-loader">&nbsp;</div>
+            <img src="<?php echo $cleeng->getPublisherLogoUrl($publisherId); ?>"
                  alt="<?php echo $publisherName ?>"
                  title="<?php echo $publisherName ?>" />
-
         </div>
         <div class="cleeng-logo">
             <a href="http://cleeng.com/what-is-cleeng" target="_blank">
@@ -337,7 +386,6 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
     if ( $auth ) {
         echo ' style="display:none"';
     } ?>>
-            <div class="cleeng-ajax-loader" style="display:none"></div>
             <span class="cleeng-welcome-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?>>
                 <?php _e('Already have a Cleeng account?', 'cleeng'); ?>
             </span>
@@ -352,7 +400,6 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
                  echo ' style="display:none"';
              }
 ?>>
-            <div class="cleeng-ajax-loader" style="display:none"></div>
             <a class="cleeng-hlink cleeng-logout" href="#"><?php _e('Logout', 'cleeng') ?></a>
             <?php
                 echo sprintf(__('Welcome, <a class="cleeng-username" href="%s/my-account">%s</a>', 'cleeng'), $cleeng->getUrl(), $userName);
@@ -426,7 +473,6 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
                     <img src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/cleeng-small.png" alt="Cleeng: Instant access to quality content" />
                 </a>
                 <div class="cleeng-auth-bar">
-                    <div class="cleeng-ajax-loader" style="display:none"></div>
                     <a class="cleeng-hlink cleeng-logout" href="#">
                         <?php _e('Logout', 'cleeng') ?>
                     </a>

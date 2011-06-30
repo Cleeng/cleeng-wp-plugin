@@ -208,8 +208,8 @@ ZeroClipboard.Client.prototype = {
 				}
 				
 				this.ready = true;
-				//this.movie.setText( this.clipText );
-				//this.movie.setHandCursor( this.handCursorEnabled );
+				//this.movie.setText( this.clipText ); // C
+				//this.movie.setHandCursor( this.handCursorEnabled ); // C
 				break;
 			
 			case 'mouseover':
