@@ -64,8 +64,8 @@ a.cleeng-pay-with-paypal img {
     background: transparent;
 }
 .cleeng-layer img, .cleeng-nolayer-top img, .cleeng-nolayer-bottom img{
-    border: none;
-    padding: 0;
+    border: none !important;
+    padding: 0 !important;
     margin: 0 !important;
     background: transparent;
 }
