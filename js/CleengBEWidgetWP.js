@@ -212,6 +212,7 @@ var CleengWidget = {
                 } else {
                     jQuery('#cleeng-login').parent().hide();
                     jQuery('#cleeng-logout').parent().show();
+                    jQuery('.cleeng-currency-symbol').html(resp.currencySymbol);
                     jQuery('#cleeng-username').html(resp.name);
                     if (resp.accountType != 'publisher') {
                         jQuery('#cleeng-notPublisher').show();

@@ -514,7 +514,7 @@ function cleeng_inner_custom_box() {
                         </label>
                         <textarea class="cleeng-ContentForm-wide" rows="2" cols="50" name="CleengWidget-ContentForm-Description" id="cleeng-ContentForm-Description" class="text ui-widget-content ui-corner-all">
                         </textarea>
-                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-Price"><?php _e( 'Price:', 'cleeng' ) ?> $<span id="cleeng-ContentForm-PriceValue">0.00</span></label>
+                        <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-Price"><?php _e( 'Price:', 'cleeng' ) ?> <span class="cleeng-currency-symbol">$</span><span id="cleeng-ContentForm-PriceValue">0.00</span></label>
                         <input style="display:none" type="text" name="CleengWidget-ContentForm-Price" id="cleeng-ContentForm-Price" value="" class="text ui-widget-content ui-corner-all" />
                         <div id="cleeng-ContentForm-PriceSlider"></div>
                         <label class="cleeng-ContentForm-wide" for="CleengWidget-ContentForm-ItemType"><?php _e( 'Item type:', 'cleeng' ) ?></label>
