@@ -83,7 +83,7 @@ var CleengWidget = {
                 height = 400;
             }
             window.open(jQuery(this).attr('href'), 'shareWindow', 'menubar=no,width='
-                + width + ',height=' + height + ',toolbar=no,resizable=yes');
+                + width + ',height=' + height + ',toolbar=no,resizable=yes,scrollbars=yes');
             return false;
         });
 
@@ -265,19 +265,19 @@ var CleengWidget = {
     logIn: function() {
         CleengWidget.ensurePopupIsClosed();
         CleengWidget.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
+                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes,scrollbars=yes');
         CleengWidget.pollPopupWindow();
     },
     purchaseContent: function(contentId) {
         CleengWidget.ensurePopupIsClosed();
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=purchase&contentId=' + contentId + '&cleengPopup=1','CleengConfirmationPopUp',
-            'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
+            'menubar=no,width=607,height=610,toolbar=no,resizable=yes,scrollbars=yes');
         CleengWidget.pollPopupWindow();
     },
     subscribe: function(publisherId) {
         CleengWidget.ensurePopupIsClosed();
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=subscribe&contentId=' + publisherId + '&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
+                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes,scrollbars=yes');
         CleengWidget.pollPopupWindow();
     },
     logOut: function() {

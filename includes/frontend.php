@@ -424,11 +424,11 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
                 <div class="cleeng-purchaseInfo-text">
                     <?php if ($options['payment_method'] == 'cleeng-only' || $price < 0.49) : ?>
                     <a class="cleeng-buy-wide cleeng-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?> href="#">
-                        <?php _e('To view this ', 'cleeng') ?> <?php echo $itemType ?>,<br />
+                        <?php _e('To view this ', 'cleeng') ?> <?php _e($itemType, 'cleeng') ?>,<br />
                         <?php _e('Sign-up for free in 1-Click', 'cleeng') ?>
                     </a>                    
                     <a class="cleeng-buy-wide cleeng-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?> href="#">
-                        <?php _e('To view this article,<br />Please sign-in', 'cleeng') ?>
+                        <?php _e(sprintf('To view this %s,<br />Please sign-in', __($itemType, 'cleeng')), 'cleeng') ?>
                     </a>
                     <?php if (round($price,2) != 0) : ?>
                     <div class="cleeng-price" style="display: none"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>

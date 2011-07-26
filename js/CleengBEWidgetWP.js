@@ -264,7 +264,6 @@ var CleengWidget = {
             jQuery('#cleeng-ContentForm-LayerDatesEnabled').attr('checked', content.hasLayerDates?'checked':null);
         }
 
-
         CleengWidget.newContentForm.dialog('open');
     },
     isSelectionValid: function() {
