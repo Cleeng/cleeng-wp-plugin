@@ -442,7 +442,7 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
                     <?php if ($options['payment_method'] == 'paypal-only' && $price >= 0.49) : ?>
                     <div class="cleeng-price-paypal"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
                     <a href="#" class="cleeng-pay-with-paypal" id="cleeng-paypal-<?php echo $contentId ?>">
-                        <img alt="<?php _e('Pay with <em>PayPal</em>'); ?>" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_xpressCheckout.gif" />
+                        <img alt="<?php _e('Pay with <em>PayPal</em>'); ?>" src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/btn_xpressCheckout.gif" />
                     </a>
                     <?php endif ?>
                 </div>

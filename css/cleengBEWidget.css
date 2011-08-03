@@ -9,8 +9,12 @@
     width: 100%;
 }
 
+#cleeng-contentForm .ui-slider {
+    margin-top: 5px;
+}
+
 #cleeng-contentForm label {
-/*	display: block;*/
+
 }
 
 #cleeng-contentForm input {

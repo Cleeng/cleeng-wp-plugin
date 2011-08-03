@@ -69,7 +69,7 @@ var CleengWidget = {
             CleengWidget.logIn();
             return false;
         });
-        jQuery('#cleeng-logout').click(function() {
+        jQuery('#cleeng-logout, .cleeng-logout').click(function() {
             jQuery.post(
                 Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=logout',
                 function(resp) {
@@ -113,7 +113,7 @@ var CleengWidget = {
 
         CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
             autoOpen: false,
-            height: 380,
+            height: 400,
             width: 400,
             modal: true,
             buttons: {
@@ -210,6 +210,7 @@ var CleengWidget = {
                     jQuery('.cleeng-auth').hide();
                     jQuery('.cleeng-noauth').show();
                 } else {
+                    CleengWidget.userInfo = resp;
                     jQuery('#cleeng-login').parent().hide();
                     jQuery('#cleeng-logout').parent().show();
                     jQuery('.cleeng-currency-symbol').html(resp.currencySymbol);
@@ -379,9 +380,12 @@ var CleengWidget = {
                     } else {
                         parsedId = id;
                     }
-                    contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">' + parsedId + '</span> price: ' + price +
-                            ' <a class="cleeng-editContentLink" href="#">edit</a> ' +
-                            '<a class="cleeng-removeContentLink" href="#">remove</a></li>';
+                    contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">'
+                            + parsedId + '</span> price: '
+                            + CleengWidget.userInfo.currencySymbol
+                            + price
+                            + ' <a class="cleeng-editContentLink" href="#">edit</a> '
+                            + '<a class="cleeng-removeContentLink" href="#">remove</a></li>';
                     if (id[0] == 't') { // temporary ID?
                         CleengWidget.tempId = Math.max(CleengWidget.tempId, parseInt(id.split('t')[1]) + 1);
                     }

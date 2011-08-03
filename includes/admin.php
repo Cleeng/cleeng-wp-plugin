@@ -77,6 +77,7 @@ function cleeng_settings_page() {
     global $cleeng;
     $noCookie = (isset($_COOKIE['cleeng_user_auth']))?false:true;
     $auth = false;
+    $publisher = false;
     $userName = '';
     
     try {
@@ -84,6 +85,7 @@ function cleeng_settings_page() {
             $info = $cleeng->getUserInfo();
             $userName = $info['name'];
             $auth = true;
+            $publisher = ($info['accountType'] == 'publisher');
         }
     } catch (Exception $e) {
     }
@@ -101,8 +103,8 @@ function cleeng_settings_page() {
     </div>
     <div class="cleeng-auth" <?php if (!$auth) { echo 'style="display:none"'; } ?>>
         <h3><?php echo sprintf(__('Welcome, <span id="cleeng-username">%s</span>', 'cleeng'), $userName); ?></h3>
-        
-        <div id="cleeng-auth-options">
+
+        <div id="cleeng-auth-options" <?php if (!$publisher) { echo 'style="display:none"'; } ?>>
             <ul>
                 <li>
                     &bull; <a target="_blank" href="<?php echo $cleeng->getUrl() ?>/my-account/sales-report"><?php _e('Sales report', 'cleeng') ?></a>
@@ -111,13 +113,14 @@ function cleeng_settings_page() {
                     &bull; <a target="_blank" href="<?php echo $cleeng->getUrl() ?>/my-account/settings"><?php _e('Your settings', 'cleeng') ?></a>
                 </li>
                 <li>
-                    &bull; <a id="cleeng-logout" href="#"><?php _e('Logout from Cleeng', 'cleeng') ?></a>
+                    &bull; <a class="cleeng-logout" href="#"><?php _e('Logout from Cleeng', 'cleeng') ?></a>
                 </li>
             </ul>
         </div>
-        <div id="cleeng-notPublisher" style="display:none;">
+        <div id="cleeng-notPublisher" <?php if ($publisher) { echo 'style="display:none"'; } ?>>
             <?php _e('You need to have a Publisher account before using this widget. Please upgrade your account:', 'cleeng') ?>
             <a target="_blank" href="<?php echo $cleeng->getUrl() ?>/edit-profile/upgrade/1"><?php _e('Become publisher', 'cleeng') ?></a>
+            &bull; <a class="cleeng-logout" href="#"><?php _e('Logout from Cleeng', 'cleeng') ?></a>
         </div>
     </div>
     <form method="post" action="options.php">

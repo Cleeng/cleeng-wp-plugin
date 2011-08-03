@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
 Requires at least: 2.9.2
 Tested up to: 3.2.1
-Stable tag: 1.1.11
+Stable tag: 1.1.13
 License: New BSD License
 
 Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
@@ -62,6 +62,14 @@ Community on http://cleeng.com/forum/publishers/
 5. Cleeng Widget (Admin)
 
 == Changelog ==
+
+= 1.1.13 =
+* customer can log out from settings section now
+* customer can log out from settings section now
+* currency symbol is displayed next to value in protected content list
+
+= 1.1.12 =
+* CSS tweaks in "create content" dialog
 
 = 1.1.11 =
 * properly display content type on purchase button
