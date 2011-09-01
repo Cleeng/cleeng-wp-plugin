@@ -6,7 +6,7 @@ Tested up to: 3.2.1
 Stable tag: 2.0
 License: New BSD License
 
-The best free plugin to sell digital content: Works for text, video, images and downloads. The only plugin that allows you to keep advertising revenues, and sell either single item or subscriptions at the same time from your site.
+The best free plugin to sell articles, videos, images & downloads! Exclusive: sell single item + subscription at the same time, keep advertising $
 
 == Description ==
 Cleeng is a unique monetization solution that **satisfies both publishers and users interests**:
@@ -16,17 +16,19 @@ Cleeng is a unique monetization solution that **satisfies both publishers and us
 It gives **flexible and powerful monetization** features:
 
 * Install and be ready to go in 5 minutes, download included :-)
+* In-page monetization, so you keep your users and advertising revenues
 * Protect any part of your site in 2-clicks: few paragraphs, images, videos, downloads
-* Set when articles are protected (after a few hours or few days)
-88 No need to bother with payment solutions: it is all integrated and https secured, from SMS payment to Paypal, including most common credit cards (Visa, Amex, Mastercard) and local payments solutions - Maestro (UK), Carte Blue (FR), ELV (DE), iDEAL (NL) and Direct banking (BE)
-* All user support is handled by Cleeng teams (payment, cancellation, claims, etc).
-
+* Set when articles are protected: after a few hours or few days
+* No need to bother with payment solutions: 55 payment methods dynamically selected per country and price point. Fully https secured, from SMS payment to Paypal, including most common credit cards (Visa, Amex, Mastercard) and local payments solutions - Maestro (UK), Carte Blue (FR), ELV (DE), iDEAL (NL) and Direct banking (BE)
+* All user support, fraud prevention is handled by Cleeng teams (payment, cancellation, claims, etc)
+* Consolidated reporting & automatic settlement.
 
 Finally, you can unleash your creativity, and Cleeng takes care of everything else! You get paid monthly via Paypal or wire transfer. Completely **free** to try, learn and adapt.
 Check out how it works: [vimeo http://vimeo.com/17094725]
 
 With Cleeng you can sell any individual piece of content directly from your own website. This complete 
-plugin gives the options to sell your content or digital products in 3 different ways: 
+plugin gives the options to sell your content or digital products in 3 different ways:
+
 1. **Sell single items**,
 2. Provide a **Daily pass(24h)**, or
 3. Give access to all your content via membership **subscriptions** (weekly, monthly...)
@@ -42,24 +44,23 @@ plugin gives the options to sell your content or digital products in 3 different
 
 For more information check out the [Cleeng website](http://cleeng.com "Cleeng content monetization") or any of below links:
 
-* [Good reasons why to use Cleeng](http://cleeng.com/us/features/reasons-to-use-cleeng "Benefits of Cleeng")
-* [Features](http://cleeng.com/us/features/ "Features of Cleeng")
-* [Demos](http://cleeng.com/us/features/demos/ "Demo & examples of Cleeng")
-* [Cleeng Blog](http://cleeng.com/blog/ "Cleeng Blog")
-* [Facebook](http://www.facebook.com/cleeng "Cleeng Facebook friends")
+* [5 Good reasons to use Cleeng](http://cleeng.com/us/features/reasons-to-use-cleeng "Benefits")
+* [Practical Demos](http://cleeng.com/us/features/demos/ "Practical Demos & examples")
+* [Cleeng Blog](http://cleeng.com/blog/ "The Cleeng Blog")
+* [Cleeng Facebook Friends and Tips](http://www.facebook.com/cleeng "Cleeng Facebook friends")
 
-Use Cleeng, the best and most powerful plugin to sell content or digital products directly from your own website, without impacting your advertising revenues !
+Use Cleeng, the best and most powerful plugin to sell any digital products directly from your own website, without impacting your advertising revenues !
 
 == Installation ==
 
 1. Upload Cleeng For WordPress to your wp-content/plugins directory.
 2. Activate it in "Plugins" menu in WordPress.
 3. In the menu "Cleeng" has appeared where you find all detailed instructions on how to set-up single item sales, as well as daily access or subscriptions.
-4. Sign-up with Cleeng as a publisher to start making money. You can do this directly from the plugin.
+4. Sign-up with Cleeng as a publisher to start making money. You can do this from the plugin, or directly here: http://cleeng.com/us/publisher-registration
 
-Note: to activate subscriptions memberships, you can do this from your account: http://cleeng.com/us/my-account/settings/edit-publisher-plan/1
+Note: to activate subscriptions memberships, you can do this once you have created an account. Then go to "My Account/Settingd" or directly here: http://cleeng.com/us/my-account/settings/edit-publisher-plan/1
 
-Check http://cleeng.com for more information
+Check http://cleeng.com for more information.
 
 
 == Frequently Asked Questions ==
@@ -78,7 +79,7 @@ They can use their Cleeng Credits to buy with one-click, or pay directly via Pay
 
 = How do I get my money? =
 
-Just leave your PayPal email address or provide your wire transfer information in [your settings on cleeng.com](http://cleeng.com/my-account) and once you receive 25 euro earnings, automatically you receive your earnings at the end of the month.
+Just leave your PayPal email address or provide your wire transfer information in [your settings on cleeng.com](http://cleeng.com/my-account) and once you receive 25 USD or euro earnings, automatically you receive your earnings at the end of the month.
 
 = Can I track how much money I make? =
 
@@ -93,13 +94,17 @@ Nothing. The plugin is free to use. You keep up to 90% of the revenues generated
 You can activate subscription from your Cleeng account settings: http://cleeng.com/us/my-account/settings/edit-publisher-plan/1.
 Once activated, items for sale on your site will either be accessible as direct purchase one by one, or as subscription
 
+= What exactly are the social commissions? =
+
+This is a unique Cleeng feature: First you need to set commission in WP Plugin. Them, say Joe like your content and buys an item. He shares the short URL provided (http://cleeng.it/iSMKEZ) to his friends on Facebook or Twitter. Every time someone buys your content too, Joe gets a commission. It affiliation 2.0!
+
 = I have another question =
 You can find all FAQ on http://support.cleeng.com (or ask your question there if it is not listed).
 
 == Screenshots ==
 
 1. In-page monetization; visitors can purchase with one-click, search-engine friendly
-2. Your visitors can purchase single items instantly
+2. Your visitors can purchase single items instantly, w/o leaving your site
 3. Your visitors can buy a daily pass or subscribe (optional)
 4. Detailed information available within the plugin (Admin)
 5. Setting up a single-item for sale (Admin)
