@@ -1,70 +1,111 @@
 === Cleeng Content Monetization ===
 Contributors: mtymek, Donald Res
-Tags: cleeng, content monetization, micropayment, protect, monetize, money, earn money, social payment
+Tags: cleeng, content monetization, pay-per-item, sell digital goods, subscriptions, paypal, visa, master card, ideal, make money, earn money, social payment, affiliate, sell content, micropayment, secure, monthly subscriptions, daily pass, paywall, search engine friendly, members, membership
 Requires at least: 2.9.2
 Tested up to: 3.2.1
-Stable tag: 1.1.13
+Stable tag: 2.0
 License: New BSD License
 
-Cleeng for WordPress helps you to make money with your digital content. It allows you to easily 
-charge for your text, images and videos.
+The best free plugin to sell digital content: Works for text, video, images and downloads. The only plugin that allows you to keep advertising revenues, and sell either single item or subscriptions at the same time from your site.
 
 == Description ==
+Cleeng is a unique monetization solution that **satisfies both publishers and users interests**:
+1- **If you are musician, blogger, teachers, photographers or software developer, this free plug-in** is made for you! 
+It gives **flexible and powerful monetization** features:
+	- Install and be ready to go in 5 minutes, download included :-)
+	- Protect any part of your site in 2-clicks: few paragraphs, images, videos, downloads
+	- Set when articles are protected (after a few hours or few days)
+	- No need to bother with payment solutions: it is all integrated and https secured, from SMS payment to Paypal, including most common credit cards (Visa, Amex, Mastercard) and local payments solutions - Maestro (UK), Carte Blue (FR), ELV (DE), iDEAL (NL) and Direct banking (BE)
+	- All user support is handled by Cleeng teams (payment, cancellation, claims, etc)
+Finally, you can unleash your creativity, and Cleeng takes care of everything else! You get paid monthly via Paypal or wire transfer. Completely **free** to try, learn and adapt.
+Check out how it works: [vimeo http://vimeo.com/17094725]
 
-Cleeng makes one-click content monetization incredibly easy. The solution allows bloggers and 
-publishers to sell as much or as little of their digital content as they want. Visitors of a blog or website using Cleeng get a frictionless experience. 
-They pay with one click and get access to the protected content instantly.
+With Cleeng you can sell any individual piece of content directly from your own website. This complete 
+plugin gives the options to sell your content or digital products in 3 different ways: 
+1. **Sell single items**,
+2. Provide a **Daily pass(24h)**, or
+3. Give access to all your content via membership **subscriptions** (weekly, monthly...)
 
-See http://cleeng.com/features for 5 good reasons why to use Cleeng.
+**Cleeng supports USD, EUR and GBP**. You can price single items from 0.14 to 19.99 USD (or EUR / GBP). The plugin is free to use, and you can **keep up to 90% of all revenues generated** (starts at 80%). There are no hidden costs, all payment fees, user support, software maintenance is taken care of. You just need to create the right content that sells.
 
-Cleeng enables website publishers, bloggers and other content creators to generate
-micro payments and make (incremental) money from their creations. For visitors it simplifies
-the access to unique quality content by offering a one-click, pay as you go
-solution. It works on web-enabled devices and for any kind
-of online content and avoids the hassle of multiple subscriptions.
+2- **For your users**, it is also made much easier so to boost your conversion rates:
+- They don't need to register for every site they visit: Use Facebook, Google or Yahoo! once, and instantly login on any publisher website.
+- All the content they buy is accessible from their Cleeng library: so if they start reading your blog on their office PC, and then want to keep reading on their mobile while commuting - Cleeng will make it happen.
+- Integrated social-commissions: users share links on social networks, then they also get a chance to generate money. It's a win-win!
 
-With the Cleeng for WordPress plugin you can start monetizing your content
-within minutes. After installation of Cleeng and signing up as a publisher,
-within the editor you can simply select the content you want to protect and click
-the green button "Create Cleeng Content from Selection". You can define
-the description and the price and after clicking save, two tags appear within
-your editing field that mark your protected content. When you publish the
-content the price and other references are saved on the Cleeng server (via
-the Cleeng API). After publication visitors coming to your web-page will be
-able to read and view the page normally, however part of the content is
-protected. Now your visitors can with the one-click, pay as you go solution
-instantly access this content.
 
-Have a try: it really works this easy!
+For more information check out the [Cleeng website](http://cleeng.com "Cleeng content monetization") or any of below links:
 
+* [Good reasons why to use Cleeng](http://cleeng.com/us/features/reasons-to-use-cleeng "Benefits of Cleeng")
+* [Features](http://cleeng.com/us/features/ "Features of Cleeng")
+* [Demos](http://cleeng.com/us/features/demos/ "Demo & examples of Cleeng")
+* [Cleeng Blog](http://cleeng.com/blog/ "Cleeng Blog")
+* [Facebook](http://www.facebook.com/cleeng "Cleeng Facebook friends")
+
+Use Cleeng, the best and most powerful plugin to sell content or digital products directly from your own website, without impacting your advertising revenues !
 
 == Installation ==
 
 1. Upload Cleeng For WordPress to your wp-content/plugins directory.
 2. Activate it in "Plugins" menu in WordPress.
-3. Within the right hand site of your edit pages (blog and pages)
-   the Cleeng widget should appear.
-4. To be able to protect and charge for your content, you need
-   to sign-up with Cleeng as a publisher. Check http://cleeng.com for more information
+3. In the menu "Cleeng" has appeared where you find all detailed instructions on how to set-up single item sales, as well as daily access or subscriptions.
+4. Sign-up with Cleeng as a publisher to start making money. You can do this directly from the plugin.
+
+Note: to activate subscriptions memberships, you can do this from your account: http://cleeng.com/us/my-account/settings/edit-publisher-plan/1
+
+Check http://cleeng.com for more information
 
 
 == Frequently Asked Questions ==
 
-You can find the FAQ on http://cleeng.com/support or read and contribute on the Publisher 
-Community on http://cleeng.com/forum/publishers/
+= What can I sell? =
+
+You can sell all kinds of digital content: blog posts, web pages, images, videos, downloads and more. You can protect and sell any piece of html.
+
+= How much can I charge? =
+
+For single item sales you can charge anything in between 0.15 and 19.99 USD (or EUR/GBP). For daily pass or subscriptions it is up to you.
+
+= How do my visitors pay? =
+
+They can use their Cleeng Credits to buy with one-click, or pay directly via PayPal, Visa, Mastercard, SMS or any other payment method (they all come for free with this package!). 
+
+= How do I get my money? =
+
+Just leave your PayPal email address or provide your wire transfer information in [your settings on cleeng.com](http://cleeng.com/my-account) and once you receive 25 euro earnings, automatically you receive your earnings at the end of the month.
+
+= Can I track how much money I make? =
+
+Yes, Cleeng provides full reporting on all your sold items on [cleeng.com](http://cleeng.com "Cleeng Content Monetization")
+
+= What does it costs? =
+
+Nothing. The plugin is free to use. You keep up to 90% of the revenues generated (starts at 80%). Cleeng takes care of customer service, all payment fees whatever method the user choose, plus all maintenance and further innovation to this cloud based software.
+
+= How to activate subscription membership? =
+
+You can activate subscription from your Cleeng account settings: http://cleeng.com/us/my-account/settings/edit-publisher-plan/1.
+Once activated, items for sale on your site will either be accessible as direct purchase one by one, or as subscription
+
+= I have another question =
+You can find all FAQ on http://support.cleeng.com (or ask your question there if it is not listed).
 
 == Screenshots ==
 
-1. This is how Cleeng layer looks when the visitor sees Cleeng for the first time
-2. This is how Cleeng layer looks when the visitor is registered
-3. Purchase confirmation screen - all new users get 2 free credits
-4. Creating new content (Admin)
-5. Cleeng Widget (Admin)
+1. In-page monetization; visitors can purchase with one-click, search-engine friendly
+2. Your visitors can purchase single items instantly
+3. Your visitors can buy a daily pass or subscribe (optional)
+4. Detailed information available within the plugin (Admin)
+5. Setting up a single-item for sale (Admin)
+6. User library, to access all his/her content
 
 == Changelog ==
 
+= 2.0 =
+* NEW! Combining sales per item with full site subscription: provide access via a daily pass, weekly or monthly subscriptions.
+* Improved usability and clarified functionalites
+
 = 1.1.13 =
-* customer can log out from settings section now
 * customer can log out from settings section now
 * currency symbol is displayed next to value in protected content list
 

@@ -127,6 +127,8 @@ switch ( $mode ) {
                 setcookie('cleeng_user_auth', 1, time()+3600*24*60, '/');
             }
         } catch (Exception $e) {
+            echo $e->getMessage();
+                echo $cleeng->getApiOutputBuffer();
         }
         // IE Hack - without this header IE won't accept cookie from IFRAME
         header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
@@ -180,7 +182,7 @@ switch ( $mode ) {
                 echo json_encode( $cleeng->getUserInfo( @$_REQUEST['backendWidget'] ) );
                 exit;
             }
-        } catch ( Exception $e ) {
+        } catch ( Exception $e ) {            
         }
         echo json_encode( array() );
         exit;

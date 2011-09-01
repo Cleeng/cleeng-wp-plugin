@@ -69,7 +69,7 @@ var CleengWidget = {
             CleengWidget.logIn();
             return false;
         });
-        jQuery('#cleeng-logout, .cleeng-logout').click(function() {
+        jQuery('#cleeng-logout, #cleeng-logout2').click(function() {
             jQuery.post(
                 Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=logout',
                 function(resp) {
@@ -113,7 +113,7 @@ var CleengWidget = {
 
         CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
             autoOpen: false,
-            height: 400,
+            height: 380,
             width: 400,
             modal: true,
             buttons: {
@@ -155,7 +155,7 @@ var CleengWidget = {
             }
             return false;
         });
-        
+
         // autologin
         if (typeof CleengAutologin !== 'undefined') {
             if (CleengAutologin.available) {
@@ -163,7 +163,7 @@ var CleengWidget = {
                     Cleeng_PluginPath+'ajax.php?cleengMode=autologin&id=' + CleengAutologin.id
                         + '&key=' + CleengAutologin.key,
                     function(resp) {
-                        if (resp.success) {
+                        if (resp && resp.success) {
                             CleengWidget.getUserInfo(false);
                         }
                     }
@@ -210,7 +210,6 @@ var CleengWidget = {
                     jQuery('.cleeng-auth').hide();
                     jQuery('.cleeng-noauth').show();
                 } else {
-                    CleengWidget.userInfo = resp;
                     jQuery('#cleeng-login').parent().hide();
                     jQuery('#cleeng-logout').parent().show();
                     jQuery('.cleeng-currency-symbol').html(resp.currencySymbol);
@@ -264,6 +263,7 @@ var CleengWidget = {
             jQuery('#cleeng-ContentForm-ReferralProgramEnabled').attr('checked', content.referralProgramEnabled?'checked':null);
             jQuery('#cleeng-ContentForm-LayerDatesEnabled').attr('checked', content.hasLayerDates?'checked':null);
         }
+
 
         CleengWidget.newContentForm.dialog('open');
     },
@@ -380,12 +380,9 @@ var CleengWidget = {
                     } else {
                         parsedId = id;
                     }
-                    contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">'
-                            + parsedId + '</span> price: '
-                            + CleengWidget.userInfo.currencySymbol
-                            + price
-                            + ' <a class="cleeng-editContentLink" href="#">edit</a> '
-                            + '<a class="cleeng-removeContentLink" href="#">remove</a></li>';
+                    contentList += '<li>' + (parseInt(i)+1) + '. id: <span class="cleeng-contentId">' + parsedId + '</span> price: ' + price +
+                            ' <a class="cleeng-editContentLink" href="#">edit</a> ' +
+                            '<a class="cleeng-removeContentLink" href="#">remove</a></li>';
                     if (id[0] == 't') { // temporary ID?
                         CleengWidget.tempId = Math.max(CleengWidget.tempId, parseInt(id.split('t')[1]) + 1);
                     }

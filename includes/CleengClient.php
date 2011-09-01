@@ -31,7 +31,7 @@
  * @copyright Copyright (c) 2011 DG2ALL B.V (http://dg2all.com)
  * @license New BSD License
  * 
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 /**
@@ -380,8 +380,12 @@ class CleengClient
             $this->_apiOutputBuffer = $buffer;
 
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if ($code !== 200 && $code !== 302) {
-                throw new CleengClientException("Authorization error ($code).");
+            if ($code !== 200 && $code !== 302) {                
+                if ($code == 0) {
+                    throw new CleengClientException("CURL error: " . curl_error($ch));
+                } else {
+                    throw new CleengClientException("Authorization error ($code).");
+                }
             }
 
             $params = json_decode($buffer, true);
@@ -534,7 +538,13 @@ class CleengClient
         $this->_apiOutputBuffer = $buffer;
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($code !== 200 && $code !== 302) {
-            throw new CleengClientException("Authorization error ($code).");
+            if ($code !== 200 && $code !== 302) {                
+                if ($code == 0) {
+                    throw new CleengClientException("CURL error: " . curl_error($ch));
+                } else {
+                    throw new CleengClientException("Authorization error ($code).");
+                }
+            }
         }
 
         if ($buffer) {

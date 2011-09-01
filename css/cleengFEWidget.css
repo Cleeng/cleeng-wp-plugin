@@ -41,7 +41,7 @@
     text-align: left;
 }
 
-.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal, a.cleeng-subscribe {
+.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal{ /*a.cleeng-subscribe*/ 
     background: none;
     color: #66ac00 !important;
     font-weight: normal;
@@ -49,19 +49,21 @@
     text-shadow: none;
     text-decoration: none;
 }
+/*
 a.cleeng-subscribe {
     text-align: center;
     padding-left: 70px;
-}
+}*/
 a.cleeng-pay-with-paypal {
     display: block;
     margin-left: 16px;
-    
-    padding: 10px 0 8px 0;
+    margin-top: -2px;
+    padding: 0px 0 8px 0;
 }
 a.cleeng-pay-with-paypal img {
-    padding-top: 12px;
+/*    padding-top: 12px;*/
     background: transparent;
+    margin-top:30px !important;
 }
 .cleeng-layer img, .cleeng-nolayer-top img, .cleeng-nolayer-bottom img{
     border: none !important;
@@ -150,6 +152,15 @@ a.cleeng-pay-with-paypal img {
 .cleeng-it-video {
     background-position: 0 0px;
 }
+.cleeng-it-table {
+    background-position: 0 -310px;
+
+}
+.cleeng-it-download {
+    background-position: 0 -124px;    
+}
+
+
 .cleeng-description {
     margin: 20px 0 0 88px !important;
     padding: 0 20px 0 0 !important;
@@ -261,7 +272,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 	margin:0px;
 }
 .cleeng-purchaseInfo-text{
-    margin-top:16px;
+/*    margin-top:16px;*/
 }
 .cleeng-purchaseInfo-grad{
 	height: 96px;
@@ -304,7 +315,6 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     padding-top: 11px;
     border: none;
     height: 39px;
-    display: block;
     width: 194px;
     height: 38px;
     background: url(../img/plugin_buy_button_wide.png) 0 0 no-repeat;
@@ -315,6 +325,15 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     margin-left: 16px;
     font-size: 12px;
 }
+.cleeng-layer a.cleeng-buy-wide.button-big-font-big {
+    font-size:150%;
+    line-height:30px;
+}
+.cleeng-layer a.cleeng-buy-wide.button-big-font-medium {
+    font-size: 12px;
+    line-height:15px;
+}
+
 .cleeng-price {
     display: block;
     height: 20px;
@@ -478,4 +497,26 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     display: none;
     background: white url(../img/ajax-loader.gif) center center no-repeat;
 
+}
+
+
+
+
+a.cleeng-subscribe, a.cleeng-buy-width-subscribe, .button-small{
+    background: url('../img/layer_button_small.png') no-repeat !important;  
+    width:202px !important;
+    height:23px !important;
+    float:left !important;
+    color:#fff !important;
+    text-align:center !important;
+    line-height: 120% !important;
+    padding-top:6px !important;
+    font-size:12px !important;
+    margin:12px 0 -7px 15px !important;
+}
+a.cleeng-subscribe:hover,  a.cleeng-buy-width-subscribe:hover{
+    text-decoration:none
+}
+.cleeng-layer a.cleeng-buy-wide.middle {
+    margin:28px 15px !important;
 }

@@ -308,6 +308,94 @@ function cleeng_add_layers( $content ) {
     }
     return $content;
 }
+function getClassDisplayBlock($price, $itemType, $hasCookie, $hasSubscription, $contentId)
+{
+    global $cleeng;
+    if ( $cleeng->isUserAuthenticated() ) {
+        $info = $cleeng->getUserInfo();
+        $hasCookie = true;
+    } 
+    
+    
+
+    if ($price == 0) {
+        if ($itemType=='article') {
+            $class = $hasCookie?'.read-for-free-'.$contentId:'.register-and-read-for-free-'.$contentId;
+        } else if ($itemType=='video') {
+            $class = $hasCookie?'.watch-for-free-'.$contentId:'.register-and-watch-for-free-'.$contentId;
+        } else {
+            $class = $hasCookie?'.access-for-free-'.$contentId:'.register-and-access-for-free-'.$contentId;            
+        }
+    } else {
+        if ($hasCookie == true) {
+            
+            if ($price >= 0.99 || ($cleeng->isUserAuthenticated() && $info['freeContentViews']==0) ) {
+                if ($itemType=='article') {
+                    $class = '.buy-this-article-'.$contentId;
+
+                } else if ($itemType=='video') {
+                    $class = '.buy-this-video-'.$contentId;
+                } else {
+                    $class = '.buy-this-item-'.$contentId;           
+                }     
+            } else if($price < 0.99 && $cleeng->isUserAuthenticated() && $info['freeContentViews']>0) {
+                if ($itemType=='article') {
+                    $class = '.read-for-free-'.$contentId;
+                } else if ($itemType=='video') {
+                    $class = '.watch-for-free-'.$contentId;
+                } else {
+                    $class = '.access-for-free-'.$contentId;            
+                }                   
+            } else if($price < 0.99 ){
+                if ($itemType=='article') {
+                    $class = '.buy-this-article-'.$contentId;
+
+                } else if ($itemType=='video') {
+                    $class = '.buy-this-video-'.$contentId;
+                } else {
+                    $class = '.buy-this-item-'.$contentId;           
+                }                    
+            }
+            
+        } else {
+            if ($price >= 0.99) {
+                if ($itemType=='article') {
+
+                    $class = '.buy-this-article-'.$contentId;
+
+                } else if ($itemType=='video') {
+                    $class = '.buy-this-video-'.$contentId;
+                } else {
+                    $class = '.buy-this-item-'.$contentId;           
+                }     
+            } else {            
+                if ($itemType=='article') {
+                    $class = '.register-and-read-for-free-'.$contentId;
+                } else if ($itemType=='video') {
+                    $class = '.register-and-watch-for-free-'.$contentId;
+                } else {
+                    $class = '.register-and-access-for-free-'.$contentId;            
+                }       
+            }
+        }
+    }
+    return $class;
+}
+
+function setDisplayNone($contentId){
+    $q = '.read-for-free-'.$contentId.', ';
+    $q .= '.watch-for-free-'.$contentId.', ';
+    $q .= '.access-for-free-'.$contentId.', ';
+    $q .= '.register-and-read-for-free-'.$contentId.', ';
+    $q .= '.register-and-watch-for-free-'.$contentId.', ';
+    $q .= '.register-and-access-for-free-'.$contentId.', ';
+
+    $q .= '.buy-this-article-'.$contentId.', ';
+    $q .= '.buy-this-video-'.$contentId.', ';
+    $q .= '.buy-this-item-'.$contentId.'{display:none}';
+    return $q;
+}
+
 
 /**
  * Helper function
@@ -324,6 +412,8 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
 
     $noCookie = (isset($_COOKIE['cleeng_user_auth']))?false:true;
 
+    $hasCookie = (isset($_COOKIE['cleeng_user_auth']))?true:false;
+    
     $auth = false;
     $userName = '';
     
@@ -335,12 +425,11 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
         } 
     } catch (Exception $e) {
     }
-
     $referralRate = $purchased = $contentId = $publisherId = $publisherName = $itemType
              = $shortDescription = $averageRating = $price = $currencySymbol = $shortUrl
              = $referralProgramEnabled = $canVote = '';
     $subscriptionOffer = false;
-
+    $subscriptionPrompt = 'Subscribe';
     extract( $content ); // contentId, shortDescription, price, purchased, shortUrl...    
     ob_start();
     
@@ -422,29 +511,122 @@ function cleeng_get_layer_markup( $postId, $text, $content ) {
             </div>
             <div class="cleeng-purchaseInfo">
                 <div class="cleeng-purchaseInfo-text">
+                    
+    
+                    
                     <?php if ($options['payment_method'] == 'cleeng-only' || $price < 0.49) : ?>
-                    <a class="cleeng-buy-wide cleeng-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?> href="#">
-                        <?php _e('To view this ', 'cleeng') ?> <?php _e($itemType, 'cleeng') ?>,<br />
-                        <?php _e('Sign-up for free in 1-Click', 'cleeng') ?>
-                    </a>                    
-                    <a class="cleeng-buy-wide cleeng-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?> href="#">
-                        <?php _e(sprintf('To view this %s,<br />Please sign-in', __($itemType, 'cleeng')), 'cleeng') ?>
-                    </a>
-                    <?php if (round($price,2) != 0) : ?>
-                    <div class="cleeng-price" style="display: none"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
-                    <?php else : ?>
-                    <div class="cleeng-price" style="display: none"><span><?php _e('Free', 'cleeng'); ?></span></div>
-                    <?php endif ?>
-                    <a class="cleeng-buy cleeng-auth" style="display: none" href="#">
-                        <?php _e('Buy & Access<br /> Instantly', 'cleeng') ?>
-                    </a>
-                    <?php endif ?>                    
-                    <?php if ($options['payment_method'] == 'paypal-only' && $price >= 0.49) : ?>
-                    <div class="cleeng-price-paypal"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
-                    <a href="#" class="cleeng-pay-with-paypal" id="cleeng-paypal-<?php echo $contentId ?>">
-                        <img alt="<?php _e('Pay with <em>PayPal</em>'); ?>" src="<?php echo CLEENG_WP_PLUGIN_PATH ?>img/btn_xpressCheckout.gif" />
-                    </a>
-                    <?php endif ?>
+                            
+                            <?php 
+                            
+                            if($subscriptionOffer){
+                                $middle = '';
+                            } else{
+                                $middle = 'middle';
+                            }
+                            
+                            ?>
+                    
+                            <a class="cleeng-buy-wide button-small <?php echo $middle ?>  register-and-read-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>" href="#">
+                                <?php _e('Register and read for free ', 'cleeng') ?>
+                            </a>                                       
+
+                            <a class="cleeng-buy-wide button-small <?php echo $middle ?>  register-and-watch-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>"  href="#">
+                                <?php _e('Register and watch for free ', 'cleeng') ?>
+                            </a>                                       
+
+                            <a class="cleeng-buy-wide button-small <?php echo $middle ?>  register-and-access-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>"href="#">
+                                <?php _e('Register and access for free ', 'cleeng') ?>
+                            </a>                                       
+
+                    
+                            <a class="cleeng-buy-wide button-small <?php echo $middle ?>  read-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>"  href="#">
+                                <?php _e('Read for free ', 'cleeng') ?>
+                            </a>                                       
+
+                            <a class="cleeng-buy-wide button-small <?php echo $middle ?>  watch-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>"   href="#">
+                                <?php _e('Watch for free ', 'cleeng') ?>
+                            </a>                                       
+
+                            <a class="cleeng-buy-wide button-small <?php echo $middle ?>  access-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>" href="#">
+                                <?php _e('Access for free ', 'cleeng') ?>
+                            </a>                                       
+                    
+                            <?php 
+                            
+                            if($subscriptionOffer){
+                                $button = 'button-small';
+                            } else{
+                                $button = 'button-small middle';
+                            }
+                            
+                            ?>
+                    
+                            <a class="cleeng-buy-wide <?php echo $button ?>  buy-this-article-<?php echo $contentId ?>" href="#">
+                                <?php _e('Buy this article ', 'cleeng') ?>
+                                <?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span>
+                            </a>                                       
+
+                            <a class="cleeng-buy-wide <?php echo $button ?>  buy-this-video-<?php echo $contentId ?>"  href="#">
+                                <?php _e('Buy this video ', 'cleeng') ?>
+                                <?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span>
+                            </a>                                       
+
+                            <a  class="cleeng-buy-wide <?php echo $button ?>   buy-this-item-<?php echo $contentId ?>"  href="#">
+                                <?php _e('Buy this item ', 'cleeng') ?>
+                                <?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span>
+                            </a>                                       
+
+                    
+                            <?php if($subscriptionOffer): ?>
+                                <a id="cleeng-subscribe-<?php echo $contentId ?>" class="cleeng-subscribe" href=""  style="display:none"><?php echo $subscriptionPrompt ?></a>                           
+                            <?php endif; ?>
+                    
+                            <?php $class = getClassDisplayBlock($price,$itemType, $hasCookie, $subscriptionOffer, $contentId) ?>
+
+                                <style>
+                                    <?php echo setDisplayNone($contentId); ?>
+                                    <?php echo $class ?> {
+                                        display:block;
+                                    }
+                                    <?php if ($subscriptionOffer) { ?>
+                                    #cleeng-subscribe-<?php echo $contentId ?> {
+                                        display:block !important;
+                                    }
+                                    <?php } ?>
+                                </style>    
+                                
+                            <!--
+                            <a class="cleeng-buy-wide cleeng-firsttime"<?php if (!$noCookie) { echo ' style="display:none"'; } ?> href="#">
+                                <?php _e('To view this ', 'cleeng') ?>eif ($options['payment_method'] == 'paypal-only' && $price >= 0.49) : <?php _e($itemType, 'cleeng') ?>,<br />
+                                <?php _e('Sign-up for free in 1-Click', 'cleeng') ?>
+                            </a>                    
+                    
+                    
+                            <a class="cleeng-buy-wide cleeng-nofirsttime"<?php if ($noCookie) { echo ' style="display:none"'; } ?> href="#">
+                                <?php _e(sprintf('To view this %s,<br />Please sign-in', __($itemType, 'cleeng')), 'cleeng') ?>
+                            </a>
+
+                    
+                            <?php if (round($price,2) != 0) : ?>
+                                <div id="cleeng-price-<?php echo $contentId ?>" class="cleeng-price" style="display: none"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
+                            <?php else : ?>
+                                <div class="cleeng-price" style="display: none"><span><?php _e('Free', 'cleeng'); ?></span></div>
+                            <?php endif ?>    
+                        -->
+                                
+                                
+                                
+
+                    <?php elseif ($options['payment_method'] == 'paypal-only' && $price >= 0.49) : ?>
+
+                            <div class="cleeng-price-paypal"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
+                            <a href="#" class="cleeng-pay-with-paypal" id="cleeng-paypal-<?php echo $contentId ?>">
+                                <img alt="<?php _e('Pay with <em>PayPal</em>'); ?>" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_xpressCheckout.gif" />
+                            </a>
+                    <?php endif ?>  
+                            
+                            
+                            
                 </div>
             </div>
             <div class="cleeng-whatsCleeng">

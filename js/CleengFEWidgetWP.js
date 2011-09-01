@@ -83,7 +83,7 @@ var CleengWidget = {
                 height = 400;
             }
             window.open(jQuery(this).attr('href'), 'shareWindow', 'menubar=no,width='
-                + width + ',height=' + height + ',toolbar=no,resizable=yes,scrollbars=yes');
+                + width + ',height=' + height + ',toolbar=no,resizable=yes');
             return false;
         });
 
@@ -193,46 +193,97 @@ var CleengWidget = {
             }
         );
     },
+    hasCookie: function(){
+        var split = document.cookie.split(';');
+
+        for(var i = 0; i < split.length; i++) {
+            var name_value = split[i].split("=");
+            if ( jQuery.trim(name_value[0]) == 'cleeng_user_auth' ) {
+                return true;
+            }
+        }
+        return false;        
+    },
     /**
      * Update user information
      */
     updateUserInfo: function() {
+        //return
         var user = CleengWidget.userInfo;
-        
+        var hasCookie = CleengWidget.hasCookie();
         if (!user || !user.name) {
+            
             jQuery('.cleeng-auth-bar').hide();
-            jQuery('.cleeng-noauth-bar').show();
-            jQuery('.cleeng-price').hide();
-            jQuery('.cleeng-auth').css('display', 'none');
-            if (CleengWidget.cookie('cleeng_user_auth')
-                || (typeof CleengAutologin !== 'undefined'
-                    && CleengAutologin.wasLoggedIn)
-            ) {
-                jQuery('.cleeng-firsttime').hide();
-                jQuery('.cleeng-nofirsttime').css('display', 'block');
-                jQuery('.cleeng-welcome-firsttime').hide();
-                jQuery('.cleeng-welcome-nofirsttime').show();
-            } else {
-                jQuery('.cleeng-firsttime').css('display', 'block');
-                jQuery('.cleeng-nofirsttime').hide();
-                jQuery('.cleeng-welcome-firsttime').show();
-                jQuery('.cleeng-welcome-nofirsttime').hide();
-            }
+            jQuery('.cleeng-noauth-bar').show();          
+           
         } else {
-            if (parseInt(user.freeContentViews)) {
-                jQuery('.cleeng-free-content-views span').text(user.freeContentViews);
-            } else {
-                jQuery('.cleeng-free-content-views').hide();
-            }
-            jQuery('.cleeng-username').html(user.name);
             jQuery('.cleeng-auth-bar').show();
-            jQuery('.cleeng-price').show();
             jQuery('.cleeng-noauth-bar').hide();
-            jQuery('.cleeng-nofirsttime').hide();
-            jQuery('.cleeng-firsttime').hide();
-            jQuery('.cleeng-auth').css('display', 'block');
+                
             CleengWidget.cookie('cleeng_user_auth', 1, {path: '/'});
         }
+       // console.log(user.length)
+        for (var first in CleengWidget.contentInfo) {
+            var info = CleengWidget.contentInfo[first];
+
+            if (info.price == 0 || (user.freeContentViews > 0 && info.price < 0.99 ) ) {
+                var object = null;
+                if (hasCookie) {
+                    jQuery('.by-free-'+info.contentId).css('display','none');
+                    if (info.itemType == 'article') {
+                        object = jQuery('.read-for-free-'+info.contentId);
+                    } else if (info.itemType == 'video') {
+                        object = jQuery('.watch-for-free-'+info.contentId);
+                    } else {
+                        object = jQuery('.access-for-free-'+info.contentId);
+                    }
+                    object.css('display','block');
+
+                    var object = null;
+                    if (info.itemType == 'article') {
+                        object = jQuery('.buy-this-article-'+info.contentId);
+                    } else if (info.itemType == 'video') {
+                        object = jQuery('.buy-this-video-'+info.contentId);
+                    } else {
+                        object = jQuery('.buy-this-item-'+info.contentId);
+                    }       
+                    object.css('display','none');
+                }
+
+            }else if ((user.length || info.price < 0.99) && hasCookie){
+                var object = null;
+                if (info.itemType == 'article') {
+                    object = jQuery('.buy-this-article-'+info.contentId);
+                } else if (info.itemType == 'video') {
+                    object = jQuery('.buy-this-video-'+info.contentId);
+                } else {
+                    object = jQuery('.buy-this-item-'+info.contentId);
+                }       
+                object.show();  
+                jQuery('.by-free-'+info.contentId).css('display','none');
+                var object = null;
+                if (info.itemType == 'article') {
+                    object = jQuery('.read-for-free-'+info.contentId);
+                } else if (info.itemType == 'video') {
+                    object = jQuery('.watch-for-free-'+info.contentId);
+                } else {
+                    object = jQuery('.access-for-free-'+info.contentId);
+                }
+                object.css('display','none');                
+                
+                var object = null;
+                if (info.itemType == 'article') {
+                    object = jQuery('.register-read-for-free-'+info.contentId);
+                } else if (info.itemType == 'video') {
+                    object = jQuery('.register-watch-for-free-'+info.contentId);
+                } else {
+                    object = jQuery('.register-access-for-free-'+info.contentId);
+                }
+                object.css('display','none');                
+            } 
+        }
+
+        
     },
     isPopupOpened: function() {
         if (!CleengWidget.popupWindow) {
@@ -265,19 +316,19 @@ var CleengWidget = {
     logIn: function() {
         CleengWidget.ensurePopupIsClosed();
         CleengWidget.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes,scrollbars=yes');
+                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
         CleengWidget.pollPopupWindow();
     },
     purchaseContent: function(contentId) {
         CleengWidget.ensurePopupIsClosed();
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=purchase&contentId=' + contentId + '&cleengPopup=1','CleengConfirmationPopUp',
-            'menubar=no,width=607,height=610,toolbar=no,resizable=yes,scrollbars=yes');
+            'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
         CleengWidget.pollPopupWindow();
     },
     subscribe: function(publisherId) {
         CleengWidget.ensurePopupIsClosed();
         this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=subscribe&contentId=' + publisherId + '&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes,scrollbars=yes');
+                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
         CleengWidget.pollPopupWindow();
     },
     logOut: function() {
