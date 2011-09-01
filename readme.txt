@@ -10,13 +10,18 @@ The best free plugin to sell digital content: Works for text, video, images and 
 
 == Description ==
 Cleeng is a unique monetization solution that **satisfies both publishers and users interests**:
+
 1- **If you are musician, blogger, teachers, photographers or software developer, this free plug-in** is made for you! 
+
 It gives **flexible and powerful monetization** features:
-	- Install and be ready to go in 5 minutes, download included :-)
-	- Protect any part of your site in 2-clicks: few paragraphs, images, videos, downloads
-	- Set when articles are protected (after a few hours or few days)
-	- No need to bother with payment solutions: it is all integrated and https secured, from SMS payment to Paypal, including most common credit cards (Visa, Amex, Mastercard) and local payments solutions - Maestro (UK), Carte Blue (FR), ELV (DE), iDEAL (NL) and Direct banking (BE)
-	- All user support is handled by Cleeng teams (payment, cancellation, claims, etc)
+
+* Install and be ready to go in 5 minutes, download included :-)
+* Protect any part of your site in 2-clicks: few paragraphs, images, videos, downloads
+* Set when articles are protected (after a few hours or few days)
+88 No need to bother with payment solutions: it is all integrated and https secured, from SMS payment to Paypal, including most common credit cards (Visa, Amex, Mastercard) and local payments solutions - Maestro (UK), Carte Blue (FR), ELV (DE), iDEAL (NL) and Direct banking (BE)
+* All user support is handled by Cleeng teams (payment, cancellation, claims, etc).
+
+
 Finally, you can unleash your creativity, and Cleeng takes care of everything else! You get paid monthly via Paypal or wire transfer. Completely **free** to try, learn and adapt.
 Check out how it works: [vimeo http://vimeo.com/17094725]
 
@@ -29,9 +34,10 @@ plugin gives the options to sell your content or digital products in 3 different
 **Cleeng supports USD, EUR and GBP**. You can price single items from 0.14 to 19.99 USD (or EUR / GBP). The plugin is free to use, and you can **keep up to 90% of all revenues generated** (starts at 80%). There are no hidden costs, all payment fees, user support, software maintenance is taken care of. You just need to create the right content that sells.
 
 2- **For your users**, it is also made much easier so to boost your conversion rates:
-- They don't need to register for every site they visit: Use Facebook, Google or Yahoo! once, and instantly login on any publisher website.
-- All the content they buy is accessible from their Cleeng library: so if they start reading your blog on their office PC, and then want to keep reading on their mobile while commuting - Cleeng will make it happen.
-- Integrated social-commissions: users share links on social networks, then they also get a chance to generate money. It's a win-win!
+
+* They don't need to register for every site they visit: Use Facebook, Google or Yahoo! once, and instantly login on any publisher website.
+* All the content they buy is accessible from their Cleeng library: so if they start reading your blog on their office PC, and then want to keep reading on their mobile while commuting - Cleeng will make it happen.
+* Integrated social-commissions: users share links on social networks, then they also get a chance to generate money. It's a win-win!
 
 
 For more information check out the [Cleeng website](http://cleeng.com "Cleeng content monetization") or any of below links:
