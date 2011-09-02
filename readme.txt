@@ -185,7 +185,7 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 * fixed behaviour when revealing content after user is logged in
 * compatibility check on startup
 * made plugin more "tolerant" to special situations like connection problems  
-  or server errors
+   or server errors
 * now api.cleeng.com is used as JSON-RPC endpoint
 
 = 1.0 =
@@ -194,7 +194,7 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 = 0.9.7 =
 * improved the **layout of the layer**: cleaner, simpler, focused on ONE given transaction.
 * improved the **color scheme**, to better integrate within most common sites
-* publisher/bloggers **co-branding** to increase user confidence
+* publisher/bloggers **co-branding** to increase user confidence 
 * improved support for **multiple content types**: article, chart, file, image, spreadsheet, video (embed)
 * different behavior for users who encounter Cleeng for the first time
 * improved usability of the bottom bar (visible after content is revealed)
