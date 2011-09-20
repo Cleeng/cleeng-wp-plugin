@@ -123,7 +123,7 @@ function cleeng_settings_link($links, $file)
 {
     $this_plugin = plugin_basename(realpath(dirname(__FILE__) . '/../cleengWP.php'));
     if ($file == $this_plugin) {
-        $settings_link = '<a href="options-general.php?page=cleeng">' . __("Settings", "cleeng") . '</a>';
+        $settings_link = '<a href="admin.php?page=cleeng/settings">' . __("Settings", "cleeng") . '</a>';
         array_unshift($links, $settings_link);
     }
     return $links;
