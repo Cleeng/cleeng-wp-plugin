@@ -112,6 +112,13 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 
 == Changelog ==
 
+= 2.1.0 =
+* code cleanup, plugin is based on classes now which should make it easier to maintain
+* CSS fixes
+* new column in post list, indicating if given article is protected
+* fixed IE9 compatibility issues
+* updated French translation
+
 = 2.0.1 =
 * fixed settings link in "Plugins" page
 
