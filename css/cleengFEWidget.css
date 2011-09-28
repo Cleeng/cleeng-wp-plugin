@@ -41,7 +41,7 @@
     text-align: left;
 }
 
-.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal{ /*a.cleeng-subscribe*/ 
+.cleeng-nolayer-bottom a, .cleeng-nolayer-top a, a.cleeng-pay-with-paypal{ /*a.cleeng-subscribe*/
     background: none;
     color: #66ac00 !important;
     font-weight: normal;
@@ -290,68 +290,30 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 .cleeng-clear {
      clear: both;
 }
-.cleeng-layer a.cleeng-buy {
+.cleeng-layer .cleeng-button {
     vertical-align: middle;
     cursor: pointer;
-    outline: none;
     border: none;
-    height: 39px;
-    display: block;
-    width: 96px;
-    height: 38px;
-    background: url(../img/plugin_buy_button.png) 0 0 no-repeat;
     line-height: 120%;
-    text-align: center;
-    color: white !important;
     text-decoration: none;
-    margin-left: 16px;
-    padding-top: 11px;
-    font-size: 12px;
-}
-.cleeng-layer a.cleeng-buy-wide {
-    vertical-align: middle;
     cursor: pointer;
-    outline: none;
-    padding-top: 11px;
-    border: none;
-    height: 39px;
-    width: 194px;
-    height: 38px;
-    background: url(../img/plugin_buy_button_wide.png) 0 0 no-repeat;
+    background: url('../img/layer_button_small.png') no-repeat;
+    width:202px;
+    height:23px;
+    float:left;
+    color:#fff;
+    text-align: center;
     line-height: 120%;
-    text-align: center;
-    color: white !important;
-    text-decoration: none;
-    margin-left: 16px;
-    font-size: 12px;
+    padding-top:6px;
+    font-size:12px;
+    margin:12px 0 -7px 15px;
 }
-.cleeng-layer a.cleeng-buy-wide.button-big-font-big {
-    font-size:150%;
-    line-height:30px;
-}
-.cleeng-layer a.cleeng-buy-wide.button-big-font-medium {
-    font-size: 12px;
-    line-height:15px;
-}
-
-.cleeng-price {
-    display: block;
-    height: 20px;
-    padding-top: 1px;
-    text-align: center;
-    float: right;
-    margin-right: 20px;
-    height: 45px;
-    line-height: 45px;
-    width: 100px;
-}
-.cleeng-price, .cleeng-price span {
-    font-size: 14pt;
-    color: #68af0b;    
+.cleeng-layer .cleeng-button.cleeng-middle {
+    margin:28px 15px !important;
 }
 .cleeng-price-paypal {
     display: block;
-    height: 20px;
+    /*height: 20px;*/
     padding-top: 1px;
     text-align: center;
     float: right;
@@ -472,6 +434,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     height: 22px;
     display: inline-block;
     color: #555;
+    position: relative;
 }
 .cleeng-share span {
     color: #555;
@@ -497,26 +460,4 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     display: none;
     background: white url(../img/ajax-loader.gif) center center no-repeat;
 
-}
-
-
-
-
-a.cleeng-subscribe, a.cleeng-buy-width-subscribe, .button-small{
-    background: url('../img/layer_button_small.png') no-repeat !important;  
-    width:202px !important;
-    height:23px !important;
-    float:left !important;
-    color:#fff !important;
-    text-align:center !important;
-    line-height: 120% !important;
-    padding-top:6px !important;
-    font-size:12px !important;
-    margin:12px 0 -7px 15px !important;
-}
-a.cleeng-subscribe:hover,  a.cleeng-buy-width-subscribe:hover{
-    text-decoration:none
-}
-.cleeng-layer a.cleeng-buy-wide.middle {
-    margin:28px 15px !important;
 }

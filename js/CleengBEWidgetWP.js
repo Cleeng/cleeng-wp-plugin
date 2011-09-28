@@ -20,14 +20,14 @@ var CleengWidget = {
     editorBookmark : {},
     popupWindow: null,
     saveContentServiceURL : Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=saveContent',
-    tempId: 1,
+    tempId: 1,    
 
     sliderToPrice: [
         0, 0.14, 0.19, 0.24, 0.29, 0.34, 0.39, 0.44, 0.49, 0.54, 0.59, 0.64, 0.69, 0.74, 0.79, 0.84, 0.89, 0.94, 0.99,
         1.24, 1.49, 1.74, 1.99, 2.24, 2.49, 2.74, 2.99, 3.24, 3.49, 3.74, 3.99, 4.24, 4.49, 4.74, 4.99, 5.24, 5.49, 5.74, 5.99,
         6.49, 6.99, 7.49, 7.99, 8.49, 8.99, 9.49, 9.99, 10.49, 10.99, 11.49, 11.99, 12.49, 12.99, 13.49, 13.99, 14.49, 14.99, 15.49, 15.99, 16.49, 16.99, 17.49, 17.99, 18.49, 18.99, 19.49, 19.99
     ],
-
+    
     teserInputWatcher: function() {
         desc = jQuery('#cleeng-ContentForm-Description');
         if (desc.val().length > 110) {
@@ -65,6 +65,8 @@ var CleengWidget = {
         
         CleengWidget.getUserInfo();
 
+
+
         jQuery('#cleeng-login').click(function() {
             CleengWidget.logIn();
             return false;
@@ -82,79 +84,81 @@ var CleengWidget = {
             window.open(Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=registerPublisher&cleengPopup=1','CleengConfirmationPopUp', 'menubar=no,width=607,height=750,toolbar=no,scrollbars=1');
             return false;
         });
-        
-        jQuery('#cleeng-ContentForm-Description').bind('keyup', CleengWidget.teserInputWatcher);
 
-        jQuery('#cleeng-ContentForm-LayerDatesEnabled').click(CleengWidget.toggleHasLayerDates);
-        jQuery('#cleeng-ContentForm-ReferralProgramEnabled').click(CleengWidget.toggleReferralProgramEnabled);
-        jQuery('#cleeng-createContent')
-            .click(function(e) {
-                CleengWidget.createCleengContent();
-                e.stopPropagation();
-                return false;
-            })
-            .hover(
-                    function(){
-                        jQuery(this).addClass('ui-state-hover');
-                    },
-                    function(){
-                        jQuery(this).removeClass('ui-state-hover');
+        if (jQuery('#cleeng-contentForm').length) {
+            jQuery('#cleeng-ContentForm-Description').bind('keyup', CleengWidget.teserInputWatcher);
+
+            jQuery('#cleeng-ContentForm-LayerDatesEnabled').click(CleengWidget.toggleHasLayerDates);
+            jQuery('#cleeng-ContentForm-ReferralProgramEnabled').click(CleengWidget.toggleReferralProgramEnabled);
+            jQuery('#cleeng-createContent')
+                .click(function(e) {
+                    CleengWidget.createCleengContent();
+                    e.stopPropagation();
+                    return false;
+                })
+                .hover(
+                        function(){
+                            jQuery(this).addClass('ui-state-hover');
+                        },
+                        function(){
+                            jQuery(this).removeClass('ui-state-hover');
+                        }
+                ).mousedown(function(){
+                    jQuery(this).parents('.fg-buttonset-single:first').find('.fg-button.ui-state-active').removeClass('ui-state-active');
+                    if( jQuery(this).is('.ui-state-active.fg-button-toggleable, .fg-buttonset-multi .ui-state-active') ){jQuery(this).removeClass('ui-state-active');}
+                    else {jQuery(this).addClass('ui-state-active');}
+                })
+                .mouseup(function(){
+                    if(! jQuery(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
+                            jQuery(this).removeClass('ui-state-active');
                     }
-            ).mousedown(function(){
-                jQuery(this).parents('.fg-buttonset-single:first').find('.fg-button.ui-state-active').removeClass('ui-state-active');
-                if( jQuery(this).is('.ui-state-active.fg-button-toggleable, .fg-buttonset-multi .ui-state-active') ){jQuery(this).removeClass('ui-state-active');}
-                else {jQuery(this).addClass('ui-state-active');}
-            })
-            .mouseup(function(){
-                if(! jQuery(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
-                        jQuery(this).removeClass('ui-state-active');
+                });
+
+            CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
+                autoOpen: false,
+                height: 380,
+                width: 400,
+                modal: true,
+                buttons: {
+                    'Save markers' : CleengWidget.newContentFormRegisterContent,
+                    'Cancel' : function() {
+                        jQuery(this).dialog('close');
+                    }
                 }
             });
 
-        CleengWidget.newContentForm = jQuery('#cleeng-contentForm').dialog({
-            autoOpen: false,
-            height: 380,
-            width: 400,
-            modal: true,
-            buttons: {
-                'Save markers' : CleengWidget.newContentFormRegisterContent,
-                'Cancel' : function() {
-                    jQuery(this).dialog('close');
+            jQuery('#cleeng-ContentForm-PriceSlider').slider({
+                animate:false,
+                min:0,
+                max:66,
+                step:1,
+                slide: function(event, ui) {
+                    jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[ui.value].toFixed(2));                    
                 }
-            }                        
-        });
+            });
+            jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({
+                animate:false,
+                min:5,
+                max:50,
+                step:1,
+                slide: function(event, ui) {
+                    jQuery('#cleeng-ContentForm-ReferralRateValue').html(ui.value);
+                }
+            });
 
-        jQuery('#cleeng-ContentForm-PriceSlider').slider({
-            animate:false,
-            min:0,
-            max:66,
-            step:1,
-            slide: function(event, ui) {
-                jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[ui.value]);
-            }
-        });
-        jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({
-            animate:false,
-            min:5,
-            max:50,
-            step:1,
-            slide: function(event, ui) {
-                jQuery('#cleeng-ContentForm-ReferralRateValue').html(ui.value);
-            }
-        });
-
-        jQuery('#cleeng-ContentList a').live('click', function() {
-            if (jQuery(this).hasClass('cleeng-editContentLink')) {
-                id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
-                id = id.replace(/\./g, '');
-                CleengWidget.editContent(id);
-            } else if (jQuery(this).hasClass('cleeng-removeContentLink')) {
-                id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
-                id = id.replace(/\./g, '');
-                CleengWidget.removeMarkers(id);
-            }
-            return false;
-        });
+            jQuery('#cleeng-ContentList a').live('click', function() {
+                if (jQuery(this).hasClass('cleeng-editContentLink')) {
+                    id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
+                    id = id.replace(/\./g, '');
+                    CleengWidget.editContent(id);
+                } else if (jQuery(this).hasClass('cleeng-removeContentLink')) {
+                    id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
+                    id = id.replace(/\./g, '');
+                    CleengWidget.removeMarkers(id);
+                }
+                return false;
+            });
+        }
 
         // autologin
         if (typeof CleengAutologin !== 'undefined') {
@@ -209,7 +213,7 @@ var CleengWidget = {
                     jQuery('#cleeng-notPublisher').hide();
                     jQuery('.cleeng-auth').hide();
                     jQuery('.cleeng-noauth').show();
-                } else {
+                } else {                    
                     jQuery('#cleeng-login').parent().hide();
                     jQuery('#cleeng-logout').parent().show();
                     jQuery('.cleeng-currency-symbol').html(resp.currencySymbol);
@@ -244,11 +248,11 @@ var CleengWidget = {
         jQuery('#cleeng-ContentForm-LayerEndDate').datetimepicker({dateFormat: 'yy-mm-dd'});
         /* lookup for price */        
         for (var i in CleengWidget.sliderToPrice) {
-            if (CleengWidget.sliderToPrice[i] >= content.price) {                
+            if (CleengWidget.sliderToPrice[i].toFixed(2) >= content.price) {
                 break;
             }
         }
-        jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[i]);
+        jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[i].toFixed(2));
         jQuery('#cleeng-ContentForm-PriceSlider').slider('value', i);
         jQuery('#cleeng-ContentForm-ItemType').val(content.itemType);
         jQuery('#cleeng-ContentForm-ReferralRateValue').html(content.referralRate * 100);
@@ -297,7 +301,7 @@ var CleengWidget = {
         var content = {
             contentId: CleengWidget.newContentForm.contentId,
             pageTitle: jQuery('#title').val() + ' | ' + jQuery('#site-title').html(),
-            price: CleengWidget.sliderToPrice[jQuery('#cleeng-ContentForm-PriceSlider').slider('value')],
+            price: CleengWidget.sliderToPrice[jQuery('#cleeng-ContentForm-PriceSlider').slider('value')].toFixed(2),
             shortDescription: jQuery('#cleeng-ContentForm-Description').val()            
         };
         content.itemType = jQuery('#cleeng-ContentForm-ItemType').val();
@@ -627,3 +631,38 @@ var CleengWidget = {
     }    
 }
 jQuery(CleengWidget.init);
+jQuery(function() {
+    var advanced = 0;
+    jQuery('#cleeng_advanced, #cleeng_advanced2').click(function(){
+        if (advanced === 0) {
+            jQuery('.cleeng_advanced').show();
+            advanced = 1;
+            jQuery('#arrow').addClass('bottom');
+            location.href="#below";
+        } else {
+            jQuery('.cleeng_advanced').hide();
+            advanced = 0;
+            jQuery('#arrow').removeClass('bottom');
+
+        }
+        return false;
+    });
+
+
+    jQuery('a.cleeng-facebook, a.cleeng-twitter, a.publisher-account').click(function() {
+        if (jQuery(this).hasClass('cleeng-twitter')) {
+            width = 1110;
+            height = 650;
+        }else if(jQuery(this).hasClass('publisher-account')){
+            width = 600;
+            height = 760;
+        } else {
+            width = 600;
+            height = 400;
+        }
+        window.open(jQuery(this).attr('href'), 'shareWindow', 'menubar=no,width='
+            + width + ',height=' + height + ',toolbar=no,resizable=yes');
+
+        return false;
+    });
+});

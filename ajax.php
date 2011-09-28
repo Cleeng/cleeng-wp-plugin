@@ -16,15 +16,13 @@
 ob_start(); 
 define( 'WP_USE_THEMES', false );
 require('../../../wp-load.php');
-require_once dirname( __FILE__ ) . '/includes/CleengClient.php';
 ob_end_clean();
 
 header( 'pragma: no-cache' );
 header( 'cache-control: no-cache' );
 header( 'expires: 0' );
 
-$config = include dirname( __FILE__ ) . '/includes/config.php';
-$cleeng = new CleengClient( $config );
+$cleeng = Cleeng_Core::load('Cleeng_Client');
 
 if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] ) {
     $scheme = 'https://';

@@ -44,12 +44,7 @@ var CleengWidget = {
                     CleengWidget.subscribe(contentId);
                     return false;
                 });
-            jQuery('#cleeng-layer-' + contentId + ' .cleeng-buy')
-                .click(function() {
-                    CleengWidget.purchaseContent(contentId);
-                    return false;
-                });
-            jQuery('#cleeng-layer-' + contentId + ' .cleeng-buy-wide')
+            jQuery('#cleeng-layer-' + contentId + ' .cleeng-button').not('.cleeng-subscribe')
                 .click(function() {
                     CleengWidget.purchaseContent(contentId);
                     return false;
@@ -208,24 +203,39 @@ var CleengWidget = {
      * Update user information
      */
     updateUserInfo: function() {
-        //return
+        //return;
         var user = CleengWidget.userInfo;
         var hasCookie = CleengWidget.hasCookie();
         if (!user || !user.name) {
-            
+            jQuery('.cleeng-prompt .cleeng-auth').hide();
+            if (CleengWidget.hasCookie()) {
+                jQuery('.cleeng-prompt .cleeng-firsttime').hide();
+                jQuery('.cleeng-prompt .cleeng-nofirsttime').show();
+            } else {
+                jQuery('.cleeng-prompt .cleeng-firsttime').show();
+                jQuery('.cleeng-prompt .cleeng-nofirsttime').hide();
+            }
             jQuery('.cleeng-auth-bar').hide();
             jQuery('.cleeng-noauth-bar').show();          
            
         } else {
+            jQuery('.cleeng-prompt .cleeng-auth').show();
+            jQuery('.cleeng-prompt .cleeng-firsttime').hide();
+            jQuery('.cleeng-prompt .cleeng-nofirsttime').hide();
             jQuery('.cleeng-auth-bar').show();
             jQuery('.cleeng-noauth-bar').hide();
-                
+            jQuery('.cleeng-username').text(user.name);
+
             CleengWidget.cookie('cleeng_user_auth', 1, {path: '/'});
         }
-       // console.log(user.length)
+        
+       // console.log(user.length) ------
         for (var first in CleengWidget.contentInfo) {
             var info = CleengWidget.contentInfo[first];
 
+	    //jQuery('#cleeng-layer-' + info.contentId + ' cleeng-button').hide();
+	    //console.dir(info);
+	    
             if (info.price == 0 || (user.freeContentViews > 0 && info.price < 0.99 ) ) {
                 var object = null;
                 if (hasCookie) {
@@ -237,17 +247,8 @@ var CleengWidget = {
                     } else {
                         object = jQuery('.access-for-free-'+info.contentId);
                     }
-                    object.css('display','block');
-
-                    var object = null;
-                    if (info.itemType == 'article') {
-                        object = jQuery('.buy-this-article-'+info.contentId);
-                    } else if (info.itemType == 'video') {
-                        object = jQuery('.buy-this-video-'+info.contentId);
-                    } else {
-                        object = jQuery('.buy-this-item-'+info.contentId);
-                    }       
-                    object.css('display','none');
+                    jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
+                    object.css('display','block');		    
                 }
 
             }else if ((user.length || info.price < 0.99) && hasCookie){
@@ -258,28 +259,9 @@ var CleengWidget = {
                     object = jQuery('.buy-this-video-'+info.contentId);
                 } else {
                     object = jQuery('.buy-this-item-'+info.contentId);
-                }       
-                object.show();  
-                jQuery('.by-free-'+info.contentId).css('display','none');
-                var object = null;
-                if (info.itemType == 'article') {
-                    object = jQuery('.read-for-free-'+info.contentId);
-                } else if (info.itemType == 'video') {
-                    object = jQuery('.watch-for-free-'+info.contentId);
-                } else {
-                    object = jQuery('.access-for-free-'+info.contentId);
-                }
-                object.css('display','none');                
-                
-                var object = null;
-                if (info.itemType == 'article') {
-                    object = jQuery('.register-read-for-free-'+info.contentId);
-                } else if (info.itemType == 'video') {
-                    object = jQuery('.register-watch-for-free-'+info.contentId);
-                } else {
-                    object = jQuery('.register-access-for-free-'+info.contentId);
-                }
-                object.css('display','none');                
+                }   
+                jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
+                object.show();  				
             } 
         }
 
@@ -392,9 +374,9 @@ var CleengWidget = {
                 }
 
                 if (v.referralUrl) {
-                    shortUrl = v.referralUrl;
+                    var shortUrl = v.referralUrl;
                 } else {
-                    shortUrl = v.shortUrl;
+                    var shortUrl = v.shortUrl;
                 }
 
                 CleengWidget.updateBottomBar(v);
@@ -404,6 +386,18 @@ var CleengWidget = {
                 jQuery('.cleeng-content', noLayerId).html(v.content);
                 jQuery(noLayerId).show();
             } else {
+
+                if (v.subscriptionOffer) {
+                    jQuery('.cleeng-button', jQuery(layerId)).removeClass('cleeng-middle');
+                    if (v.subscriptionPrompt) {
+                        jQuery('.cleeng-subscribe', jQuery(layerId)).text(v.subscriptionPrompt);
+                    }
+                    jQuery('.cleeng-subscribe', jQuery(layerId)).show();
+                } else {
+                    jQuery('.cleeng-button', jQuery(layerId)).addClass('cleeng-middle');
+                    jQuery('.cleeng-subscribe', jQuery(layerId)).hide();
+                }
+
                 jQuery(layerId).prev('.cleeng-prompt').show();
                 jQuery(noLayerId).hide();
                 jQuery(layerId).show();

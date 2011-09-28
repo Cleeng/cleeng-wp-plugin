@@ -31,7 +31,7 @@
  * @copyright Copyright (c) 2011 DG2ALL B.V (http://dg2all.com)
  * @license New BSD License
  * 
- * @version 1.0.2
+ * @version 1.1.2
  */
 
 /**
@@ -43,11 +43,11 @@ class CleengClientException extends Exception
 }
 
 /**
- * CleengClient - helper class for accessing Cleeng API
+ * CleengClient - gateway for accessing Cleeng Platform API
  *
  * @uses CleengClientException
  */
-class CleengClient
+class Cleeng_Client
 {
     /**
      * Platform URLs
@@ -123,14 +123,14 @@ class CleengClient
      */
     public static function checkCompatibility()
     {
+        if (version_compare(PHP_VERSION, '5.1.0') == -1) {
+            throw new CleengClientException('Cleeng requires PHP version 5.1 or higher');
+        }
         if (!function_exists('curl_init')) {
             throw new CleengClientException('Cleeng needs the CURL PHP extension.');
         }
         if (!function_exists('json_decode')) {
             throw new CleengClientException('Cleeng needs the JSON PHP extension.');
-        }
-        if (version_compare(PHP_VERSION, '5.1.0') == -1) {
-            throw new CleengClientException('Cleeng requires PHP version 5.1 or higher');
         }
     }
 
@@ -170,7 +170,7 @@ class CleengClient
     {
         $propName = '_' . $name;
         if (!property_exists($this, $propName)) {
-            throw new CleengClientException("Unrecognized option: '$name'");
+            return;
         }
         $methodName = 'set' . ucfirst($name);
         if (method_exists($this, $methodName)) {
@@ -190,7 +190,7 @@ class CleengClient
     {
         $propName = '_' . $name;
         if (!property_exists($this, $propName)) {
-            throw new CleengClientException("Unrecognized option: '$name'");
+            return;
         }
         $methodName = 'get' . ucfirst($name);
         if (method_exists($this, $methodName)) {
