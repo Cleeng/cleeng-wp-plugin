@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, pay-per-item, sell digital goods, subscriptions, paypal, visa, master card, ideal, make money, earn money, social payment, affiliate, sell content, micropayment, secure, monthly subscriptions, daily pass, paywall, search engine friendly, members, membership
 Requires at least: 2.9.2
 Tested up to: 3.2.1
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: New BSD License
 
 The best free plugin to sell articles, videos, images & downloads! Exclusive: sell single item + subscription at the same time, keep advertising $
@@ -111,6 +111,10 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 6. User library, to access all his/her content
 
 == Changelog ==
+
+= 2.1.1 =
+* check if another instance of Cleeng For WordPress is already activated
+* fixed display problem when user had more plugins that add columns to post list
 
 = 2.1.0 =
 * code cleanup, plugin is based on classes now which should make it easier to maintain

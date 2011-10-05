@@ -108,10 +108,13 @@ class Cleeng_PostList
     {
         global $post;
 
+	if ($column_name !== 'cleeng') {
+	    return;
+	}
+
         if (!$this->content) {
             $this->content = $this->get_cleeng_contents();
         }
-
 
         $editor = Cleeng_Core::load('Cleeng_Editor');
 
