@@ -112,6 +112,9 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 
 == Changelog ==
 
+= 2.1.2 =
+* fixed CSS in PayPal mode
+
 = 2.1.1 =
 * check if another instance of Cleeng For WordPress is already activated
 * fixed display problem when user had more plugins that add columns to post list

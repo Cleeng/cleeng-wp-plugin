@@ -320,7 +320,9 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     margin-right: 20px;
     height: 45px;
     line-height: 45px;
-    width: 60px;
+    width: 85px;
+    height: 84px;
+    line-height: 84px;
 }
 .cleeng-price-paypal, .cleeng-price-paypal span {
     font-size: 14pt;
