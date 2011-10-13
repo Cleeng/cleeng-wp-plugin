@@ -1,10 +1,21 @@
 .cleeng-layer {
-    height: 331px;
+    height: 182px;
     position: relative;
     text-align: left;
 }
+.cleeng-protected-content{
+    font-size: 12px;
+    color: #AAA;
+    position: absolute;
+    z-index: 2;
+    top: 11px;
+    left: 26px;
+    font-weight: bold;
+    background: url(../img/lock.png) 0 2px no-repeat;
+    padding-left: 17px;
+}
 .cleeng-layer-left {
-    height: 331px;
+    height: 187px;
     background: url(../img/plugin_grad_sides.png) 0 0 no-repeat;
     width: 10px;
     position: absolute;
@@ -12,7 +23,7 @@
     left: 0;
 }
 .cleeng-layer-right {
-    height: 331px;
+    height: 182px;
     background: url(../img/plugin_grad_sides.png) -10px 0 no-repeat;
     width: 10px;
     position: absolute;
@@ -21,9 +32,9 @@
 }
 .cleeng-text {
     background: url(../img/plugin_grad_center.png) repeat-x;
-    padding:0;
+    padding:11px 0 0 0;
     margin:0 10px;
-    height: 235px;
+    height: 80px;
 }
 .cleeng-textBottom{
     position:relative;
@@ -74,16 +85,16 @@ a.cleeng-pay-with-paypal img {
 .cleeng-auth-bar, .cleeng-noauth-bar  {
     color: black;
     background-color: #e6e6e6;
-    color: #60bb28;
-    text-transform: uppercase;
+    color: #66ac00;
     font-weight: bold;
     padding-left: 16px;
-    height: 22px;
-    line-height: 22px;
+    height: 18px;
+    line-height: 18px;
+    padding-top: 1px;
     text-align: right;
 }
 .cleeng-auth-bar span, .cleeng-noauth-bar span {
-    color: #60bb28;
+    color: #66ac00;
 
 }
 .cleeng-auth-bar a, .cleeng-noauth-bar a {
@@ -98,9 +109,10 @@ a.cleeng-pay-with-paypal img {
 }
 .cleeng-logout {
     float: right;
-    line-height: 22px;
-    height: 22px;
+    line-height: 18px;
+    height: 18px;
     margin-left: 5px;
+    padding-top: 1px; 
 }
 
 .cleeng-logo {
@@ -119,12 +131,18 @@ a.cleeng-pay-with-paypal img {
 .cleeng-publisher{
     height: 48px;
     width: 48px;
+    /*
     position: absolute;
     top: 22px;
     left: 27px;
+    */
     overflow: hidden;
     z-index: 2;
     border: 1px solid #f6f6f6;
+    float: left;
+    margin-top: 17px;
+    margin-left: 16px;
+    position: relative;
 }
 .cleeng-itemType {
     background: url("../img/item-types.png") 0 0 no-repeat;
@@ -162,28 +180,32 @@ a.cleeng-pay-with-paypal img {
 
 
 .cleeng-description {
-    margin: 20px 0 0 88px !important;
+    margin: 13px 0 0 84px !important;
     padding: 0 20px 0 0 !important;
     clear: none !important;
     font-family: Verdana, Tahoma, Arial  !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
     color: black !important;
     text-shadow: none;
     background: none  !important;
+    font-weight:normal !important;
 }
 .cleeng-rating {
-    color: #555;
+    color: #666;
 }
 .cleeng-layer .cleeng-rating {
-    margin: 12px 0 0 88px;
+    margin: 8px 0 0 84px;
+    position: relative;
+    z-index: 2;
+    top: 0;
 }
 .cleeng-rating span {
-    color: #555;
+    color: #666;
 
 }
 .cleeng-free-content-views {
     margin-left: 88px;
-    color: #555;
+    color: #666;
     margin-top: 12px;
 }
 a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
@@ -200,54 +222,54 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 .cleeng-stars {
     background: url('../img/stars.png') -80px 0 no-repeat;
     vertical-align: middle;
-    height: 21px;
-    width: 80px;
+    height: 18px;
+    width: 65px;
     display: inline-block;
     margin: -1px 0 0 5px;
 }
 .cleeng-nolayer-bottom .cleeng-stars {
-    background-position: -80px -22px;
+    background-position: -65px -18px;
 }
 .cleeng-stars-0 {
-    background-position: -80px 0;
+    background-position: -65px 0;
 }
 .cleeng-stars-1 {
-    background-position: -64px 0;
+    background-position: -52px 0;
 }
 .cleeng-stars-2 {
-    background-position: -48px 0;
+    background-position: -39px 0;
 }
 .cleeng-stars-3 {
-    background-position: -32px 0;
+    background-position: -26px 0;
 }
 .cleeng-stars-4 {
-    background-position: -16px 0;
+    background-position: -13px 0;
 }
 .cleeng-stars-5 {
     background-position: 0 0px;
 }
 .cleeng-nolayer-bottom .cleeng-stars-0 {
-    background-position: -80px -22px;
+    background-position: -65px -18px;
 }
 .cleeng-nolayer-bottom .cleeng-stars-1 {
-    background-position: -64px -22px;
+    background-position: -52px -18px;
 }
 .cleeng-nolayer-bottom .cleeng-stars-2 {
-    background-position: -48px -22px;
+    background-position: -39px -18px;
 }
 .cleeng-nolayer-bottom .cleeng-stars-3 {
-    background-position: -32px -22px;
+    background-position: -26px -18px;
 }
 .cleeng-nolayer-bottom .cleeng-stars-4 {
-    background-position: -16px -22px;
+    background-position: -13px -18px;
 }
 .cleeng-nolayer-bottom .cleeng-stars-5 {
-    background-position: 0 -22px;
+    background-position: 0 -18px;
 }
 .cleeng-whatsCleeng {
     position: absolute;
-    bottom: 28px;
-    color: black;
+    bottom: 18px;
+    color: #666;
     padding-left: 16px;
 }
 .cleeng-whatsCleeng a {
@@ -256,6 +278,8 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     color: #66ac00 !important;
     background: none;
     border: none;
+    position: relative;
+    top: 1px;
 }
 .cleeng-whatsCleeng a {
     background: none;
@@ -267,8 +291,8 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 	width: 267px;
 	height: 96px;
 	position:absolute;
-        top: 0px;
-        right: 0;
+  top: 2px;
+  right: 0;
 	margin:0px;
 }
 .cleeng-purchaseInfo-text{
@@ -299,30 +323,28 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     cursor: pointer;
     background: url('../img/layer_button_small.png') no-repeat;
     width:202px;
-    height:23px;
+    height:21px;
     float:left;
     color:#fff;
     text-align: center;
     line-height: 120%;
-    padding-top:6px;
+    padding-top:4px;
     font-size:12px;
-    margin:12px 0 -7px 15px;
+    margin: 12px 0 -7px 15px;
+    margin: 17px 0 -12px 15px;
 }
 .cleeng-layer .cleeng-button.cleeng-middle {
     margin:28px 15px !important;
 }
 .cleeng-price-paypal {
-    display: block;
-    /*height: 20px;*/
+    display: block;    
     padding-top: 1px;
     text-align: center;
     float: right;
-    margin-right: 20px;
-    height: 45px;
-    line-height: 45px;
-    width: 85px;
+    margin-right: 30px;
     height: 84px;
     line-height: 84px;
+    width: 60px;
 }
 .cleeng-price-paypal, .cleeng-price-paypal span {
     font-size: 14pt;
@@ -333,7 +355,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     text-align: right;
     font-family: Verdana, Tahoma, Arial, sans-serif;
     font-size: 11px;
-    height: 22px;
+    height: 18px;
 }
 .cleeng-nolayer-top img {
     display: block;
@@ -342,8 +364,8 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     background: transparent;
 }
 .cleeng-nolayer-top .cleeng-auth-bar {
-    height: 22px;
-    line-height: 22px;
+    height: 18px;
+    line-height: 18px;
 }
 .cleeng-nolayer-bottom {
     background-color: #e6e6e6;
@@ -435,11 +457,11 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     white-space: nowrap;
     height: 22px;
     display: inline-block;
-    color: #555;
+    color: #666;
     position: relative;
 }
 .cleeng-share span {
-    color: #555;
+    color: #666;
     margin-right: 1px;
 }
 .cleeng-prompt {
@@ -462,4 +484,37 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     display: none;
     background: white url(../img/ajax-loader.gif) center center no-repeat;
 
+}
+.cleeng-nolayer {
+    position: relative;
+}
+#cleeng_tip_content {
+    width:450px;
+    min-height:100px;
+    position:absolute;
+    top:330px;
+    display:none;
+    padding: 12px;
+    background-color: white;
+    -moz-box-shadow:0 0 33px #888888;
+    -webkit-box-shadow:0 0 33px #888888;
+    box-shadow:0 0 33px #888888;
+    z-index: 99999;
+}
+#cleeng_tip_content img {
+    float: left;
+}
+#cleeng_tip_content .cleeng-message-body {
+    width:315px;
+    font-size: 15px;
+    text-align: center;
+    margin-left: 130px;
+    font-family: Verdana, Tahoma, Arial;
+}
+#cleeng_tip_content .cleeng-message-header {
+    margin:10px 20px 10px 130px;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    font-family: Verdana, Tahoma, Arial;
 }

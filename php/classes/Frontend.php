@@ -409,7 +409,7 @@ class Cleeng_Frontend
      * Helper function
      * Outputs Cleeng Layer's HTML code
      */
-    function get_layer_markup( $postId, $text, $content ) {
+function get_layer_markup( $postId, $text, $content ) {
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
         $options = Cleeng_Core::get_config();
@@ -442,13 +442,13 @@ class Cleeng_Frontend
         <?php if (!isset($options['show_prompt']) || $options['show_prompt']) : ?>
         <p class="cleeng-prompt"<?php if ($purchased) echo ' style="display:none"'; ?>>
             <span class="cleeng-firsttime"<?php if ($auth || !$noCookie) { echo  ' style="display:none"'; } ?>>
-                <?php _e('The rest of this article is protected, use Cleeng to view it.', 'cleeng'); ?>
+                <?php _e('The rest of this article is exclusive, use Cleeng to view it.', 'cleeng'); ?>
             </span>
             <span class="cleeng-nofirsttime"<?php if ($auth || $noCookie) { echo  ' style="display:none"'; } ?>>
-                <?php _e('The rest of this article is protected, use Cleeng again to view it.', 'cleeng'); ?>
+                <?php _e('The rest of this article is exclusive, use Cleeng again to view it.', 'cleeng'); ?>
             </span>
             <span class="cleeng-auth"<?php if (!$auth) { echo  ' style="display:none"'; } ?>>
-                <?php _e('The rest of this article is protected,', 'cleeng') ?>
+                <?php _e('The rest of this article is exclusive,', 'cleeng') ?>
                 <span class="cleeng-username"><?php echo $userName ?></span>,
                 <?php _e('click "buy" and view it instantly.', 'cleeng') ?>
             </span>
@@ -460,10 +460,12 @@ class Cleeng_Frontend
             echo 'style="display:none"';
         }
     ?>>
+        <div class="cleeng-protected-content">Exclusive content</div>
         <div class="cleeng-layer-left"></div>
 
 
         <div class="cleeng-text">
+            <?php /*
             <div class="cleeng-publisher">
                 <div class="cleeng-ajax-loader">&nbsp;</div>
                 <img src="<?php echo $cleeng->getPublisherLogoUrl($publisherId); ?>"
@@ -475,6 +477,7 @@ class Cleeng_Frontend
                     <img src="<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-light' ) ?>" alt="Cleeng" />
                 </a>
             </div>
+            */ ?>
             <div class="cleeng-noauth-bar"<?php
         if ( $auth ) {
             echo ' style="display:none"';
@@ -498,7 +501,18 @@ class Cleeng_Frontend
                     echo sprintf(__('Welcome, <a class="cleeng-username" href="%s/my-account">%s</a>', 'cleeng'), $cleeng->getUrl(), $userName);
                 ?>
             </div>
+
+            <?php /*
             <div class="cleeng-itemType cleeng-it-<?php echo $itemType ?>"></div>
+            */ ?>
+            <div class="cleeng-publisher">
+                <div class="cleeng-ajax-loader">&nbsp;</div>
+                <img src="<?php echo $cleeng->getPublisherLogoUrl($publisherId); ?>"
+                     alt="<?php echo $publisherName ?>"
+                     title="<?php echo $publisherName ?>" />
+            </div>
+
+
             <h2 class="cleeng-description"><?php echo $shortDescription; ?></h2>
             <div class="cleeng-rating">
                 <span><?php _e('Customer rating:', 'cleeng') ?></span>
@@ -593,7 +607,10 @@ class Cleeng_Frontend
                 </div>
                 <div class="cleeng-whatsCleeng">
                     <?php
-                        echo sprintf(__('What is <a href="%s/what-is-cleeng">Cleeng?</a>', 'cleeng'), $cleeng->getUrl());
+                        echo sprintf(__('Powered by <a href="%s/what-is-cleeng"><img src="%s"
+                            alt="Cleeng"/></a>', 'cleeng'),
+                            $cleeng->getUrl(),
+                            $cleeng->getLogoUrl( $contentId, 'cleeng-small' ));
                     ?>
                 </div>
             </div>
