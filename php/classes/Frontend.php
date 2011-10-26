@@ -36,8 +36,19 @@ class Cleeng_Frontend
      */
     public function setup()
     {
+        $options = Cleeng_Core::get_config();
+
         // Javascripts and styles
         wp_enqueue_script( 'ZeroClipboard', CLEENG_PLUGIN_URL . 'js/ZeroClipboard.js', array( 'jquery' ) );
+
+        if (defined('WPLANG') && WPLANG) {
+            $clientLang = WPLANG;
+        } else {
+            $clientLang = 'en_US';
+        }
+
+        wp_enqueue_script( 'CleengClient', 'https://' . $options['platformUrl'] . '/js-api/client.' . $clientLang . '.js' );
+
         wp_enqueue_script( 'CleengFEWidgetWP', CLEENG_PLUGIN_URL . 'js/CleengFEWidgetWP.js', array( 'jquery' ) );
         wp_enqueue_style( 'cleengFEWidget', CLEENG_PLUGIN_URL . 'css/cleengFEWidget.css' );
 
@@ -62,10 +73,11 @@ class Cleeng_Frontend
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
         if ( $this->cleeng_has_content && ! $this->cleeng_user ) {
-            echo '<script type="text/javascript" src="'
+            /*echo '<script type="text/javascript" src="'
             . $cleeng->getAutologinScriptUrl()
-            . '"></script>';
+            . '"></script>';*/
         }
+
     }
 
     public function action_wp_head() {
@@ -77,7 +89,11 @@ class Cleeng_Frontend
         echo
         '<script type="text/javascript">
         // <![CDATA
-        Cleeng_PluginPath = "' . CLEENG_PLUGIN_URL . '";
+            var Cleeng_PluginPath = "' . CLEENG_PLUGIN_URL . '";
+            CleengClient.init({
+                "channelURL": Cleeng_PluginPath + "/channel.html",
+                 "appId": "' . $options['appId'] . '"
+             });
         // ]]>
         </script> ';
     }
@@ -90,7 +106,7 @@ class Cleeng_Frontend
         echo
         '<script type="text/javascript">
         // <![CDATA
-        jQuery(function() {';
+        jQuery(function() { ';
         if ( $this->cleeng_user ) {
             echo 'CleengWidget.userInfo = ' . json_encode($this->cleeng_user) , ";\n";
         }
@@ -105,7 +121,35 @@ class Cleeng_Frontend
         });
         // ]]>
         </script> ';
+        ?>
 
+<div class="cleeng_overlay_content" id="what-is-cleeng" style="display: none">
+    <div class="cleeng_overlay_header"><?php echo __('Cleeng in 1 minute', 'cleeng'); ?></div>
+
+    <iframe id="cleeng-movie" style="display:none;" width="410" height="230" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
+    <div id="cleeng-play-movie">&nbsp;</div>
+    <ul>
+        <li><?php echo __('Instant delivery & access', 'cleeng'); ?></li>
+        <li><?php echo __('All your content in 1 place', 'cleeng'); ?></li>
+        <li><?php echo __('Safe & secure', 'cleeng'); ?>
+        <img style="vertical-align: top;margin:5px 0 0 10px" src="<?php echo CLEENG_PLUGIN_URL ?>img/lock2.png">
+        </li>
+        <li><img style="vertical-align: middle;width:175px;" src="<?php echo CLEENG_PLUGIN_URL ?>img/payment-methods-small.png"></li>
+        <li><?php echo __('Your privacy is protected', 'cleeng'); ?></li>
+    </ul>
+</div>
+<script type="text/javascript">
+jQuery(function() {
+    jQuery('#cleeng-play-movie').click(function() {
+        jQuery(this).hide();
+        jQuery('#cleeng-movie').attr('src', 'http://player.vimeo.com/video/19256404?title=0&byline=0&portrait=0&color=0fa343&autoplay=1');
+        jQuery('#cleeng-movie').show();
+        return false;
+    });
+});
+</script>
+
+        <?php
     }
 
     /**
@@ -220,14 +264,12 @@ class Cleeng_Frontend
             }
             if (count($contentInfoIds)) {
                 try {
-                    //throw new Exception("test");
+//                    throw new Exception("test");
                     $contentInfo = $cleeng->getContentInfo( $contentInfoIds );
+                    
                     foreach ( $contentInfo as $key => $val ) {
 
-                        // don't load short desc. from platform, use one from tag
-                        // this allows publishers to use descriptions longer than
-                        // standard 110 characters
-                        if ($key == 'shortDescription') {
+                        if (!is_array($val)) {
                             continue;
                         }
 
@@ -438,11 +480,10 @@ function get_layer_markup( $postId, $text, $content ) {
         ob_start();
 
     ?>
-
         <?php if (!isset($options['show_prompt']) || $options['show_prompt']) : ?>
         <p class="cleeng-prompt"<?php if ($purchased) echo ' style="display:none"'; ?>>
             <span class="cleeng-firsttime"<?php if ($auth || !$noCookie) { echo  ' style="display:none"'; } ?>>
-                <?php _e('The rest of this article is exclusive, use Cleeng to view it.', 'cleeng'); ?>
+                <?php _e('This article is exclusive, use Cleeng to view it in full.', 'cleeng'); ?>
             </span>
             <span class="cleeng-nofirsttime"<?php if ($auth || $noCookie) { echo  ' style="display:none"'; } ?>>
                 <?php _e('The rest of this article is exclusive, use Cleeng again to view it.', 'cleeng'); ?>
@@ -597,7 +638,7 @@ function get_layer_markup( $postId, $text, $content ) {
                         <?php elseif ($options['payment_method'] == 'paypal-only' && $price >= 0.49) : ?>
                                 <div class="cleeng-price-paypal"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
                                 <a href="#" class="cleeng-pay-with-paypal" id="cleeng-paypal-<?php echo $contentId ?>">
-                                    <img alt="<?php _e('Pay with <em>PayPal</em>'); ?>" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/btn/btn_xpressCheckout.gif" />
+                                    <img alt="<?php _e('Pay with PayPal'); ?>" src="<?php echo CLEENG_PLUGIN_URL ?>img/btn_xpressCheckout.gif" />
                                 </a>
                         <?php endif ?>
 
@@ -677,6 +718,7 @@ function get_layer_markup( $postId, $text, $content ) {
                 </span>
               </div>
           </div>
+
     <?php
         $cleengLayer = ob_get_contents();
         ob_end_clean();

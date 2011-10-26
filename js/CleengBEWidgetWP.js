@@ -29,7 +29,7 @@ var CleengWidget = {
     ],
     
     teserInputWatcher: function() {
-        desc = jQuery('#cleeng-ContentForm-Description');
+        var desc = jQuery('#cleeng-ContentForm-Description');
         if (desc.val().length > 110) {
             desc.val(desc.val().substring(0, 110));
         }
@@ -37,9 +37,9 @@ var CleengWidget = {
     },
     toggleHasLayerDates: function() {
         if (jQuery('#cleeng-ContentForm-LayerDatesEnabled:checked').length) {
-            disabled = false;
+            var disabled = false;
         } else {
-            disabled = 'disabled';
+            var disabled = 'disabled';
         }
         jQuery('#cleeng-ContentForm-LayerStartDate, #cleeng-ContentForm-LayerEndDate')
             .attr('disabled', disabled)
@@ -53,6 +53,7 @@ var CleengWidget = {
         }
     },
     init: function(){
+
         jQuery(document).ajaxError(function(e, xhr, settings, exception) {
                 console.log(e);
                 console.log(xhr);
@@ -64,20 +65,15 @@ var CleengWidget = {
         });
         
         CleengWidget.getUserInfo();
-
-
-
+        
         jQuery('#cleeng-login').click(function() {
-            CleengWidget.logIn();
+            CleengWidget.openLoginWindow();
             return false;
         });
         jQuery('#cleeng-logout, #cleeng-logout2').click(function() {
-            jQuery.post(
-                Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=logout',
-                function(resp) {
-                   CleengWidget.getUserInfo();
-                }
-            );
+            CleengClient.logOut(function() {
+                CleengWidget.getUserInfo();
+            });
             return false;
         });
         jQuery('#cleeng-register-publisher').click(function() {
@@ -95,20 +91,18 @@ var CleengWidget = {
                     CleengWidget.createCleengContent();
                     e.stopPropagation();
                     return false;
-                })
-                .hover(
-                        function(){
-                            jQuery(this).addClass('ui-state-hover');
-                        },
-                        function(){
-                            jQuery(this).removeClass('ui-state-hover');
-                        }
+                }).hover(
+                    function(){
+                        jQuery(this).addClass('ui-state-hover');
+                    },
+                    function(){
+                        jQuery(this).removeClass('ui-state-hover');
+                    }
                 ).mousedown(function(){
                     jQuery(this).parents('.fg-buttonset-single:first').find('.fg-button.ui-state-active').removeClass('ui-state-active');
                     if( jQuery(this).is('.ui-state-active.fg-button-toggleable, .fg-buttonset-multi .ui-state-active') ){jQuery(this).removeClass('ui-state-active');}
                     else {jQuery(this).addClass('ui-state-active');}
-                })
-                .mouseup(function(){
+                }).mouseup(function(){
                     if(! jQuery(this).is('.fg-button-toggleable, .fg-buttonset-single .fg-button,  .fg-buttonset-multi .fg-button') ){
                             jQuery(this).removeClass('ui-state-active');
                     }
@@ -118,6 +112,7 @@ var CleengWidget = {
                 autoOpen: false,
                 height: 380,
                 width: 400,
+                closeOnEscape: true,
                 modal: true,
                 buttons: {
                     'Save markers' : CleengWidget.newContentFormRegisterContent,
@@ -148,89 +143,292 @@ var CleengWidget = {
 
             jQuery('#cleeng-ContentList a').live('click', function() {
                 if (jQuery(this).hasClass('cleeng-editContentLink')) {
-                    id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
+                    var id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
                     id = id.replace(/\./g, '');
                     CleengWidget.editContent(id);
                 } else if (jQuery(this).hasClass('cleeng-removeContentLink')) {
-                    id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
+                    var id = jQuery.trim(jQuery(this).parents('li').find('span.cleeng-contentId').text());
                     id = id.replace(/\./g, '');
                     CleengWidget.removeMarkers(id);
                 }
                 return false;
             });
         }
-
-        // autologin
-        if (typeof CleengAutologin !== 'undefined') {
-            if (CleengAutologin.available) {
-                jQuery.getJSON(
-                    Cleeng_PluginPath+'ajax.php?cleengMode=autologin&id=' + CleengAutologin.id
-                        + '&key=' + CleengAutologin.key,
-                    function(resp) {
-                        if (resp && resp.success) {
-                            CleengWidget.getUserInfo(false);
-                        }
-                    }
-                );
-            }
-        }
-//        if (typeof tinyMCE !== 'undefined' && jQuery('#content').length) {
-//        }
         setTimeout(function() {
             CleengWidget.findContent();
         }, 1000);
-    },
-    pollPopupWindow: function() {
-        if (!CleengWidget.popupWindow) {
-            return;
-        }
-        if (CleengWidget.popupWindow.closed) {
-            CleengWidget.getUserInfo();
-        } else {
-            setTimeout('CleengWidget.pollPopupWindow()', 250);
-        }
-    },
-    logIn: function() {
-        if (CleengWidget.popupWindow) {
-            CleengWidget.popupWindow.close();
-            CleengWidget.popupWindow = null;
-        }
-        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
-        CleengWidget.pollPopupWindow();
-    },
 
-    getUserInfo: function() {
-        jQuery.getJSON(
-            Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=getUserInfo',
-            function(resp) {
-                CleengWidget.userInfo = resp;
-                jQuery('#cleeng-connecting').hide();
-                if (!resp || !resp.name) {
-                    jQuery('#cleeng-logout').parent().hide();
-                    jQuery('#cleeng-login').parent().show();
-                    jQuery('#cleeng-auth-options').hide();
-                    jQuery('#cleeng-notPublisher').hide();
-                    jQuery('.cleeng-auth').hide();
-                    jQuery('.cleeng-noauth').show();
-                } else {                    
-                    jQuery('#cleeng-login').parent().hide();
-                    jQuery('#cleeng-logout').parent().show();
-                    jQuery('.cleeng-currency-symbol').html(resp.currencySymbol);
-                    jQuery('#cleeng-username').html(resp.name);
-                    if (resp.accountType != 'publisher') {
-                        jQuery('#cleeng-notPublisher').show();
-                        jQuery('#cleeng-auth-options').hide();
-                    } else {
-                        jQuery('#cleeng-notPublisher').hide();
-                        jQuery('#cleeng-auth-options').show();
+        jQuery('a.cleeng-post').click(function(){
+            var contentId = jQuery(this).attr('id').split('-')[2];
+            var isCleengContent = jQuery(this).hasClass('cleeng-on')?1:0;
+
+            CleengWidget.setContent(contentId, isCleengContent);
+        });
+
+        CleengWidget.setHasDefaultSetup();
+
+
+    },
+    openLoginWindow: function() {
+        jQuery.post(
+            Cleeng_PluginPath + 'ajax.php?cleengMode=getAppSecureKey',
+            function(ret) {
+                CleengClient.publisherLogIn(ret.appSecureKey, function(resp) {
+                    if (resp.token) {
+                        jQuery.post(
+                            Cleeng_PluginPath + 'ajax.php?cleengMode=savePublisherToken&token=' + encodeURIComponent(resp.token)
+                        );
+                        CleengWidget.getUserInfo();
                     }
-                    jQuery('.cleeng-auth').show();
-                    jQuery('.cleeng-noauth').hide();
+                });
+            },
+            'json'
+        );
+    },
+    setUpCleengOptions: function() {
+
+        var select = jQuery('#cleeng-options');
+        jQuery(select).insertBefore('.tablenav-pages');
+        select.show();
+
+        jQuery('#cleeng-options').change(function(){
+
+            if (CleengWidget.isPosibilityToProtect() == false) {
+                return false;
+            }
+
+            var toCleengContent = jQuery('#cleeng-options select').val();
+            if (toCleengContent != 99) {
+                jQuery('#cleeng-option-loader').show();
+
+                if(CleengWidget.getSelectedIds().length != 0) {
+                    jQuery.getJSON(
+                        Cleeng_PluginPath+'ajax-set-content.php?contentIds='+CleengWidget.getSelectedIds()+'&protection='+toCleengContent,
+                        function(resp) {
+                            window.location = '';
+                            return true;
+                        }
+                    );
+                } else {
+                     jQuery( "#cleeng-message-no-selected" ).dialog({
+                        modal: true,
+                        minWidth: 350,
+                        buttons: {
+                            Ok: function() {
+                                jQuery( this ).dialog( "close" );
+                            }
+                        }
+                    });
+
+                    jQuery('#cleeng-option-loader').hide();
                 }
+
+            }
+        });
+
+    },
+    getSelectedIds: function() {
+
+        var selected = jQuery("input[name='post[]']:checked");
+
+        var object = new Array();
+        for(var i in selected){
+            var input = selected[i];
+            if (input.value != undefined) {
+                object.push(input.value);
+            }
+        }
+        return object;
+    },
+    isPosibilityToProtect : function() {
+        if (CleengWidget.userInfo == null) {
+            CleengWidget.openLoginWindow();
+            return false;
+        }
+
+        if (!CleengWidget.hasDefaultSetup()) {
+            jQuery( "#cleeng-message-no-default-setup" ).dialog({
+                modal: true,
+                minWidth: 350,
+                buttons: {
+                    'Set default settings': function() {
+                        window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1#edit-single-item-sales','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
+                         jQuery( this ).dialog( "close" );
+                    }
+                }
+            });
+            jQuery('button').addClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only");
+            return false;
+        }
+        return true;
+    },
+    setContent: function(contentId, isCleengContent) {
+
+        if (CleengWidget.isPosibilityToProtect() == false) {
+            return false;
+        }
+
+
+        var protection = '';
+
+        if (isCleengContent == 1) {
+            protection = 'remove-protection';
+        } else {
+            protection = 'add-protection';
+        }
+
+        var c = jQuery('a#cleeng-post-'+contentId);
+        c.attr('class','cleeng-loader');
+        jQuery.getJSON(
+            Cleeng_PluginPath+'ajax-set-content.php?contentId='+contentId+'&protection='+protection,
+            function(resp) {
+
+                if ( CleengWidget.hasDefaultSetup() ) {
+
+                    c.attr('class','cleeng-post cleengit cleeng-'+resp.protecting) ;
+                    if (resp.protecting == 'on') {
+                        c.attr('title',resp.info.symbol+resp.info.price+ "\n"+resp.info.shortDescription);
+                    } else {
+                        c.attr('title','Protect it!');
+                    }
+
+                } else {
+                    c.attr('class','cleeng-post cleengit') ;
+                }
+                return true;
             }
         );
-    },    
+
+    },
+    setHasDefaultSetup: function() {
+
+        //if(CleengWidget.getCookie('hasDefaultSetup') == undefined) {
+
+            CleengClient.getContentDefaultConditions(function(resp){
+                if(resp == null){
+                    CleengWidget.setCookie('hasDefaultSetup', '0', 1);
+                } else {
+                    CleengWidget.setCookie('hasDefaultSetup', '1', 1);
+                }
+            });
+        //}
+
+    },
+    hasDefaultSetup : function() {
+        if(CleengWidget.getCookie('hasDefaultSetup') == undefined) {
+            CleengWidget.setHasDefaultSetup();
+            setTimeout(function() {
+                CleengWidget.hasDefaultSetup();
+            }, 1000);
+        } else {
+            return CleengWidget.getCookie('hasDefaultSetup')==1?true:false;
+        }
+    },
+    showContentFormWithDefaultParams: function() {
+        var user = CleengWidget.userInfo;
+        if (user) {
+
+          CleengClient.getContentDefaultConditions(function(resp){
+              if(resp == null){
+                  CleengWidget.showContentForm({});
+              } else {
+                  var ret = new Object();
+                  ret['defaultArticleCoverage'] = resp.defaultArticleCoverage;
+                  ret['shortDescription'] = resp.itemDescription;
+                  ret['price'] = resp.itemPrice;
+                  ret['referralRate'] = resp.referralProgram/100;
+                  ret['userId'] = resp.userId;
+                  if (resp.referralProgram !=0){
+                    ret['referralProgramEnabled'] = 1;
+                  }
+                  CleengWidget.showContentForm(ret);
+              }
+         });
+
+        }
+    },
+    setCookie : function (c_name,value,exdays)
+    {
+        var exdate=new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+        document.cookie=c_name + "=" + c_value;
+    },
+    getCookie : function (c_name)
+    {
+        var i,x,y,ARRcookies=document.cookie.split(";");
+        for (i=0;i<ARRcookies.length;i++)
+        {
+            x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+            y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+            x=x.replace(/^\s+|\s+$/g,"");
+            if (x==c_name)
+            {
+                return unescape(y);
+            }
+        }
+    },
+    getUserInfo: function() {
+        CleengClient.getUserInfo(function(resp) {
+            CleengWidget.setUpCleengOptions();
+            CleengWidget.userInfo = resp;
+            CleengWidget.updateUserInfo();
+        });
+    },
+    updateUserInfo: function() {
+        var user = CleengWidget.userInfo;
+        if (jQuery('#cleeng-dashboard-login').length) {
+
+        if (!user || !user.name || !user.publisherAccess) {
+            jQuery('#cleeng-connecting').hide();
+            jQuery('#cleeng-dashboard-login').show();
+            jQuery('#cleeng-dashboard-content').hide();
+
+        } else {
+          jQuery('#cleeng-dashboard-login').hide();
+          jQuery('#cleeng-connecting').show();  
+          CleengClient.getPurchaseSummary(function(resp) {
+                var resp = resp.purchaseSummary;
+                var data = [
+                   {earnings: resp.earnings,  balance: resp.balance, purchases: resp.purchases, conversions: resp.conversions, impressions: resp.impressions}
+                ];
+                jQuery('#cleeng-connecting').hide();
+                jQuery("#cleeng-dashboard-content-template").tmpl(data).appendTo("#cleeng-dashboard-content");
+
+                jQuery('#cleeng-dashboard-login').hide();
+                jQuery('#cleeng-dashboard-content').show();
+          });
+
+        }
+
+
+        } else {
+            jQuery('#cleeng-connecting').hide();
+            if (!user || !user.name || !user.publisherAccess) {
+                jQuery('#cleeng-logout').parent().hide();
+                jQuery('#cleeng-login').parent().show();
+                jQuery('#cleeng-auth-options').hide();
+                jQuery('#cleeng-notPublisher').hide();
+                jQuery('.cleeng-auth').hide();
+                jQuery('.cleeng-noauth').show();
+            } else {
+                jQuery('#cleeng-login').parent().hide();
+                jQuery('#cleeng-logout').parent().show();
+                jQuery('.cleeng-currency-symbol').html(user.currencySymbol);
+                jQuery('#cleeng-username').html(user.name);
+                if (user.accountType != 'publisher') {
+                    jQuery('#cleeng-notPublisher').show();
+                    jQuery('#cleeng-auth-options').hide();
+                } else {
+                    jQuery('#cleeng-notPublisher').hide();
+                    jQuery('#cleeng-auth-options').show();
+                }
+                jQuery('.cleeng-auth').show();
+                jQuery('.cleeng-noauth').hide();
+            }
+        }
+
+    },
     showContentForm: function(content) {
         content.contentId = typeof content.contentId === 'undefined' ? 0 : content.contentId;
         content.price = typeof content.price === 'undefined' ? '0.49' : content.price;        
@@ -248,7 +446,7 @@ var CleengWidget = {
         jQuery('#cleeng-ContentForm-LayerEndDate').datetimepicker({dateFormat: 'yy-mm-dd'});
         /* lookup for price */        
         for (var i in CleengWidget.sliderToPrice) {
-            if (CleengWidget.sliderToPrice[i].toFixed(2) >= content.price) {
+            if (parseFloat(CleengWidget.sliderToPrice[i].toFixed(2)) >= parseFloat(content.price)) {
                 break;
             }
         }
@@ -292,7 +490,8 @@ var CleengWidget = {
             jQuery('#cleeng-ContentForm-ItemType').val('article');
             jQuery('#cleeng-ContentForm-LayerDatesEnabled').attr('checked', false);
             jQuery('#cleeng-ContentForm-ReferralRateSlider').slider("disable");
-            CleengWidget.showContentForm({});
+
+            CleengWidget.showContentFormWithDefaultParams();
         } else {
             jQuery('#cleeng_SelectionError').show('pulsate');
         }
@@ -594,7 +793,7 @@ var CleengWidget = {
             }
 
         } else if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
-            ed.focus();            
+            ed.focus();
             ed.selection.setRng(CleengWidget.editorBookmark);
             if (typeof CleengWidget.editorBookmark.startContainer === 'undefined') { // IE
                 CleengWidget.editorBookmark.text = startMarker + CleengWidget.editorBookmark.text + endMarker;
@@ -628,7 +827,7 @@ var CleengWidget = {
                 jQuery(edCanvas).val(newContent);
             }
         }
-    }    
+    }
 }
 jQuery(CleengWidget.init);
 jQuery(function() {
@@ -647,7 +846,6 @@ jQuery(function() {
         }
         return false;
     });
-
 
     jQuery('a.cleeng-facebook, a.cleeng-twitter, a.publisher-account').click(function() {
         if (jQuery(this).hasClass('cleeng-twitter')) {

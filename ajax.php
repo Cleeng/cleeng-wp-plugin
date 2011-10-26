@@ -22,15 +22,17 @@ header( 'pragma: no-cache' );
 header( 'cache-control: no-cache' );
 header( 'expires: 0' );
 
-$cleeng = Cleeng_Core::load('Cleeng_Client');
-
-if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] ) {
-    $scheme = 'https://';
-} else {
-    $scheme = 'http://';
+if (isset($_REQUEST['backendWidget']) && $_REQUEST['backendWidget']) {
+    define( 'WP_ADMIN', true );
 }
 
-$cleeng->setOption( 'callbackUrl', $scheme . $_SERVER['HTTP_HOST'] . '/' . trim( $_SERVER['PHP_SELF'], '/' ) . '?cleengMode=callback&cleengPopup=1' );
+if (!defined('CLEENG_PLUGIN_URL')) {
+    define('CLEENG_PLUGIN_URL',
+            WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), "", plugin_basename(__FILE__)));
+}
+
+$cleeng = Cleeng_Core::load('Cleeng_WpClient');
+
 
 $mode = @$_REQUEST['cleengMode'];
 
@@ -112,78 +114,6 @@ switch ( $mode ) {
          */
         $cleeng->registerPublisher();        
         exit;
-    case 'callback':
-        /**
-         * Cleeng will return here after authentication. We tell CleengClient
-         * to proceed with OAuth stuff, and close popup window.
-         * Parent window is refreshed so that widget will know that user is authenticated
-         * status.
-         */
-        try {
-            $cleeng->processCallback();
-            if ($cleeng->isUserAuthenticated()) {
-                setcookie('cleeng_user_auth', 1, time()+3600*24*60, '/');
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-                echo $cleeng->getApiOutputBuffer();
-        }
-        // IE Hack - without this header IE won't accept cookie from IFRAME
-        header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
-    case 'closePopup':
-        echo '<script type="text/javascript">
-            //<![CDATA[
-                if (opener) {
-                    self.close();
-                } else if (parent) {
-                    parent.CleengWidget.getUserInfo();
-                    if (parent.document.getElementById("PPDGFrame")) {
-                        parent.document.body.removeChild(parent.document.getElementById("PPDGFrame"));
-                    }
-                }
-            //]]>
-            </script>
-            ';
-        exit;
-    case 'purchase':
-        /**
-         * Purchase content
-         */
-        try {
-            $cleeng->purchaseContent( (int) $_REQUEST['contentId'] );
-        } catch ( Exception $e ) {
-        }
-        exit;
-    case 'subscribe':
-        /**
-         * Subscribe
-         */
-        try {
-            $contenInfo = reset($cleeng->getContentInfo( array((int) $_REQUEST['contentId']) ));
-            if (isset($contenInfo['publisherId'])) {
-                $cleeng->subscribe(  $contenInfo['publisherId'] );
-            } else {
-            }
-        } catch ( Exception $e ) {
-        }
-        exit;
-    case 'logout':
-        /**
-         * Disconnect from Cleeng
-         */
-        $cleeng->logout();
-        exit;
-    case 'getUserInfo':
-        header( 'content-type: application/json' );
-        try {
-            if ( $cleeng->isUserAuthenticated() ) {
-                echo json_encode( $cleeng->getUserInfo( @$_REQUEST['backendWidget'] ) );
-                exit;
-            }
-        } catch ( Exception $e ) {            
-        }
-        echo json_encode( array() );
-        exit;
     case 'getContentInfo' :
         /**
          * Retrieve information about cleeng items
@@ -207,9 +137,6 @@ switch ( $mode ) {
                 if ( count( $ids ) ) {
                     $contentInfo = $cleeng->getContentInfo( $ids );
 
-
-//                    echo $cleeng->getApiOutputBuffer();die;
-
                     if ( sizeof( $contentInfo ) ) {
                         foreach ( $contentInfo as $key => $val ) {
                             if ( $val['purchased'] == true ) {
@@ -226,92 +153,23 @@ switch ( $mode ) {
             echo json_encode( array() );
         }
         exit;
-    case 'saveContent':
-        /**
-         * Save Cleeng content
-         */
-        if ( $cleeng->isUserAuthenticated() ) {
-            $data = array(
-                'itemType' => @$_POST['itemType'],
-                'pageTitle' => @$_POST['pageTitle'],
-                'url' => @$_POST['url'],
-                'price' => @$_POST['price'],
-                'shortDescription' => @$_POST['shortDescription'],
-                'referralProgramEnabled' => (bool) @$_POST['referralProgramEnabled'],
-                'referralRate' => @$_POST['referralRate'],
-                'hasLayerDates' => (bool) @$_POST['hasLayerDates'],
-                'layerStartDate' => @$_POST['layerStartDate'],
-                'layerEndDate' => @$_POST['layerEndDate']
-            );
+    case 'getContentDefaultConditions':
+        try{
+            $defaultConditions = $cleeng->getContentDefaultConditions();
             header( 'content-type: application/json' );
-            try {
-
-                $ret = $cleeng->createContent( array( $data ) );
-                header( 'content-type: application/json' );
-                echo json_encode( $ret );
-            } catch ( Exception $e ) {
-                print_r( $cleeng->getApiOutputBuffer() );
-            }
-        } else {
+            echo json_encode( $defaultConditions );
+        } catch ( Exception $e ) {
             header( 'content-type: application/json' );
-            echo json_encode( array( 'response' => false, 'errorCode' => 'ERR_NO_AUTH' ) );
-        }
-        exit;
-    case 'vote':
-        /**
-         * Vote for given content
-         */
-        if ( $cleeng->isUserAuthenticated() ) {
-
-            $contentId = intval( @$_REQUEST['contentId'] );
-            $liked = intval( @$_REQUEST['liked'] );
-
-            if ( $contentId > 0 && ($liked == 0 || $liked == 1) ) {
-                $ret = $cleeng->vote( $contentId, $liked );
-                header( 'content-type: application/json' );
-                echo json_encode( $ret['voted'] );
-            }
-        }
-        exit;
-    case 'refer':
-        /**
-         * Notify Platform that user has referred given item
-         */
-        header( 'content-type: application/json' );
-        if ( $cleeng->isUserAuthenticated() ) {
-            $contentId = intval( @$_REQUEST['contentId'] );
-            if ( $contentId > 0 ) {
-                $ret = $cleeng->referContent( $contentId );
-                echo json_encode( $ret['referred'] );
-            }
-        }
-        exit;
-    case 'autologin':
-        /**
-         * Process with autologin
-         */
-        $id = trim( @$_REQUEST['id'] );
-        $key = trim( @$_REQUEST['key'] );
-
-        header( 'content-type: application/json' );
-
-        if ( $cleeng->isUserAuthenticated() ) {
-            echo json_encode( array( 'success' => true ) );
-            exit;
-        }
-
-        if ( $id && $key ) {
-            try {
-                $ret = $cleeng->autologin( $id, $key );
-            } catch ( Exception $e ) {
-                echo $cleeng->getApiOutputBuffer();
-                die;
-            }
-            echo json_encode( array( 'success' => $ret ) );            
+            echo json_encode( array() );
         }
         exit;
     case 'paypal':
-        $closePopupUrl = $scheme . $_SERVER['HTTP_HOST'] . '/' . trim( $_SERVER['PHP_SELF'], '/' ) . '?cleengMode=callback';
+        if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] ) {
+            $scheme = 'https://';
+        } else {
+            $scheme = 'http://';
+        }
+        $closePopupUrl = CLEENG_PLUGIN_URL . '/channel.html';
         $contentId = intval($_REQUEST['content_id']);
         header('Location: ' . $cleeng->getUrl() . '/content/purchase-digital-goods?'
                 .http_build_query(array(
@@ -319,5 +177,32 @@ switch ( $mode ) {
                     'redirect_uri' => $closePopupUrl,
                     'client_id' => $cleeng->getOption('clientId')
                 )));
+        exit;
+    case 'getPurchaseSummary':
+        try {
+        $purchaseSummary = $cleeng->getPurchaseSummary();
+        
+        header( 'content-type: application/json' );
+        echo json_encode( $purchaseSummary );
+        } catch ( Exception $e ) {
+            header( 'content-type: application/json' );
+            echo json_encode( array() );
+        }
+        exit;
+    case 'getAppSecureKey':
+        header( 'content-type: application/json' );
+
+        if (current_user_can('edit_posts') || current_user_can('edit_pages')) {
+            $options = Cleeng_Core::get_config();
+            echo json_encode(array('appSecureKey' => $options['appSecureKey']));
+        } else {
+            echo json_encode(array());
+        }
+        exit;
+    case 'savePublisherToken':
+        if (current_user_can('edit_posts') || current_user_can('edit_pages') && isset($_REQUEST['token'])) {
+            $user = wp_get_current_user();
+            update_user_meta($user->ID, '_cleeng_publisher_token', $_REQUEST['token']);
+        }
         exit;
 }

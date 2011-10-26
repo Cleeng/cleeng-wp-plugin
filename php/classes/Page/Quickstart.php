@@ -4,7 +4,7 @@ class Cleeng_Page_Quickstart
 {
     public function render()
     {
-        $cleeng = Cleeng_Core::load('Cleeng_Client');
+        $cleeng = Cleeng_Core::load('Cleeng_WpClient');
         ?>
         <div id="cleeng">
         <div id="poststuff" class="wrap">

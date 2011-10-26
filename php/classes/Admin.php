@@ -77,11 +77,14 @@ class Cleeng_Admin
      */
     public function setup()
     {
+        $options = Cleeng_Core::get_config();
         // Setup admin menu
         add_action('admin_menu', array($this, 'action_admin_menu'));
 
         // Backend CSS
-        wp_enqueue_style( 'cleengBEWidget.css', CLEENG_PLUGIN_URL . 'css/cleengBEWidget.css' );
+        wp_enqueue_style('cleengBEWidget.css', CLEENG_PLUGIN_URL . 'css/cleengBEWidget.css');
+
+        wp_enqueue_script('CleengClient', 'https://' . $options['platformUrl'] . '/js-api/client.js');
 
         // register admin_init action hook
         add_action('admin_init', array($this, 'action_admin_init'));
@@ -97,28 +100,33 @@ class Cleeng_Admin
 
         // "Settings" link in "plugins" menu
         $this_plugin = plugin_basename(realpath(dirname(__FILE__) . '/../../cleengWP.php'));
-        add_filter('plugin_action_links_' . $this_plugin, array($this, 'action_plugin_action_links'), 10, 2 );
+        add_filter('plugin_action_links_' . $this_plugin, array($this, 'action_plugin_action_links'), 10, 2);
 
         // init session if it is not started yet
-        if ( ! session_id() ) {
+        if (!session_id()) {
             session_start();
         }
 
         // display messages saved in $_SESSION
-        if ( isset( $_SESSION['cleeng_messages'] ) ) {
-            foreach ( $_SESSION['cleeng_messages'] as $msg ) {
-                die($msg);
+        if (isset($_SESSION['cleeng_messages'])) {
+            foreach (
+                $_SESSION['cleeng_messages'] as $msg
+            ) {
                 $this->message($msg);
             }
-            unset( $_SESSION['cleeng_messages'] );
+            unset($_SESSION['cleeng_messages']);
         }
         // display errors saved in $_SESSION
-        if ( isset( $_SESSION['cleeng_errors'] ) ) {
-            foreach ( $_SESSION['cleeng_errors'] as $err ) {
+        if (isset($_SESSION['cleeng_errors'])) {
+            foreach (
+                $_SESSION['cleeng_errors'] as $err
+            ) {
                 $this->error_message($err);
             }
-            unset( $_SESSION['cleeng_errors'] );
+            unset($_SESSION['cleeng_errors']);
         }
+
+        add_action('wp_dashboard_setup', array($this, 'dashboard'));
     }
 
     /**
@@ -126,15 +134,20 @@ class Cleeng_Admin
      */
     public function render_javascript()
     {
-        $cleeng = Cleeng_Core::load('Cleeng_Client');
+        $cleeng = Cleeng_Core::load('Cleeng_WpClient');
+        $options = Cleeng_Core::get_config();
+
         echo '<script type="text/javascript" language="javascript">//<![CDATA[
-                    var Cleeng_PluginPath = "' . CLEENG_PLUGIN_URL . '";
+                var Cleeng_PluginPath = "' . CLEENG_PLUGIN_URL . '";
+                CleengClient.init({
+                    "channelURL": Cleeng_PluginPath + "/channel.html",
+                     "appId": "' . $options['appId'] . '",
+                     "token": "' . $cleeng->getAccessToken() . '",
+                     "tokenCookieName" : "CleengBackendAccessToken"
+                 });
              // ]]>
              </script>';
         echo '<script src="' . CLEENG_PLUGIN_URL . 'js/CleengBEWidgetWP.js" type="text/javascript"></script>';
-        if ( ! $cleeng->isUserAuthenticated() ) {
-            echo '<script src="' . $cleeng->getAutologinScriptUrl() . '" type="text/javascript"></script>';
-        }
     }
 
     /**
@@ -153,7 +166,7 @@ class Cleeng_Admin
      */
     public function action_admin_init()
     {
-        register_setting( 'cleeng', 'cleeng_options');
+        register_setting('cleeng', 'cleeng_options');
     }
 
     /**
@@ -180,22 +193,36 @@ class Cleeng_Admin
     {
         global $submenu;
 
-        add_menu_page( __('Cleeng', 'cleeng'), __('Cleeng', 'cleeng'), false, 'cleeng-menu',
-                       'cleeng', CLEENG_PLUGIN_URL.'/img/cleengit-small.png');
-        
-        add_submenu_page( 'cleeng-menu', __('What is Cleeng?', 'cleeng'),__('What is Cleeng?', 'cleeng'),
-                          'manage_options', 'cleeng/what-is-cleeng', array($this, 'page_what_is_cleeng'));
-        add_submenu_page( 'cleeng-menu', __('Quick-start guide', 'cleeng'), __('Quick-start guide', 'cleeng'),
-                          'manage_options', 'cleeng/quick-start-guide', array($this, 'page_quickstart'));
-        add_submenu_page( 'cleeng-menu', __('Settings to manage', 'cleeng'), __('Settings to manage', 'cleeng'),
-                          'manage_options', 'cleeng/settings', array($this, 'page_settings'));
+        add_menu_page(
+            __('Cleeng', 'cleeng'), __('Cleeng', 'cleeng'), false, 'cleeng-menu',
+            'cleeng', CLEENG_PLUGIN_URL . '/img/cleengit-small.png'
+        );
 
-        $submenu["cleeng-menu"][] = array( __('<div class="external support">Support & FAQ</div>', 'cleeng'),
-                                           'manage_options' , 'https://support.cleeng.com/home' );
-        $submenu["cleeng-menu"][] = array( __('<div class="external monetization">Monetization tips</div>', 'cleeng'),
-                                           'manage_options' , 'http://monetizecontent.org' );
-        $submenu["cleeng-menu"][] = array( __('<div class="external demos">Demos</div>', 'cleeng'),
-                                           'manage_options' , 'http://cleeng.com/features/demos' );
+        add_submenu_page(
+            'cleeng-menu', __('What is Cleeng?', 'cleeng'), __('What is Cleeng?', 'cleeng'),
+            'manage_options', 'cleeng/what-is-cleeng', array($this, 'page_what_is_cleeng')
+        );
+        add_submenu_page(
+            'cleeng-menu', __('Quick-start guide', 'cleeng'), __('Quick-start guide', 'cleeng'),
+            'manage_options', 'cleeng/quick-start-guide', array($this, 'page_quickstart')
+        );
+        add_submenu_page(
+            'cleeng-menu', __('Settings to manage', 'cleeng'), __('Settings to manage', 'cleeng'),
+            'manage_options', 'cleeng/settings', array($this, 'page_settings')
+        );
+
+        $submenu["cleeng-menu"][] = array(
+            __('<div class="external support">Support & FAQ</div>', 'cleeng'),
+            'manage_options', 'https://support.cleeng.com/home'
+        );
+        $submenu["cleeng-menu"][] = array(
+            __('<div class="external monetization">Monetization tips</div>', 'cleeng'),
+            'manage_options', 'http://monetizecontent.org'
+        );
+        $submenu["cleeng-menu"][] = array(
+            __('<div class="external demos">Demos</div>', 'cleeng'),
+            'manage_options', 'http://cleeng.com/features/demos'
+        );
     }
 
     /**
@@ -244,5 +271,16 @@ class Cleeng_Admin
         $list = Cleeng_Core::load('Cleeng_PostList');
         $list->setup();
     }
+
+
+    /**
+     * add Dashboard Widget Sell your content
+     */
+    function dashboard()
+    {
+        $syc = Cleeng_Core::load('Cleeng_Dashboard');
+        $syc->setup();
+    }
+
 
 }

@@ -50,21 +50,15 @@ var CleengWidget = {
                     return false;
                 });
             jQuery('#cleeng-nolayer-' + contentId + ' .cleeng-vote-liked').click(function() {
-                jQuery.post(
-                    Cleeng_PluginPath + 'ajax.php?cleengMode=vote&liked=1&contentId=' + contentId,
-                    function() {
-                        CleengWidget.getContentInfo();
-                    }
-                );
+                CleengClient.vote(contentId, 1, function() {
+                    CleengWidget.getContentInfo();
+                });
                 return false;
             });
             jQuery('#cleeng-nolayer-' + contentId + ' .cleeng-vote-didnt-like').click(function() {
-                jQuery.post(
-                    Cleeng_PluginPath + 'ajax.php?cleengMode=vote&liked=0&contentId=' + contentId,
-                    function() {
-                        CleengWidget.getContentInfo();
-                    }
-                );
+                CleengClient.vote(contentId, 0, function() {
+                    CleengWidget.getContentInfo();
+                });
                 return false;
             });
         });
@@ -81,19 +75,6 @@ var CleengWidget = {
                 + width + ',height=' + height + ',toolbar=no,resizable=yes');
             return false;
         });
-
-//        jQuery('a.cleeng-pay-with-paypal').click(function() {
-//            if (this.popupWindow) {
-//                this.popupWindow.close();
-//                this.popupWindow = null;
-//            }
-//
-//            var contentId = jQuery(this).parents('.cleeng-layer').attr('id').split('-')[2];
-//
-//            this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=paypal&cleengPopup=1&content_id=' + contentId,'CleengPayPalPopUp',
-//                        'menubar=no,width=607,height=600,toolbar=no,resizable=yes');
-//            return false;
-//        });
 
         jQuery('a.cleeng-pay-with-paypal').each(function() {
             var contentId = jQuery(this).attr('id').split('-')[2];
@@ -147,46 +128,48 @@ var CleengWidget = {
                 });
                 loader.append(jQuery('<img src="https://www.sandbox.paypal.com/en_US/i/icon/icon_animated_prog_42wx42h.gif" alt=""/>'));
                 jQuery('#PPDGFrame').prepend(loader);
+                CleengClient.setPopupCallback(function() {
+                    CleengWidget.getUserInfo();
+                });
+                CleengClient.pollPayPalIframe();
             };
         }
 
-        // autologin
-        if (typeof CleengAutologin !== 'undefined') {
-            if (CleengAutologin.available) {
-                jQuery.getJSON(
-                    Cleeng_PluginPath+'ajax.php?cleengMode=autologin&id=' + CleengAutologin.id
-                        + '&key=' + CleengAutologin.key,
-                    function(resp) {
-                        if (resp && resp.success) {
-                            CleengWidget.getUserInfo(false);
-                        }
-                    }
-                );
-            }
+        jQuery('.cleeng-whatsCleeng').click(function() {
+            CleengWidget.overlay();
+            return false;
+        });
+
+        if (!CleengClient.isUserAuthenticated()) {
+            CleengClient.autologin(function(resp) {
+                if (resp && typeof resp.token !== 'undefined' && resp.token) {
+                    CleengWidget.getUserInfo();
+                }
+            });
         }
+        jQuery('.cleeng-whatsCleeng').click(function() {
+            CleengWidget.overlay();
+            return false;
+        });
     },
     /**
      * Fetch information about currently authenticated user
      */
     getUserInfo: function(dontFetchContentInfo) {
         CleengWidget.showLoader();
-        jQuery.getJSON(
-            Cleeng_PluginPath+'ajax.php?cleengMode=getUserInfo',
-            function(resp) {
-                CleengWidget.userInfo = resp;
-                if (!dontFetchContentInfo) {
-                    CleengWidget.getContentInfo(function() {
-                        CleengWidget.updateUserInfo();
-                        CleengWidget.hideLoader();
-                    });
-                } else {
+        CleengClient.getUserInfo(function(resp) {
+            CleengWidget.userInfo = resp;
+            if (!dontFetchContentInfo) {
+                CleengWidget.getContentInfo(function() {
                     CleengWidget.updateUserInfo();
                     CleengWidget.hideLoader();
-                }
-                jQuery('.cleeng-once').hide();
-//                jQuery('.cleeng-ajax-loader').hide();
+                });
+            } else {
+                CleengWidget.updateUserInfo();
+                CleengWidget.hideLoader();
             }
-        );
+            jQuery('.cleeng-once').hide();
+        });
     },
     hasCookie: function(){
         var split = document.cookie.split(';');
@@ -203,9 +186,8 @@ var CleengWidget = {
      * Update user information
      */
     updateUserInfo: function() {
-        //return;
         var user = CleengWidget.userInfo;
-        var hasCookie = CleengWidget.hasCookie();
+
         if (!user || !user.name) {
             jQuery('.cleeng-prompt .cleeng-auth').hide();
             if (CleengWidget.hasCookie()) {
@@ -217,7 +199,7 @@ var CleengWidget = {
             }
             jQuery('.cleeng-auth-bar').hide();
             jQuery('.cleeng-noauth-bar').show();          
-           
+            var hasCookie = CleengWidget.hasCookie();
         } else {
             jQuery('.cleeng-prompt .cleeng-auth').show();
             jQuery('.cleeng-prompt .cleeng-firsttime').hide();
@@ -227,16 +209,14 @@ var CleengWidget = {
             jQuery('.cleeng-username').text(user.name);
 
             CleengWidget.cookie('cleeng_user_auth', 1, {path: '/'});
+            var hasCookie = true;
         }
-        
-       // console.log(user.length) ------
+
+        jQuery('.cleeng-once').remove();
         for (var first in CleengWidget.contentInfo) {
             var info = CleengWidget.contentInfo[first];
 
-	    //jQuery('#cleeng-layer-' + info.contentId + ' cleeng-button').hide();
-	    //console.dir(info);
-	    
-            if (info.price == 0 || (user.freeContentViews > 0 && info.price < 0.99 ) ) {
+            if (info.price == 0 || (user && user.name && user.freeContentViews > 0 && parseFloat(info.price) < 0.99 ) ) {
                 var object = null;
                 if (hasCookie) {
                     jQuery('.by-free-'+info.contentId).css('display','none');
@@ -248,10 +228,12 @@ var CleengWidget = {
                         object = jQuery('.access-for-free-'+info.contentId);
                     }
                     jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
-                    object.css('display','block');		    
-                }
+                    object.css('display','block');
 
-            }else if ((user.length || info.price < 0.99) && hasCookie){
+                } else {
+
+                }
+            } else if (((user && user.length) || info.price < 0.99) && hasCookie) {
                 var object = null;
                 if (info.itemType == 'article') {
                     object = jQuery('.buy-this-article-'+info.contentId);
@@ -259,68 +241,48 @@ var CleengWidget = {
                     object = jQuery('.buy-this-video-'+info.contentId);
                 } else {
                     object = jQuery('.buy-this-item-'+info.contentId);
-                }   
+                }
                 jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
-                object.show();  				
-            } 
+                object.show();
+            }
+
+            if (user && user.name && user.id == info.publisherId) {
+                jQuery('<span class="cleeng-once" style="color:red">This article is revealed because you are logged in as its publisher.</span>')
+                    .insertBefore('#cleeng-layer-' + info.contentId);
+            }
         }
 
         
     },
-    isPopupOpened: function() {
-        if (!CleengWidget.popupWindow) {
-            return false;
-        }
-        try {
-            if (!CleengWidget.popupWindow.closed) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (e) {
-            return false;
-        }
-    },
-    ensurePopupIsClosed: function() {
-        if (CleengWidget.isPopupOpened()) {
-            CleengWidget.popupWindow.close();
-        }
-        CleengWidget.popupWindow = false;
-    },
-    pollPopupWindow: function() {
-        if (CleengWidget.isPopupOpened()) {
-            setTimeout('CleengWidget.pollPopupWindow()', 250);
-            return;
-        } else {
-            CleengWidget.getUserInfo();
-        }
-    },
     logIn: function() {
-        CleengWidget.ensurePopupIsClosed();
-        CleengWidget.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=auth&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
-        CleengWidget.pollPopupWindow();
+        CleengClient.logIn(function(result) {
+            CleengWidget.getUserInfo();
+            if (result && typeof result.showMessage !== 'undefined' && result.showMessage) {
+                CleengWidget.showMessage(contentId, result.messageHeader, result.messageBody, result.messageImage, result.messageDuration);
+            }
+        });
     },
     purchaseContent: function(contentId) {
-        CleengWidget.ensurePopupIsClosed();
-        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=purchase&contentId=' + contentId + '&cleengPopup=1','CleengConfirmationPopUp',
-            'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
-        CleengWidget.pollPopupWindow();
+        CleengClient.purchaseContent(contentId, function(result) {
+            CleengWidget.getUserInfo();
+            if (result && typeof result.showMessage !== 'undefined' && result.showMessage) {
+                CleengWidget.showMessage(contentId, result.messageHeader, result.messageBody, result.messageImage, result.messageDuration);
+            }
+        });
     },
-    subscribe: function(publisherId) {
-        CleengWidget.ensurePopupIsClosed();
-        this.popupWindow = window.open(Cleeng_PluginPath + 'ajax.php?cleengMode=subscribe&contentId=' + publisherId + '&cleengPopup=1','CleengConfirmationPopUp',
-                    'menubar=no,width=607,height=610,toolbar=no,resizable=yes');
-        CleengWidget.pollPopupWindow();
+    subscribe: function(contentId) {
+        CleengClient.subscribe(CleengWidget.contentInfo[contentId].publisherId, function(result) {
+            CleengWidget.getUserInfo();
+            if (result && typeof result.showMessage !== 'undefined' && result.showMessage) {
+                CleengWidget.showMessage(contentId, result.messageHeader, result.messageBody, result.messageImage, result.messageDuration);
+            }
+        });
     },
     logOut: function() {
         CleengWidget.showLoader();
-        jQuery.post(
-            Cleeng_PluginPath + 'ajax.php?cleengMode=logout',
-            function(resp) {
-                CleengWidget.getUserInfo();
-            }
-        );
+        CleengClient.logOut(function() {
+            CleengWidget.getUserInfo();
+        });
     },
     getContentInfo: function(callbackFunction) {
             var content = [];
@@ -385,6 +347,10 @@ var CleengWidget = {
                 jQuery(layerId).hide();
                 jQuery('.cleeng-content', noLayerId).html(v.content);
                 jQuery(noLayerId).show();
+
+                if (jQuery('#cleeng_tip_content', layerId).length) {
+                    jQuery('#cleeng_tip_content', layerId).appendTo(noLayerId);
+                }
             } else {
 
                 if (v.subscriptionOffer) {
@@ -401,6 +367,10 @@ var CleengWidget = {
                 jQuery(layerId).prev('.cleeng-prompt').show();
                 jQuery(noLayerId).hide();
                 jQuery(layerId).show();
+
+                if (jQuery('#cleeng_tip_content', noLayerId).length) {
+                    jQuery('#cleeng_tip_content', noLayerId).appendTo(layerId);
+                }
             }
         });
     },
@@ -444,7 +414,13 @@ var CleengWidget = {
             if (!jQuery(this).is(':visible')) {
                 return;
             }
-            jQuery('<div/>').addClass('cleeng-overlay').width(jQuery(this).width()).height(jQuery(this).height()).css('position','absolute').css('background-color', 'white').prependTo(this).css('z-index', 1000).fadeTo(0,0.6);
+            jQuery('<div/>').addClass('cleeng-overlay')
+                .width(jQuery(this).width())
+                .height(jQuery(this).height())
+                .css('position','absolute')
+                .css('background-color', 'white')
+                .prependTo(this)
+                .css('z-index', 1000).fadeTo(0,0.6);
         });
         jQuery('.cleeng-ajax-loader').show();
         CleengWidget.loaderVisile = true;
@@ -456,6 +432,81 @@ var CleengWidget = {
         CleengWidget.loaderVisile = false;
     },
 
+    showMessage: function(contentId, header, message, image, duration) {
+        if (jQuery('#cleeng-layer-' + contentId).is(':visible')) {
+            var element = jQuery('#cleeng-layer-' + contentId);
+        } else {
+            var element = jQuery('#cleeng-nolayer-' + contentId);
+        }
+
+        if (!jQuery('#cleeng_tip_content').length) {
+            var overlay = jQuery('<div>');
+            overlay.attr('id', 'cleeng_tip_content')
+                    .css('display', 'none')
+                   .click(function() { jQuery(this).hide(); });
+        } else {
+            var overlay = jQuery('#cleeng_tip_content');
+        }
+
+        var html = '<img src="' + image + '" />'
+                 + '<div class="cleeng-message-header">' + header + '</div>'
+                 + '<div class="cleeng-message-body">' + message + '</div>';
+
+        overlay.html(html).appendTo(element)
+            .css({ top: 30, left: element.width() / 2 - 450 / 2 });
+        overlay.fadeIn('fast').delay(parseInt(duration)*1000).fadeOut('slow');
+    },
+
+    overlay: function() {
+        if (!jQuery('#cleeng_overlay').length) {
+            jQuery('body').append(jQuery('<div>').attr('id', 'cleeng_overlay_mask'))
+            jQuery('<div>').attr('id', 'cleeng_overlay_wrapper')
+                .append(jQuery('<div>').attr('id', 'cleeng_overlay_fix')
+                    .append(jQuery('<div>').attr('id', 'cleeng_overlay').click(function(event) {
+                        event.stopPropagation();
+                    }).hide())
+                    .append(jQuery('<div>').attr('id', 'cleeng_overlay_close').click(function() {
+                        jQuery('#cleeng_overlay_wrapper').click();
+                    }).hide()))
+                .click(function() {
+                    jQuery(this).fadeOut('fast');//.css('background-image', wrapperBg);
+                    jQuery('iframe', '#cleeng_overlay').attr('src', '');
+                    jQuery(this).css('background-color', 'transparent');
+                    jQuery(this).css('background-image', 'none');
+                })
+                .appendTo('body').height(jQuery('body').height());
+
+            jQuery(document).keyup(function(e) {
+              if (e.keyCode == 27) {
+                  jQuery('#cleeng_overlay_wrapper').click();
+              }
+            });
+            jQuery('#cleeng_overlay_mask').show();
+            jQuery('#what-is-cleeng').appendTo('#cleeng_overlay').show();
+        } else {
+            jQuery('#cleeng_overlay_mask').show();
+        }
+
+        jQuery('#cleeng-play-movie').show();
+        jQuery('#cleeng-movie').hide();
+
+        jQuery('#cleeng_overlay_mask').height(jQuery('body').height()+200);
+        jQuery('#cleeng_overlay_mask').css('margin-top','-100px');
+
+        jQuery('#cleeng_overlay_wrapper').show().css('background-image', 'none');
+        jQuery('#cleeng_overlay_fix').css('top', jQuery(window).height() / 2 - 160).fadeIn();
+        jQuery('#cleeng_overlay').css('top', jQuery(window).height() / 2 - 160).fadeIn();
+        jQuery('#cleeng_overlay_close').show();
+
+        jQuery('#cleeng_overlay_wrapper, #cleeng_overlay_mask, #cleeng_overlay_close').live('click', function(){
+            jQuery('#cleeng_overlay_mask').hide();
+        });
+    },
+    overlay: function() {
+        CleengClient.getAboutScreen(function(result) {
+        });
+        return false;
+    },
     /**
     * jQuery Cookie plugin (moved to CleengWidget namespace to prevent conflicts)
     *

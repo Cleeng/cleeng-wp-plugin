@@ -137,7 +137,7 @@ class Cleeng_Editor
     function action_save_post( $postId ) {
         global $wpdb;
 
-        $cleeng = Cleeng_Core::load('Cleeng_Client');
+        $cleeng = Cleeng_Core::load('Cleeng_WpClient');
 
         $errors = array();
 
@@ -235,7 +235,6 @@ class Cleeng_Editor
         $wpdb->query("DELETE FROM " . $wpdb->prefix . "cleeng_content WHERE content_id IN (" . implode(',' ,$cleengContentIds) . ")");
 
         if ( count( $errors ) ) {
-
             $msg = __('Unable to save Cleeng content:', 'cleeng')
                  . '</p><ul><li>' . implode('</li><li>', $errors) . '</li></ul><p>';
 
@@ -248,7 +247,7 @@ class Cleeng_Editor
      * Display "Cleeng Widget" box
      */
     function editor_meta_box() {
-        $cleeng = Cleeng_Core::load('Cleeng_Client');
+        $cleeng = Cleeng_Core::load('Cleeng_WpClient');
 ?>
     <div>
         <div id="cleeng-ajaxErrorWindow" title="Cleeng: Request Error" style="display:none">
@@ -269,7 +268,7 @@ class Cleeng_Editor
                     <a style="margin-left:200px;" class="CleengWidget-auth-link button-primary" id="cleeng-login" href="#"><?php _e('Log in','cleeng') ?></a>
                     <br/><br/>
                     <div style="margin-left: 20px;"><?php _e( 'Or
-                        <a class="publisher-account" href="http://cleeng.com/publisher-registration/popup/1">register</a>
+                        <a class="publisher-account" href="http://staging.cleeng.com/publisher-registration/popup/1">register</a>
                         as publisher if you are new to us.', 'cleeng' ) ?></div>
                 </div>
             <div id="cleeng-notPublisher" style="display:none;">

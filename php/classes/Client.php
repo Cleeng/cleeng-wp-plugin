@@ -111,6 +111,18 @@ class Cleeng_Client
     protected $_userInfo;
 
     /**
+     * Information about user purchase summary
+     * @var array
+     */
+    protected $_purchaseSummary;
+    
+    /**
+     * Default sale content conditions
+     * @var array 
+     */
+    protected $_defaultConditions;
+    
+    /**
      * Raw output from Cleeng API - can be used for debugging purposes
      * @var string
      */
@@ -610,6 +622,70 @@ class Cleeng_Client
         return $this->_userInfo;
     }
 
+    /*
+     * Return user purchase summary info
+     * @return array|null
+     */
+    public function getPurchaseSummary()
+    {
+        if (null === $this->_purchaseSummary) {
+            if (!$this->getAccessToken()) {
+                throw new CleengClientException('Method getPurchaseSummary() requires valid access token.');
+            }
+
+            $ret = $this->callApi('getPurchaseSummary');
+
+            if ($ret['success'] === false) {
+
+                /**
+                 * Don't throw exception when user is not authorized - just return null.
+                 * This will prevent throwing exception when switching servers,
+                 * for example from sandbox to production
+                 *
+                 * TODO: This behaviour will likely change (we need to come with
+                 * some consistent solution).
+                 */
+                if ($ret['errorCode'] == 'ERR_NO_AUTH') {
+                    return null;
+                }
+
+                throw new CleengClientException('WebAPI Error: ' . $ret['errorDescription']);
+            }
+            $this->_purchaseSummary = $ret['purchaseSummary'];
+        }
+        return $this->_purchaseSummary;
+    }
+    
+    public function getContentDefaultConditions()
+    {
+        if (null === $this->_defaultConditions) {
+            if (!$this->getAccessToken()) {
+                throw new CleengClientException('Method getContentDefaultConditions() requires valid access token.');
+            }
+            $ret = $this->callApi('getContentDefaultConditions');
+            if ($ret['success'] === false) {
+
+                /**
+                 * Don't throw exception when user is not authorized - just return null.
+                 * This will prevent throwing exception when switching servers,
+                 * for example from sandbox to production
+                 *
+                 * TODO: This behaviour will likely change (we need to come with
+                 * some consistent solution).
+                 */
+                if ($ret['errorCode'] == 'ERR_NO_AUTH') {
+                    return null;
+                }
+
+                throw new CleengClientException('WebAPI Error: ' . $ret['errorDescription']);
+            }
+            $this->_defaultConditions = $ret['defaultConditions'];
+            
+        }
+        return $this->_defaultConditions;
+        
+    }
+
     /**
      * Check if user has purchased given content
      * @param array $ids
@@ -685,7 +761,7 @@ class Cleeng_Client
     public function removeContent($ids)
     {
         if (!$this->isUserAuthenticated()) {
-            throw new CleengClientException('Method getContentList() requires authenticated user with publisher account.');
+            throw new CleengClientException('Method removeContent() requires authenticated user with publisher account.');
         }
 
         if (!is_array($ids)) {
@@ -808,6 +884,12 @@ class Cleeng_Client
             throw new CleengClientException('WebAPI Error: ' . $ret['errorDescription']);
         }
         return true;
+    }
+
+    public function registerClientApp($title, $description, $url)
+    {
+        $ret = $this->callApi('registerClientApp', array($title, $description, $url));
+        return $ret;
     }
 
 }

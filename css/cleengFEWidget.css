@@ -5,6 +5,8 @@
 }
 .cleeng-protected-content{
     font-size: 12px;
+    height: 18px;
+    line-height: 18px;
     color: #AAA;
     position: absolute;
     z-index: 2;
@@ -330,14 +332,14 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     line-height: 120%;
     padding-top:4px;
     font-size:12px;
-    margin: 12px 0 -7px 15px;
     margin: 17px 0 -12px 15px;
 }
 .cleeng-layer .cleeng-button.cleeng-middle {
     margin:28px 15px !important;
 }
 .cleeng-price-paypal {
-    display: block;    
+    display: block;
+    /*height: 20px;*/
     padding-top: 1px;
     text-align: center;
     float: right;
@@ -506,7 +508,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 }
 #cleeng_tip_content .cleeng-message-body {
     width:315px;
-    font-size: 15px;
+    font-size: 13px;
     text-align: center;
     margin-left: 130px;
     font-family: Verdana, Tahoma, Arial;
@@ -517,4 +519,97 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     font-weight: bold;
     text-align: center;
     font-family: Verdana, Tahoma, Arial;
+}
+
+#cleeng_overlay {
+    padding: 12px 15px;
+    background-color: white;
+    background-color: white;
+    -moz-box-shadow:0 0 33px #888888;
+    -webkit-box-shadow:0 0 33px #888888;
+    box-shadow:0 0 33px #888888;
+    z-index: 99999;
+}
+
+#cleeng_overlay_fix {
+    position: absolute;
+    width: 695px;
+    margin-left: -350px;
+    left: 50%;
+    top: 150px;
+    background-color: white;
+    z-index: 99999;
+}
+
+#cleeng_overlay_wrapper {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 100;
+    background: transparent url('../img/big_loader.gif') center center no-repeat;
+}
+
+#cleeng_overlay_close, #cleeng_overlay_tip_close {
+    position: absolute;
+    right: -12px;
+    top: -10px;
+    z-index: 20;
+	background: url('../img/close.png') no-repeat;
+	width: 28px;
+	height: 28px;
+    cursor: pointer;
+}
+
+#cleeng_overlay_mask{
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0px;
+    background:gray;
+    opacity:0.5;
+    filter: alpha(opacity='50');
+    left:0px;
+    z-index:99;
+    display:none;
+}
+.cleeng_overlay_content {
+    height: 295px;
+    display:none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cleeng_overlay_content img {
+    margin: 0 !important;
+    padding: 0 !important;
+    border:  none !important;
+}
+#cleeng_overlay h2{
+    font-size:24px;
+}
+#cleeng_overlay ul{
+    float:right;
+    width:215px;
+    font-size:16px;
+    line-height:45px;
+    list-style: url(../img/tick.png);
+}
+#cleeng-play-movie {
+    width: 410px;
+    height: 240px;
+    background: transparent url('../img/play-movie.png') no-repeat;
+    cursor: pointer;
+    float: left;
+}
+#cleeng-movie {
+    float: left;
+}
+
+.cleeng_overlay_header {
+    font-size: 22px;
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: 10px;
+    font-family: "Century Gothic", "Helvetica", Arial;
+    border-bottom: 1px solid black;
 }

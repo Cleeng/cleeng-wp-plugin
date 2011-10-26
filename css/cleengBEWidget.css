@@ -313,3 +313,67 @@ strong.cleeng-name {
     height:10px;
     margin-bottom:-2px;
 }
+
+h3 #cleeng-dashboard-logo, #cleeng-info-logo {
+    background: url('../img/cleeng-trans.png') no-repeat 1px 4px;
+    width:45px;
+    height:30px;
+    float:right;
+    margin-top:-6px;
+}
+#cleeng-info-logo {
+    float:left;
+    margin-right:4px;
+}
+
+.cleengit{
+    margin:10px 0;
+    cursor:pointer;
+    width:41px;
+    height:20px;
+    float:left;
+}
+.cleengit.cleeng-on{
+    background: url('../img/cleengit.png') no-repeat;    
+}
+.cleengit.cleeng-off{
+    background: url('../img/cleengit_disabled.png') no-repeat;   
+}
+.cleeng-loader, #cleeng-option-loader{
+    float:left;
+    background: url('../img/loader.gif') no-repeat;   
+    width:20px;
+    height:20px;
+    margin:10px 12px;
+}
+#cleeng-option-loader{
+    display:none;
+    margin:5px 8px;
+}
+#cleeng-options select{
+    float:left;
+}
+.cleeng-link{
+    text-decoration: none;
+    color: #66AC00 !important;
+}
+.cleeng-link:hover{
+    color: #3A6017 !important;
+}
+.cleeng-dashboad-table td, .cleeng-dashboad-table th{
+    padding:5px;
+}
+.cleeng-dashboad-table th{
+    font-weight: normal;
+    padding: 5px 15px 5px 5px;
+    color: #8F8F8F;
+}
+.cleeng-last-7-days{
+    padding:0 0 5px 5px;
+}
+.cleeng-see-details{
+    float:left;
+    margin:5px;
+    width:100%;
+    height:30px;
+}

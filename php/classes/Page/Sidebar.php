@@ -5,7 +5,7 @@ class Cleeng_Page_Sidebar
     public function render()
     {
         
-        $cleeng = Cleeng_Core::load('Cleeng_Client');
+        $cleeng = Cleeng_Core::load('Cleeng_WpClient');
 ?>
 
 <div  class="stuffbox" >

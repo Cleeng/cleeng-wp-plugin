@@ -3,7 +3,7 @@
 class Cleeng_Core
 {
 
-    const DATABASE_VERSION = 1;
+    const DATABASE_VERSION = 2;
 
     /**
      * Configuration injected to each created class
@@ -12,9 +12,10 @@ class Cleeng_Core
     protected static $config = array(
 
         // platformUrl, clientId and clientSecret are essential for connecting with Cleeng Platform API
-        'platformUrl' =>  'cleeng.com',
-        'clientId' => '992580aa70b4',
-        'clientSecret' => '19e53488afa1921403c8',
+        'platformUrl' =>  'cleeng.com', //'staging.cleeng.com'//$options['environment']
+
+        'appId' => null,
+        'appSecureKey' => null,
 
         // following options determine how layer should look & behave
         'payment_method' => 'cleeng-only',   // cleeng-only or paypal-only
@@ -111,15 +112,23 @@ class Cleeng_Core
      * @return void
      */
     public function setup()
-    {
+    {        
         $options = get_option('cleeng_options');
-        
         if (!$options || !isset($options['db_version']) || $options['db_version'] < self::DATABASE_VERSION) {
-            self::load('Cleeng_Installer')->migrate_database();
+            self::load('Cleeng_Installer')->migrate_database($options);
             $options = get_option('cleeng_options'); // reload options
         }
-
         self::$config = array_merge(self::$config, $options);
+        
+        if (!$options['appId']) {  // no appId - register new application
+            $app = self::load('Cleeng_Installer')->register_client_app();
+            if ($app) {
+                $options['appId'] = $app['appId'];
+                $options['appSecureKey'] = $app['appSecureKey'];
+                update_option('cleeng_options', $options);
+                self::$config = $options;
+            }
+        }
 
         if (!is_admin()) {
             $frontend = self::load('Cleeng_Frontend');
@@ -128,7 +137,6 @@ class Cleeng_Core
             $admin = self::load('Cleeng_Admin');
             $admin->setup();
         }
-
     }
 
 

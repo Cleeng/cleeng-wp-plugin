@@ -17,7 +17,7 @@ class Cleeng_Installer
      */
     public function activate()
     {
-        Cleeng_Core::load('Cleeng_Client');
+        Cleeng_Core::load('Cleeng_WpClient');
         Cleeng_Client::checkCompatibility();
         $this->migrate_database();
         //$cleengAdmin = Cleeng_Core::load('Cleeng_Admin');
@@ -37,6 +37,9 @@ class Cleeng_Installer
     {
         global $wpdb;
         /* @var wpdb $wpdb */
+
+        delete_metadata('user', 0, '_cleeng_publisher_token', '', true);
+
         delete_option('cleeng_rss');
         delete_option('cleeng_options');
 
@@ -53,12 +56,11 @@ class Cleeng_Installer
      * Affected tables:
      *      cleeng_content
      */
-    public function migrate_database()
+    public function migrate_database($options = null)
     {
         global $wpdb;
 
         // options
-        $options = get_option('cleeng_options');
         if (!$options) {
             // no cleeng_options
             $config = array_merge(
@@ -102,5 +104,16 @@ class Cleeng_Installer
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+    }
+
+    public function register_client_app()
+    {
+        $client = Cleeng_Core::load('Cleeng_WpClient');
+        $desc = "Automatically created WordPress appliation.";
+        $ret = $client->registerClientApp(get_bloginfo(), $desc, get_option('siteurl'));
+        if ($ret['success']) {
+            return $ret;
+        }
+        return null;
     }
 }

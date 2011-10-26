@@ -83,7 +83,7 @@ class Cleeng_Page_Settings
 
     public function render()
     {
-        $cleeng = Cleeng_Core::load('Cleeng_Client');
+        $cleeng = Cleeng_Core::load('Cleeng_WpClient');
 
         add_settings_section('cleeng_payment_method', __('Payment activation mechanism', 'cleeng'),
                              'cleeng_settings_payment_method_description', 'cleeng');
