@@ -102,6 +102,9 @@ class Cleeng_Admin
         $this_plugin = plugin_basename(realpath(dirname(__FILE__) . '/../../cleengWP.php'));
         add_filter('plugin_action_links_' . $this_plugin, array($this, 'action_plugin_action_links'), 10, 2);
 
+        // in_admin_footer action handler - pass appSecureKey to CleengWidget JS object
+        add_action( 'in_admin_footer', array($this, 'action_in_admin_footer') );
+
         // init session if it is not started yet
         if (!session_id()) {
             session_start();
@@ -144,8 +147,9 @@ class Cleeng_Admin
                      "appId": "' . $options['appId'] . '",
                      "token": "' . $cleeng->getAccessToken() . '",
                      "tokenCookieName" : "CleengBackendAccessToken"
+
                  });
-             // ]]>
+              // ]]>
              </script>';
         echo '<script src="' . CLEENG_PLUGIN_URL . 'js/CleengBEWidgetWP.js" type="text/javascript"></script>';
     }
@@ -167,6 +171,20 @@ class Cleeng_Admin
     public function action_admin_init()
     {
         register_setting('cleeng', 'cleeng_options');
+    }
+
+    /**
+     * in_admin_footer action hook
+     *
+     * Passes appSecureKey to CleengWidget
+     */
+    public function action_in_admin_footer()
+    {
+        if (current_user_can('edit_posts') || current_user_can('edit_pages')) {
+            $options = Cleeng_Core::get_config();
+            echo '<script type="text/javascript">';
+            echo "\nCleengWidget.appSecureKey = '{$options[appSecureKey]}';\n</script>";
+        }
     }
 
     /**

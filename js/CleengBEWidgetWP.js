@@ -20,7 +20,8 @@ var CleengWidget = {
     editorBookmark : {},
     popupWindow: null,
     saveContentServiceURL : Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=saveContent',
-    tempId: 1,    
+    tempId: 1,
+    appSecureKey: null,
 
     sliderToPrice: [
         0, 0.14, 0.19, 0.24, 0.29, 0.34, 0.39, 0.44, 0.49, 0.54, 0.59, 0.64, 0.69, 0.74, 0.79, 0.84, 0.89, 0.94, 0.99,
@@ -77,7 +78,14 @@ var CleengWidget = {
             return false;
         });
         jQuery('#cleeng-register-publisher').click(function() {
-            window.open(Cleeng_PluginPath + 'ajax.php?backendWidget=true&cleengMode=registerPublisher&cleengPopup=1','CleengConfirmationPopUp', 'menubar=no,width=607,height=750,toolbar=no,scrollbars=1');
+            CleengClient.registerAsPublisher(CleengWidget.appSecureKey, function(resp) {
+                if (resp.token) {
+                    jQuery.post(
+                        Cleeng_PluginPath + 'ajax.php?cleengMode=savePublisherToken&token=' + encodeURIComponent(resp.token)
+                    );
+                    CleengWidget.getUserInfo();
+                }
+            });
             return false;
         });
 
@@ -170,20 +178,14 @@ var CleengWidget = {
 
     },
     openLoginWindow: function() {
-        jQuery.post(
-            Cleeng_PluginPath + 'ajax.php?cleengMode=getAppSecureKey',
-            function(ret) {
-                CleengClient.publisherLogIn(ret.appSecureKey, function(resp) {
-                    if (resp.token) {
-                        jQuery.post(
-                            Cleeng_PluginPath + 'ajax.php?cleengMode=savePublisherToken&token=' + encodeURIComponent(resp.token)
-                        );
-                        CleengWidget.getUserInfo();
-                    }
-                });
-            },
-            'json'
-        );
+        CleengClient.publisherLogIn(CleengWidget.appSecureKey, function(resp) {
+            if (resp.token) {
+                jQuery.post(
+                    Cleeng_PluginPath + 'ajax.php?cleengMode=savePublisherToken&token=' + encodeURIComponent(resp.token)
+                );
+                CleengWidget.getUserInfo();
+            }
+        });
     },
     setUpCleengOptions: function() {
 
