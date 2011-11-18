@@ -22,7 +22,9 @@ var CleengWidget = {
     saveContentServiceURL : Cleeng_PluginPath+'ajax.php?backendWidget=true&cleengMode=saveContent',
     tempId: 1,
     appSecureKey: null,
-
+    contentIds: {},
+    protection: null,
+    
     sliderToPrice: [
         0, 0.14, 0.19, 0.24, 0.29, 0.34, 0.39, 0.44, 0.49, 0.54, 0.59, 0.64, 0.69, 0.74, 0.79, 0.84, 0.89, 0.94, 0.99,
         1.24, 1.49, 1.74, 1.99, 2.24, 2.49, 2.74, 2.99, 3.24, 3.49, 3.74, 3.99, 4.24, 4.49, 4.74, 4.99, 5.24, 5.49, 5.74, 5.99,
@@ -194,42 +196,46 @@ var CleengWidget = {
         select.show();
 
         jQuery('#cleeng-options').change(function(){
-
-            if (CleengWidget.isPosibilityToProtect() == false) {
-                return false;
-            }
-
-            var toCleengContent = jQuery('#cleeng-options select').val();
-            if (toCleengContent != 99) {
-                jQuery('#cleeng-option-loader').show();
-
-                if(CleengWidget.getSelectedIds().length != 0) {
-                    jQuery.getJSON(
-                        Cleeng_PluginPath+'ajax-set-content.php?contentIds='+CleengWidget.getSelectedIds()+'&protection='+toCleengContent,
-                        function(resp) {
-                            window.location = '';
-                            return true;
-                        }
-                    );
-                    window.location = '';
-                    return true;
-                } else {
-                     jQuery( "#cleeng-message-no-selected" ).dialog({
-                        modal: true,
-                        minWidth: 350,
-                        buttons: {
-                            Ok: function() {
-                                jQuery( this ).dialog( "close" );
-                            }
-                        }
-                    });
-
-                    jQuery('#cleeng-option-loader').hide();
-                }
-
-            }
+            CleengWidget.setContents();
         });
 
+    },
+    setContents : function() {
+        var toCleengContent = jQuery('#cleeng-options select').val();
+
+        CleengWidget.contentIds = CleengWidget.getSelectedIds();
+        CleengWidget.protection = toCleengContent;
+        if (CleengWidget.isPosibilityToProtect() == false) {
+            return false;
+        }
+
+        if (CleengWidget.protection != 99) {
+            jQuery('#cleeng-option-loader').show();
+
+            if(CleengWidget.getSelectedIds().length != 0) {
+                jQuery.getJSON(
+                    Cleeng_PluginPath+'ajax-set-content.php?contentIds='+CleengWidget.getSelectedIds()+'&protection='+CleengWidget.protection,
+                    function(resp) {
+                        window.location = '';
+                        return true;
+                    }
+                );
+                window.location = '';
+                return true;
+            } else {
+                 jQuery( "#cleeng-message-no-selected" ).dialog({
+                    modal: true,
+                    minWidth: 350,
+                    buttons: {
+                        Ok: function() {
+                            jQuery( this ).dialog( "close" );
+                        }
+                    }
+                });
+
+                jQuery('#cleeng-option-loader').hide();
+            }
+        }
     },
     getSelectedIds: function() {
 
@@ -244,12 +250,30 @@ var CleengWidget = {
         }
         return object;
     },
+    openPublisherRegistrationWindow : function() {
+        
+        CleengClient.registerAsPublisher(CleengWidget.appSecureKey, function(resp) {
+            if (resp.token) {
+                jQuery.post(
+                    Cleeng_PluginPath + 'ajax.php?cleengMode=savePublisherToken&token=' + encodeURIComponent(resp.token)
+                );
+                CleengWidget.getUserInfo();
+            }
+
+        });
+        return false;        
+    },
     isPosibilityToProtect : function() {
+        
         if (CleengWidget.userInfo == null) {
             CleengWidget.openLoginWindow();
             return false;
         }
-
+        if( CleengWidget.userInfo.accountType == 'customer' ) {
+            CleengWidget.openPublisherRegistrationWindow();
+            return false;
+        }
+        
         if (!CleengWidget.hasDefaultSetup()) {
             jQuery( "#cleeng-message-no-default-setup" ).dialog({
                 modal: true,
@@ -257,7 +281,7 @@ var CleengWidget = {
                 buttons: {
                     'Set default settings': function() {
                         window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1#edit-single-item-sales','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
-                         jQuery( this ).dialog( "close" );
+                        jQuery( this ).dialog( "close" );
                     }
                 }
             });
@@ -268,23 +292,22 @@ var CleengWidget = {
     },
     setContent: function(contentId, isCleengContent) {
 
+        CleengWidget.contentIds = [contentId];
+        
+        if (isCleengContent == 1) {
+            CleengWidget.protection = 'remove-protection';
+        } else {
+            CleengWidget.protection = 'add-protection';
+        }
+        
         if (CleengWidget.isPosibilityToProtect() == false) {
             return false;
-        }
-
-
-        var protection = '';
-
-        if (isCleengContent == 1) {
-            protection = 'remove-protection';
-        } else {
-            protection = 'add-protection';
         }
 
         var c = jQuery('a#cleeng-post-'+contentId);
         c.attr('class','cleeng-loader');
         jQuery.getJSON(
-            Cleeng_PluginPath+'ajax-set-content.php?contentId='+contentId+'&protection='+protection,
+            Cleeng_PluginPath+'ajax-set-content.php?contentId='+contentId+'&protection='+CleengWidget.protection,
             function(resp) {
 
                 if ( CleengWidget.hasDefaultSetup() ) {
@@ -462,7 +485,7 @@ var CleengWidget = {
         jQuery('#cleeng-ContentForm-ReferralRateValue').html(referralRate);
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', referralRate);
         if (content.referralProgramEnabled) {
-            jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({ disabled: false });
+            jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({disabled: false});
         }
         
         jQuery('#cleeng-ContentForm-LayerStartDate').val(content.layerStartDate);
@@ -840,7 +863,13 @@ var CleengWidget = {
     }
 }
 jQuery(CleengWidget.init);
+
+
+
 jQuery(function() {
+    
+  
+    
     var advanced = 0;
     jQuery('#cleeng_advanced, #cleeng_advanced2').click(function(){
         if (advanced === 0) {

@@ -36,6 +36,7 @@ class Cleeng_PostList
 
         
         wp_enqueue_script( 'jquery-tmpl', CLEENG_PLUGIN_URL . 'js/jquery.tmpl.min.js');
+        wp_enqueue_script( 'jquery-postmessage', CLEENG_PLUGIN_URL . 'js/postmessage.js');
 
         $admin = Cleeng_Core::load('Cleeng_Admin');
         add_action( "admin_head-edit.php", array($admin, 'render_javascript') );
@@ -67,7 +68,7 @@ class Cleeng_PostList
                     You can protect mulitple posts or pages automatically. <br />
                     To do so, please define your default sales settings. 
                 </p>
-            </div>';
+             </div>';
             
         echo '<div id="cleeng-message-no-selected" title="<div id=\'cleeng-info-logo\'></div>'.__('Cleeng information','cleeng').'" style="display:none">
                 <p>
