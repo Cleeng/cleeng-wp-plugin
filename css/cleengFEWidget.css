@@ -626,6 +626,9 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     font-style: italic;
 }
 .cleeng-a{
-    color:#373737;
+    color:#373737 !important;
     cursor:pointer;
+}
+.cleeng-a:hover{
+    color:#68AF0B !important;
 }

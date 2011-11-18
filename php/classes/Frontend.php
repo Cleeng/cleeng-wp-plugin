@@ -640,9 +640,9 @@ function get_layer_markup( $postId, $text, $content ) {
                                 <?php if($content['subscriptionOffer']): ?>
                                 <div class="prompt" style="float:left; text-align: center;">
                                     <div style="float:left;"><?php _e('Or') ?>, &nbsp;</div>
-                                    <a class="cleeng-a"><div id="cleeng-subscribe-<?php echo $contentId ?>" class="cleeng-subscribe" style="float:left;">
+                                    <div id="cleeng-subscribe-<?php echo $contentId ?>" class="cleeng-subscribe cleeng-a" style="float:left;">
                                         <?php echo $subscriptionPrompt ?>
-                                    </div></a>
+                                    </div>
                                     
                                 </div>    
                                 <?php endif; ?>
