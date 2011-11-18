@@ -618,3 +618,14 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     font-family: "Century Gothic", "Helvetica", Arial;
     border-bottom: 1px solid black;
 }
+.cleeng-purchaseInfo-text .prompt{
+    margin-left:20px;
+    margin-top:-10px;
+    text-align:center;
+    width:140px;
+    font-style: italic;
+}
+.cleeng-a{
+    color:#373737;
+    cursor:pointer;
+}

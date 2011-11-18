@@ -452,6 +452,7 @@ jQuery(function() {
      * Outputs Cleeng Layer's HTML code
      */
 function get_layer_markup( $postId, $text, $content ) {
+    
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
         $options = Cleeng_Core::get_config();
@@ -634,8 +635,17 @@ function get_layer_markup( $postId, $text, $content ) {
                         <?php elseif ($options['payment_method'] == 'paypal-only' && $price >= 0.49) : ?>
                                 <div class="cleeng-price-paypal"><?php echo $currencySymbol ?><span><?php echo number_format($price, 2); ?></span></div>
                                 <a href="#" class="cleeng-pay-with-paypal" id="cleeng-paypal-<?php echo $contentId ?>">
-                                    <img alt="<?php _e('Pay with PayPal'); ?>" src="<?php echo CLEENG_PLUGIN_URL ?>img/btn_xpressCheckout.gif" />
+                                    <img alt="<?php _e('Pay with PayPal'); ?>" src="<?php echo CLEENG_PLUGIN_URL ?>img/btn_xpressCheckout.gif" />                                    
                                 </a>
+                                <?php if($content['subscriptionOffer']): ?>
+                                <div class="prompt" style="float:left; text-align: center;">
+                                    <div style="float:left;"><?php _e('Or') ?>, &nbsp;</div>
+                                    <a class="cleeng-a"><div id="cleeng-subscribe-<?php echo $contentId ?>" class="cleeng-subscribe" style="float:left;">
+                                        <?php echo $subscriptionPrompt ?>
+                                    </div></a>
+                                    
+                                </div>    
+                                <?php endif; ?>
                         <?php endif ?>
 
                     </div>
