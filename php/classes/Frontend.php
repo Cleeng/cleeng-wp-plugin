@@ -643,8 +643,9 @@ function get_layer_markup( $postId, $text, $content ) {
 
                     </div>
                 </div>
-                <div class="cleeng-whatsCleeng" style="width:161px">
-                    <span>Powered by</span> <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng"></a>    
+                <div class="cleeng-whatsCleeng" style="width:171px">
+                     <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng"></a>    
+                     <span>Powered by</span>
                 </div>
             </div>
         </div>
