@@ -654,7 +654,7 @@ function get_layer_markup( $postId, $text, $content ) {
                             $cleeng->getLogoUrl( $contentId, 'cleeng-small' ));
                      * */
                     ?>
-                    <span>Powered</span> by <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng">
+                    <span>Powered by</span> <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng">
                  
                     </a>    
                     
@@ -699,21 +699,21 @@ function get_layer_markup( $postId, $text, $content ) {
 
              <div class="cleeng-nolayer-bottom">
 
-                <span class="cleeng-rate"<?php if ( !$canVote ) echo ' style="display:none"'; ?>>
+                <span  class="cleeng-rate"<?php if ( !$canVote ) echo ' style="display:none"'; ?>>
                     <?php _e('Rate:', 'cleeng') ?>
                     <a href="#" class="cleeng-icon cleeng-vote-liked">&nbsp;</a>
                     <a href="#" class="cleeng-icon cleeng-vote-didnt-like">&nbsp;</a>
                 </span>
-                <span class="cleeng-rating"<?php if ( $canVote ) echo ' style="display:none"'; ?>>
-                    <?php _e('Customer rating:', 'cleeng') ?>
+                <span style="float:left" class="cleeng-rating"<?php if ( $canVote ) echo ' style="display:none"'; ?>>
+                    <!--<?php _e('Customer rating:', 'cleeng') ?>-->
                     <span class="cleeng-stars cleeng-stars-<?php echo $averageRating ?>"></span>
                 </span>
                 <span class="cleeng-share">
-                    <?php _e('Share:', 'cleeng') ?>
+                    <!--<?php _e('Share:', 'cleeng') ?>-->
                     <a class="cleeng-icon cleeng-facebook" href="#">&nbsp;</a>
                     <a class="cleeng-icon cleeng-twitter" href="#">&nbsp;</a>
                     <a class="cleeng-icon cleeng-email" href="mailto:?subject=&amp;body=">&nbsp;</a>
-                    <span class="cleeng-referral-url-label">URL:</span>
+                    <!--<span class="cleeng-referral-url-label">URL:</span>-->
                     <span class="cleeng-referral-url"><?php echo empty($referralUrl)?$shortUrl:$referralUrl ?></span>
                     <span class="cleeng-icon cleeng-copy">&nbsp;</span>
                 </span>
