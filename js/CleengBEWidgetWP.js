@@ -459,7 +459,7 @@ var CleengWidget = {
         
         jQuery('#cleeng-ContentForm-ReferralRateValue').html(referralRate);
         jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', referralRate);
-        if (referralRate != 0) {
+        if (content.referralProgramEnabled) {
             jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({ disabled: false });
         }
         
