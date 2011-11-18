@@ -504,7 +504,6 @@ function get_layer_markup( $postId, $text, $content ) {
         <div class="cleeng-protected-content">Exclusive content</div>
         <div class="cleeng-layer-left"></div>
 
-
         <div class="cleeng-text">
             <?php /*
             <div class="cleeng-publisher">
@@ -574,13 +573,11 @@ function get_layer_markup( $postId, $text, $content ) {
                         <?php if ($options['payment_method'] == 'cleeng-only' || $price < 0.49) : ?>
 
                                 <?php
-
                                 if($subscriptionOffer){
                                     $middle = '';
                                 } else{
                                     $middle = 'cleeng-middle';
                                 }
-
                                 ?>
 
                                 <div class="cleeng-button <?php echo $middle ?>  register-and-read-for-free-<?php echo $contentId ?> by-free-<?php echo $contentId ?>">
@@ -647,18 +644,7 @@ function get_layer_markup( $postId, $text, $content ) {
                     </div>
                 </div>
                 <div class="cleeng-whatsCleeng" style="width:161px">
-                    <?php/*
-                        echo sprintf(__('Powered by <a href="%s/what-is-cleeng"><img src="%s"
-                            alt="Cleeng"/></a>', 'cleeng'),
-                            $cleeng->getUrl(),
-                            $cleeng->getLogoUrl( $contentId, 'cleeng-small' ));
-                     * */
-                    ?>
-                    <span>Powered by</span> <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng">
-                 
-                    </a>    
-                    
-                    
+                    <span>Powered by</span> <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng"></a>    
                 </div>
             </div>
         </div>
