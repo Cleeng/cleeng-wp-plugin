@@ -111,10 +111,12 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 6. User library, to access all his/her content
 
 == Changelog ==
+
 = 2.2.3 =
 * fixed bulk protection
-* fixed form create new content (many extra zeros appear in referal rate) 
+* fixed form creating new content (many extra zeros appear in referal rate) 
 * update plugin pages
+* CSS fixes
 
 = 2.2.2 =
 * fixed "register as publisher" from wp-admin
