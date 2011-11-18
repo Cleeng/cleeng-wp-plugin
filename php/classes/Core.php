@@ -120,7 +120,7 @@ class Cleeng_Core
         }
         self::$config = array_merge(self::$config, $options);
         
-        self::$config['platformUrl'] = $options['platformUrl'] = 'cleeng.local';
+        self::$config['platformUrl'] = $options['platformUrl'] = 'staging.cleeng.com';
         
         if (!$options['appId']) {  // no appId - register new application
             $app = self::load('Cleeng_Installer')->register_client_app();
