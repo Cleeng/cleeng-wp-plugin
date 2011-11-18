@@ -183,8 +183,9 @@ class Cleeng_PostList
         $post_content = $editor->get_cleeng_content($post->post_content);
 
         if (!isset($post_content[0])) {
-          //  return;
+            //return;
         }
+        
         if (!isset($this->content[$post_content[0]['contentId']])) {
             //return;
         }
@@ -194,14 +195,11 @@ class Cleeng_PostList
         if ($content['contentId']) {
          
             $price = $content['price']==0?__('For free!', 'cleeng'):$content['currencySymbol'].$content['price'];
-
             echo '<input type="hidden" name="'.$id.'" value="'.$content['contentId'].'"/>';
             echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-on"  title="'.$price."\n ".$content['shortDescription'].'" ></a>';
 
         } else {
-            //if ($this->wpClient->isUserAuthenticated()) {
-                echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
-            //}
+            echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
         }
         
     }

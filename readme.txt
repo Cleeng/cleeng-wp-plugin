@@ -112,6 +112,12 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 
 == Changelog ==
 
+= 2.2.5 -dev =
+* plugins description
+* adding protection issue
+* redirect to platform with anchor
+* protect content after paragraph in bulk protection
+
 = 2.2.4 =
 * subscriptions in PayPal mode
 

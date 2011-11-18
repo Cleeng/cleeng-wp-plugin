@@ -97,11 +97,11 @@ if (isset($contentIds) && $contentIds != null) {
                     $postContent = $wpRow[0]->post_content;
                     $postTitle = $wpRow[0]->post_title;
 
-                    $str1 = '[cleeng_content id="' . $row['contentId'] . '" description="' . $default['itemDescription'] . '" price="' . $default['itemPrice'];
+                    $str1 = '[cleeng_content id="' . $row['contentId'] . '" description="' . $default['itemDescription'] . '" price="' . $default['itemPrice'].'"';
                     if ($default['referralProgram'] != 0) {
                         $str1 .= ' referral="' . $content['referralRate'] . '"';
                     }
-                    $str1 .= '"]';
+                    $str1 .= ']';
                     $str2 = '[/cleeng_content]';
                     if (strpos($postContent, '<!--more-->')) {
                         preg_match('/\<\!\-\-more\-\-\>(.+)/', $postContent, $matches);
@@ -110,8 +110,8 @@ if (isset($contentIds) && $contentIds != null) {
 
                         $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
                     } else {
-
-                        $wpdb->update($table_name, array('post_content' => $str1. $postContent. $str2), array('id' => $contentId));
+                        $postContent = addProtection($postContent, $str1, $str2);
+                        $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
                     }
                 }
             }
@@ -181,11 +181,11 @@ if (isset($contentIds) && $contentIds != null) {
                 $return = $cleeng->createContent(array($content));
                 if ($return[0]['contentSaved'] === true) {
                     
-                    $str1 = '[cleeng_content id="' . $return[0]['contentId'] . '" description="' . $default['itemDescription'] . '" price="' . $default['itemPrice'];
+                    $str1 = '[cleeng_content id="' . $return[0]['contentId'] . '" description="' . $default['itemDescription'] . '" price="' . $default['itemPrice'].'"';
                     if ($default['referralProgram'] != 0) {
                         $str1 .= ' referral="' . $content['referralRate'] . '"';
                     }
-                    $str1 .= '"]';
+                    $str1 .= ']';
                     $str2 = '[/cleeng_content]';
                     if (strpos($postContent, '<!--more-->')) {
                         preg_match('/\<\!\-\-more\-\-\>(.+)/', $postContent, $matches);
@@ -195,7 +195,10 @@ if (isset($contentIds) && $contentIds != null) {
                         $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
 
                     } else {
-                        $wpdb->update($table_name, array('post_content' => $str1.$postContent.$str2), array('id' => $contentId));
+
+                        $postContent = addProtection($postContent, $str1, $str2);
+                        
+                        $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
                     }
                 }
                 
@@ -211,4 +214,47 @@ if (isset($contentIds) && $contentIds != null) {
         default:
             break;
     }
+}
+
+/**
+ * add protection after first paragraph
+ * @param string $postContent
+ * @param string $str1 cleeng first tag
+ * @param string $str2 cleeng last tag
+ * @return string $postContent  
+ */
+function addProtection($postContent, $str1, $str2)
+{
+    if (strpos($postContent, '<!--more-->')) {
+        preg_match('/\<\!\-\-more\-\-\>(.+)/', $postContent, $matches);
+        $postContent = str_replace($matches[1], '', $postContent);
+        $postContent = $postContent . $str1 . $matches[1] . $str2;
+    } else {
+        $allblocks = '(?:table|div|dl|ul|form|p|h[1-6])';
+
+        preg_match('/(.*)(\n\s*?\n|\r\s*?\r|\r\n\s*?\r\n)(.*)/', $postContent, $matches);    
+        
+        preg_match('/(\n\s*?\n|\r\s*?\r|\r\n\s*?\r\n)(.*)/s', $postContent, $matches2);    
+
+        if (isset($matches[2]) && isset($matches2[2]) && strlen(trim($matches2[2])) !=0 ) {
+
+            $postContentCleeng = str_replace($matches[1].$matches[2], $matches[1].$matches[2].$str1, $postContent).$str2;
+
+            preg_match('/(.*)\[cleeng_content.+\"\](.*)\[\/cleeng_content\]/s', $postContentCleeng, $matches);
+            $pccLength = strlen($matches[2]);
+            $pcLength =  strlen($matches[1]);
+
+            preg_match_all('!(</' . $allblocks . '>)!', $matches[2], $matches);
+
+            if ( count($matches[1])%2 != 0 || $pccLength < $pcLength){ //if cleeng content tags is odd protect all or if cleeng protected content is less than non-protected
+                $postContent = $str1.$postContent.$str2;
+            } else {
+                $postContent = $postContentCleeng;
+            }
+
+        } else {   
+            $postContent = $str1.$postContent.$str2;
+        }
+    }
+    return $postContent;
 }

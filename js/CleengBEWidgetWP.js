@@ -68,6 +68,7 @@ var CleengWidget = {
         });
         
         CleengWidget.getUserInfo();
+       
         
         jQuery('#cleeng-login').click(function() {
             CleengWidget.openLoginWindow();
@@ -176,8 +177,21 @@ var CleengWidget = {
         });
 
         CleengWidget.setHasDefaultSetup();
-
-
+        
+    },
+    setUpPluginDescription: function() {
+        
+        if (jQuery('#cleeng-for-wordpress .plugin-description a').length) {
+            if (CleengWidget.userInfo == null || (CleengWidget.userInfo && CleengWidget.userInfo.accountType != 'publisher')) {
+                jQuery('#cleeng-for-wordpress .plugin-description a').click(function(){
+                    CleengWidget.openPublisherRegistrationWindow();
+                    return false;
+                });                                 
+            } else if(CleengWidget.userInfo.accountType == 'publisher') {
+                var foundin = jQuery('#cleeng-for-wordpress .plugin-description:contains("Activate your account")');
+                foundin.html('<p>'+foundin.text()+'</p>')
+            }
+        }
     },
     openLoginWindow: function() {
         CleengClient.publisherLogIn(CleengWidget.appSecureKey, function(resp) {
@@ -220,7 +234,7 @@ var CleengWidget = {
                         return true;
                     }
                 );
-                window.location = '';
+                //window.location = '';
                 return true;
             } else {
                  jQuery( "#cleeng-message-no-selected" ).dialog({
@@ -259,7 +273,6 @@ var CleengWidget = {
                 );
                 CleengWidget.getUserInfo();
             }
-
         });
         return false;        
     },
@@ -280,7 +293,7 @@ var CleengWidget = {
                 minWidth: 350,
                 buttons: {
                     'Set default settings': function() {
-                        window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1#edit-single-item-sales','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
+                        window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1/anchor/1','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
                         jQuery( this ).dialog( "close" );
                     }
                 }
@@ -400,6 +413,7 @@ var CleengWidget = {
             CleengWidget.setUpCleengOptions();
             CleengWidget.userInfo = resp;
             CleengWidget.updateUserInfo();
+            CleengWidget.setUpPluginDescription();
         });
     },
     updateUserInfo: function() {
