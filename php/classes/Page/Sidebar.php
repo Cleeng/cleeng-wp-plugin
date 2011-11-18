@@ -25,12 +25,12 @@ class Cleeng_Page_Sidebar
     ?>
 
 <div class="cleeng-noauth" <?php if ($auth) { echo 'style="display:none"'; } ?>>
-    <h3><strong><?php _e('Register with Cleeng','cleeng') ?></strong></h3>
+    <h3><strong><?php _e('Activate Cleeng','cleeng') ?></strong></h3>
     <p class="cleeng-firsttime" <?php if (!$noCookie) { echo 'style="display:none"'; } ?>><?php _e('Sign up with Cleeng to protect your content.', 'cleeng') ?></p>
     <p class="cleeng-nofirsttime" <?php if ($noCookie) { echo 'style="display:none"'; } ?>><?php _e('Welcome, you need to log-in to protect your content.', 'cleeng') ?></p>
 
     <a class="button-secondary" id="cleeng-login" href="<?php echo $cleeng->getUrl() ?>/login">Log-in</a>
-    <a class="button-secondary" id="cleeng-register-publisher" href="<?php echo $cleeng->getUrl() ?>/publisher-registration"><?php _e('Register as publisher', 'cleeng') ?></a>
+    <a class="button-primary" id="cleeng-register-publisher" href="<?php echo $cleeng->getUrl() ?>/publisher-registration"><?php _e('Activate account', 'cleeng') ?></a>
 </div>
 
     <div class="cleeng-auth" <?php if (!$auth) { echo 'style="display:none"'; } ?>>
