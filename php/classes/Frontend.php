@@ -623,8 +623,7 @@ function get_layer_markup( $postId, $text, $content ) {
                                      style="display:<?php echo $subscriptionOffer?'block':'none' ?>"><?php echo $subscriptionPrompt ?>
                                 </div>
 
-
-                        <?php $class = $this->getClassDisplayBlock($price,$itemType, $hasCookie, $subscriptionOffer, $contentId) ?>
+                                <?php $class = $this->getClassDisplayBlock($price,$itemType, $hasCookie, $subscriptionOffer, $contentId) ?>
                                     <style>
                                         <?php echo $this->setDisplayNone($contentId); ?>
                                         <?php echo $class ?> {
@@ -638,8 +637,6 @@ function get_layer_markup( $postId, $text, $content ) {
                                     <img alt="<?php _e('Pay with PayPal'); ?>" src="<?php echo CLEENG_PLUGIN_URL ?>img/btn_xpressCheckout.gif" />
                                 </a>
                         <?php endif ?>
-
-
 
                     </div>
                 </div>
