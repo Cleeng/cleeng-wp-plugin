@@ -134,10 +134,7 @@ var CleengWidget = {
             };
         }
 
-        jQuery('.cleeng-whatsCleeng').click(function() {
-            CleengWidget.overlay();
-            return false;
-        });
+
 
         if (!CleengClient.isUserAuthenticated()) {
             CleengClient.autologin(function(resp) {
@@ -147,7 +144,7 @@ var CleengWidget = {
             });
         }
         jQuery('.cleeng-whatsCleeng').click(function() {
-            CleengWidget.overlay();
+            CleengClient.showAboutScreen();
             return false;
         });
     },
@@ -250,8 +247,6 @@ var CleengWidget = {
                     .insertBefore('#cleeng-layer-' + info.contentId);
             }
         }
-
-        
     },
     logIn: function() {
         CleengClient.logIn(function(result) {
@@ -456,12 +451,6 @@ var CleengWidget = {
         overlay.fadeIn('fast').delay(parseInt(duration)*1000).fadeOut('slow');
     },
 
-
-    overlay: function() {
-        CleengClient.showAboutScreen(function(result) {
-        });
-        return false;
-    },
     /**
     * jQuery Cookie plugin (moved to CleengWidget namespace to prevent conflicts)
     *

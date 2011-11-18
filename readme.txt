@@ -117,6 +117,7 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 * adding protection issue
 * redirect to platform with anchor
 * protect content after paragraph in bulk protection
+* restored "About Cleeng" page in overlay
 
 = 2.2.4 =
 * subscriptions in PayPal mode
