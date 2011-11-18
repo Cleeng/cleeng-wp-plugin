@@ -457,53 +457,9 @@ var CleengWidget = {
         overlay.fadeIn('fast').delay(parseInt(duration)*1000).fadeOut('slow');
     },
 
+
     overlay: function() {
-        if (!jQuery('#cleeng_overlay').length) {
-            jQuery('body').append(jQuery('<div>').attr('id', 'cleeng_overlay_mask'))
-            jQuery('<div>').attr('id', 'cleeng_overlay_wrapper')
-                .append(jQuery('<div>').attr('id', 'cleeng_overlay_fix')
-                    .append(jQuery('<div>').attr('id', 'cleeng_overlay').click(function(event) {
-                        event.stopPropagation();
-                    }).hide())
-                    .append(jQuery('<div>').attr('id', 'cleeng_overlay_close').click(function() {
-                        jQuery('#cleeng_overlay_wrapper').click();
-                    }).hide()))
-                .click(function() {
-                    jQuery(this).fadeOut('fast');//.css('background-image', wrapperBg);
-                    jQuery('iframe', '#cleeng_overlay').attr('src', '');
-                    jQuery(this).css('background-color', 'transparent');
-                    jQuery(this).css('background-image', 'none');
-                })
-                .appendTo('body').height(jQuery('body').height());
-
-            jQuery(document).keyup(function(e) {
-              if (e.keyCode == 27) {
-                  jQuery('#cleeng_overlay_wrapper').click();
-              }
-            });
-            jQuery('#cleeng_overlay_mask').show();
-            jQuery('#what-is-cleeng').appendTo('#cleeng_overlay').show();
-        } else {
-            jQuery('#cleeng_overlay_mask').show();
-        }
-
-        jQuery('#cleeng-play-movie').show();
-        jQuery('#cleeng-movie').hide();
-
-        jQuery('#cleeng_overlay_mask').height(jQuery('body').height()+200);
-        jQuery('#cleeng_overlay_mask').css('margin-top','-100px');
-
-        jQuery('#cleeng_overlay_wrapper').show().css('background-image', 'none');
-        jQuery('#cleeng_overlay_fix').css('top', jQuery(window).height() / 2 - 160).fadeIn();
-        jQuery('#cleeng_overlay').css('top', jQuery(window).height() / 2 - 160).fadeIn();
-        jQuery('#cleeng_overlay_close').show();
-
-        jQuery('#cleeng_overlay_wrapper, #cleeng_overlay_mask, #cleeng_overlay_close').live('click', function(){
-            jQuery('#cleeng_overlay_mask').hide();
-        });
-    },
-    overlay: function() {
-        CleengClient.getAboutScreen(function(result) {
+        CleengClient.showAboutScreen(function(result) {
         });
         return false;
     },

@@ -128,20 +128,26 @@ class Cleeng_Page_Settings
             <div class="inside">
             <?php _e('To fully leverage Cleeng you need to understand the different "settings":','cleeng') ?>     <br/><br/>
 
-            <?php _e('<strong>Publisher settings - </strong>like your publisher name, your currency and pay-out details. First you need to <a class="publisher-account" href="'.$cleeng->getUrl().'/publisher-registration/popup/1">create a publisher
-                        account</a> with Cleeng. Once you have created an account you can manage all publisher details in <a href="'.$cleeng->getUrl().'/my-account/settings">Settings</a> on the Cleeng
-                        Platform. If you have multiple websites, you can re-use the same credentials.
-            ','cleeng') ?>     <br/><br/>
+            <?php _e('<strong>Publisher settings - </strong>
+Your personal profile, as well as your publisher profile, including your currency and pay-out details. You need to <a class="publisher-account" href="'.$cleeng->getUrl().'/publisher-registration/popup/1">activate a publisher account</a> with Cleeng. Once you have activated an account you can manage all publisher details in <a href="'.$cleeng->getUrl().'/my-account/settings">Settings</a> on the Cleeng Platform.                
 
-            <?php _e('<strong>Protection / sell per item settings - </strong>like price, description and referral rate. Within WordPress you can define this on the
-                    editor for posts and pages. Select the piece of content you want to protect and once you click on the button (right-hand
-                    side) you can set the price, define a description, etc.
-            ','cleeng') ?>        <br/><br/>
+            ','cleeng') ?> <br/><br/>
 
-            <?php _e('<strong>Daily pass & Subscriptions - </strong>Once you have protected multiple items, you can consider to set up subscriptions. You can
-                    manage them in your <a href="'.$cleeng->getUrl().'/my-account/settings">subscription settings</a> on the Cleeng platform. A subscriber gets access to all your publications for the
-                    time specified.
-            ','cleeng') ?>        <br/><br/>
+            <?php _e('<strong>Protect & sell single items - </strong>
+Within the WordPress editor, select the piece of content you want to protect and once you click on the button (right-hand side) you can set the price, define a description, etc. To see how it works, watch <a href="">this video</a> for details.
+            ','cleeng') ?>  <br/><br/>
+
+            
+            <?php _e('<strong>Daily pass & Subscriptions - </strong>
+Once you have protected multiple items, you can consider to set up subscriptions. You can manage them in your <a href="'.$cleeng->getUrl().'/my-account/settings/edit-publisher-plan/1#edit-publisher-plan">subscription settings</a> on the Cleeng platform. A subscriber gets access to all your publications for the time specified.
+            ','cleeng') ?>  <br/><br/>
+            
+                        
+            <?php _e('<strong>Bulk protection for single items - </strong>
+To quickly setup multiple items for sale, ensure you have <a href="'.$cleeng->getUrl().'/my-account/settings/single-item-sales/1#edit-single-item-sales">default conditions</a> set-up. With a single click you can now - within the post/page overview - set-up items to sell.
+            ','cleeng') ?>  <br/><br/>            
+            
+           
 
             <?php _e('<strong>Cleeng settings for WordPress - </strong>a few additional settings that are specific to the plugin you are using. You can find them
                         <a href="#" id="cleeng_advanced2">below</a>.

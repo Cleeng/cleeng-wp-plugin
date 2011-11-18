@@ -273,6 +273,8 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     bottom: 18px;
     color: #666;
     padding-left: 16px;
+    height: 17px;
+    line-height: 20px;
 }
 .cleeng-whatsCleeng a {
     text-decoration: none;
@@ -283,9 +285,12 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
     position: relative;
     top: 1px;
 }
+.cleeng-whatsCleeng a img{
+    box-shadow:none;
+}
 .cleeng-whatsCleeng a {
-    background: none;
-
+/*    background: none;*/
+    margin-top:2px;float:right;width:100px;height:16px;
 }
 .cleeng-purchaseInfo {
 	background: url("../img/plugin_bg.png") top left no-repeat;
@@ -293,7 +298,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 	width: 267px;
 	height: 96px;
 	position:absolute;
-  top: 2px;
+  top: 0px;
   right: 0;
 	margin:0px;
 }

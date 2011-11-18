@@ -646,13 +646,19 @@ function get_layer_markup( $postId, $text, $content ) {
 
                     </div>
                 </div>
-                <div class="cleeng-whatsCleeng">
-                    <?php
+                <div class="cleeng-whatsCleeng" style="width:161px">
+                    <?php/*
                         echo sprintf(__('Powered by <a href="%s/what-is-cleeng"><img src="%s"
                             alt="Cleeng"/></a>', 'cleeng'),
                             $cleeng->getUrl(),
                             $cleeng->getLogoUrl( $contentId, 'cleeng-small' ));
+                     * */
                     ?>
+                    <span>Powered</span> by <a style="background: url('<?php echo $cleeng->getLogoUrl( $contentId, 'cleeng-small' )?>') no-repeat" href="<?php echo $cleeng->getUrl() ?>/what-is-cleeng">
+                 
+                    </a>    
+                    
+                    
                 </div>
             </div>
         </div>
