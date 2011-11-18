@@ -3,7 +3,7 @@ Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, pay-per-item, sell digital goods, subscriptions, paypal, visa, master card, ideal, make money, earn money, social payment, affiliate, sell content, micropayment, secure, monthly subscriptions, daily pass, paywall, search engine friendly, members, membership
 Requires at least: 2.9.2
 Tested up to: 3.2.1
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: New BSD License
 
 The best free plugin to sell articles, videos, images & downloads! Exclusive: sell single item + subscription at the same time, keep advertising $
@@ -112,12 +112,14 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 
 == Changelog ==
 
+= 2.2.4 =
+* subscriptions in PayPal mode
+
 = 2.2.3 =
 * fixed bulk protection
 * fixed form creating new content (many extra zeros appear in referal rate) 
 * update plugin pages
 * CSS fixes
-* Add subscriptions in paypal-only
 
 = 2.2.2 =
 * fixed "register as publisher" from wp-admin
