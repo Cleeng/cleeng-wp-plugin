@@ -19,6 +19,7 @@ $contentIds = @$_REQUEST['contentIds'];
 $protection = @$_REQUEST['protection'];
 $cleeng = Cleeng_Core::load('Cleeng_WpClient');
 $default = $cleeng->getContentDefaultConditions();
+$user = $cleeng->getUserInfo();
 
 if (isset($contentIds) && $contentIds != null) {
 
@@ -133,10 +134,12 @@ if (isset($contentIds) && $contentIds != null) {
 
             preg_match_all('/(\[\/cleeng_content\])/', $postContent, $matches);
             $postContent = str_replace($matches[1][0], ' ', $postContent);
+            
+            $contentInfo = $cleeng->getContentInfo(array($cleengContentId));
 
-            if ($cleeng->removeContent(array($cleengContentId))) {
-                $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
-                
+            $r = $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
+            
+            if ($contentInfo[$cleengContentId]["publisherId"] == $user['id'] && $cleeng->removeContent(array($cleengContentId))) {
                 $return = array(
                     'protecting' => 'off'
                 );
@@ -144,7 +147,14 @@ if (isset($contentIds) && $contentIds != null) {
                 echo json_encode($return);
             } else {
                 header('content-type: application/json');
-                echo json_encode('error');
+                if ($r==1) {
+                    $return = array(
+                        'protecting' => 'off'
+                    );                
+                    echo json_encode($return);
+                } else {
+                    echo json_encode('error');
+                }
             }
             break;
         case 'add-protection':
@@ -189,7 +199,6 @@ if (isset($contentIds) && $contentIds != null) {
                     }
                 }
                 
-                $user = $cleeng->getUserInfo();
                 $content['symbol'] = $user['currencySymbol'];
                 $return = array(
                     'protecting' => 'on',

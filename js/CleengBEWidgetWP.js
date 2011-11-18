@@ -211,6 +211,8 @@ var CleengWidget = {
                             return true;
                         }
                     );
+                    window.location = '';
+                    return true;
                 } else {
                      jQuery( "#cleeng-message-no-selected" ).dialog({
                         modal: true,
