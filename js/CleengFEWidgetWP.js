@@ -14,7 +14,6 @@
  * Frontend JS library
  */
 var CleengWidget = {
-
     contentIds: [],
     popupWindow: false,
     userInfo: {},

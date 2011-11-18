@@ -128,8 +128,9 @@ class Cleeng_Admin
             }
             unset($_SESSION['cleeng_errors']);
         }
-
         add_action('wp_dashboard_setup', array($this, 'dashboard'));
+        add_action('plugins_loaded', array($this, 'plugins'));
+
     }
 
     /**
@@ -297,6 +298,12 @@ class Cleeng_Admin
     function dashboard()
     {
         $syc = Cleeng_Core::load('Cleeng_Dashboard');
+        $syc->setup();
+    }
+    
+    function plugins()
+    {
+        $syc = Cleeng_Core::load('Cleeng_Plugins');
         $syc->setup();
     }
 
