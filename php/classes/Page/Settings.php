@@ -63,7 +63,7 @@ class Cleeng_Page_Settings
                <input type="radio" name="cleeng_options[payment_method]"
                     id="cleeng_payment_method_paypal_only" ' . $ch2 . ' value="paypal-only" />'
                . __('<strong>PayPal only</strong>: direct PayPal Digital Goods payment from the layer<br />
-    Note: PayPal only payments are applicable for payments above 0.49 cents. All other functionalities (user library, social commission) will remain identical.', 'cleeng') .
+    Note: PayPal only payments are applicable for payments above 0.49 cents. Does not work in combination with subscriptions. All other functionalities (user library, social commission) remain identical.', 'cleeng') .
            '</label>';
 
     }

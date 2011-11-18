@@ -26,7 +26,7 @@ class Cleeng_Page_Quickstart
                     profile settings. Cleeng is free to use.
                     ','cleeng') ?>
 
-                <a class="register-with-cleeng publisher-account button-secondary" href="<?php echo $cleeng->getUrl()?>/publisher-registration/popup/1" title="<?php echo _e('Register with cleeng and start make money','cleeng') ?>"><?php echo _e('Register with cleeng and start make money','cleeng') ?></a>
+                <a class="register-with-cleeng publisher-account button-primary" href="<?php echo $cleeng->getUrl()?>/publisher-registration/popup/1" title="<?php echo _e('Activate a publisher account','cleeng') ?>"><?php echo _e('Activate a publisher account','cleeng') ?></a>
 
 
             </div>
