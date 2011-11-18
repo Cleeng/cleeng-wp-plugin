@@ -638,12 +638,8 @@ function get_layer_markup( $postId, $text, $content ) {
                                     <img alt="<?php _e('Pay with PayPal'); ?>" src="<?php echo CLEENG_PLUGIN_URL ?>img/btn_xpressCheckout.gif" />                                    
                                 </a>
                                 <?php if($content['subscriptionOffer']): ?>
-                                <div class="prompt" style="float:left; text-align: center;">
-                                    <div style="float:left;margin-left:5px;color:#666"><?php _e('Or') ?>, &nbsp;</div>
-                                    <div id="cleeng-subscribe-<?php echo $contentId ?>" class="cleeng-subscribe cleeng-a" style="float:left;">
-                                        <?php echo $subscriptionPrompt ?>
-                                    </div>
-                                    
+                                <div class="cleeng-subscription-prompt">
+                                    <?php _e('Or,') ?> <span class="cleeng-subscribe"><?php echo $subscriptionPrompt ?></span>
                                 </div>    
                                 <?php endif; ?>
                         <?php endif ?>
