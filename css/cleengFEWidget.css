@@ -620,7 +620,7 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 }
 .cleeng-purchaseInfo-text .prompt{
     margin-left:20px;
-    margin-top:-10px;
+    margin-top:-12px;
     text-align:center;
     width:140px;
     font-style: italic;
@@ -631,4 +631,5 @@ a.cleeng-hlink, a.cleeng-hlink:link, a.cleeng-hlink:visited{
 }
 .cleeng-a:hover{
     color:#68AF0B !important;
+    text-decoration: underline;
 }
