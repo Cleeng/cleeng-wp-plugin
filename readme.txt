@@ -117,6 +117,7 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 * fixed form creating new content (many extra zeros appear in referal rate) 
 * update plugin pages
 * CSS fixes
+* Add subscriptions in paypal-only
 
 = 2.2.2 =
 * fixed "register as publisher" from wp-admin
