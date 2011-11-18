@@ -455,8 +455,14 @@ var CleengWidget = {
         jQuery('#cleeng-ContentForm-PriceValue').html(CleengWidget.sliderToPrice[i].toFixed(2));
         jQuery('#cleeng-ContentForm-PriceSlider').slider('value', i);
         jQuery('#cleeng-ContentForm-ItemType').val(content.itemType);
-        jQuery('#cleeng-ContentForm-ReferralRateValue').html(content.referralRate * 100);
-        jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', content.referralRate * 100);
+        var referralRate = Math.round(parseFloat(content.referralRate) * 100);
+        
+        jQuery('#cleeng-ContentForm-ReferralRateValue').html(referralRate);
+        jQuery('#cleeng-ContentForm-ReferralRateSlider').slider('value', referralRate);
+        if (referralRate != 0) {
+            jQuery('#cleeng-ContentForm-ReferralRateSlider').slider({ disabled: false });
+        }
+        
         jQuery('#cleeng-ContentForm-LayerStartDate').val(content.layerStartDate);
         jQuery('#cleeng-ContentForm-LayerEndDate').val(content.layerEndDate);
 
