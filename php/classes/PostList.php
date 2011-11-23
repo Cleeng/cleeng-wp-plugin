@@ -36,7 +36,6 @@ class Cleeng_PostList
 
         
         wp_enqueue_script( 'jquery-tmpl', CLEENG_PLUGIN_URL . 'js/jquery.tmpl.min.js');
-        wp_enqueue_script( 'jquery-postmessage', CLEENG_PLUGIN_URL . 'js/postmessage.js');
 
         $admin = Cleeng_Core::load('Cleeng_Admin');
         add_action( "admin_head-edit.php", array($admin, 'render_javascript') );
