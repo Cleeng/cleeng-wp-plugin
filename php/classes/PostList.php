@@ -36,7 +36,6 @@ class Cleeng_PostList
 
         
         wp_enqueue_script( 'jquery-tmpl', CLEENG_PLUGIN_URL . 'js/jquery.tmpl.min.js');
-        wp_enqueue_script( 'jquery-postmessage', CLEENG_PLUGIN_URL . 'js/postmessage.js');
 
         $admin = Cleeng_Core::load('Cleeng_Admin');
         add_action( "admin_head-edit.php", array($admin, 'render_javascript') );
@@ -183,11 +182,13 @@ class Cleeng_PostList
         $post_content = $editor->get_cleeng_content($post->post_content);
 
         if (!isset($post_content[0])) {
-            //return;
+             echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
+             return;
         }
         
         if (!isset($this->content[$post_content[0]['contentId']])) {
-            //return;
+             echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
+             return;
         }
         
         $content = $this->content[$post_content[0]['contentId']];

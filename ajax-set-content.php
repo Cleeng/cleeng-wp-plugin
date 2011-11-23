@@ -32,7 +32,7 @@ if (isset($contentIds) && $contentIds != null) {
     foreach ($rows as $row) {
         $contentId = $row->ID;
         $postContent = $row->post_content;
-        $postTitle = $rows->post_title;
+        $postTitle = $row->post_title;
         switch ($protection) {
             case 'remove-protection':
                 preg_match_all('/(\[cleeng_content.+\"\])/', $postContent, $matches);
@@ -59,7 +59,7 @@ if (isset($contentIds) && $contentIds != null) {
             case 'add-protection':
                 preg_match_all('/(\[cleeng_content.+\"\])/', $postContent, $matches);
 
-                if ($matches[1][0] == null) {
+                if (!isset($matches[1][0]) || $matches[1][0] == null) {
                     $content[$i]['shortDescription'] = substr($default['itemDescription'], 0, 100) . '...';
                     $content[$i]['price'] = $default['itemPrice'];
                     $content[$i]['itemType'] = 'article';
@@ -99,7 +99,7 @@ if (isset($contentIds) && $contentIds != null) {
 
                     $str1 = '[cleeng_content id="' . $row['contentId'] . '" description="' . $default['itemDescription'] . '" price="' . $default['itemPrice'].'"';
                     if ($default['referralProgram'] != 0) {
-                        $str1 .= ' referral="' . $content['referralRate'] . '"';
+                        $str1 .= ' referral="' . '0.'.$default['referralProgram'] . '"';
                     }
                     $str1 .= ']';
                     $str2 = '[/cleeng_content]';

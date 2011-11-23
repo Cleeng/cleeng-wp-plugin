@@ -184,7 +184,7 @@ class Cleeng_Admin
         if (current_user_can('edit_posts') || current_user_can('edit_pages')) {
             $options = Cleeng_Core::get_config();
             echo '<script type="text/javascript">';
-            echo "\nCleengWidget.appSecureKey = '{$options[appSecureKey]}';\n</script>";
+            echo "\nCleengWidget.appSecureKey = '{$options["appSecureKey"]}';\n</script>";
         }
     }
 
