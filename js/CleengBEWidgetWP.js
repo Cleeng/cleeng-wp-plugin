@@ -230,11 +230,11 @@ var CleengWidget = {
                 jQuery.getJSON(
                     Cleeng_PluginPath+'ajax-set-content.php?contentIds='+CleengWidget.getSelectedIds()+'&protection='+CleengWidget.protection,
                     function(resp) {
-                        window.location = '';
+                        window.location.reload();
                         return true;
                     }
                 );
-                //window.location = '';
+
                 return true;
             } else {
                  jQuery( "#cleeng-message-no-selected" ).dialog({
