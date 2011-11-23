@@ -234,7 +234,6 @@ var CleengWidget = {
                         return true;
                     }
                 );
-
                 return true;
             } else {
                  jQuery( "#cleeng-message-no-selected" ).dialog({
