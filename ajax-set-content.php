@@ -244,9 +244,10 @@ function addProtection($postContent, $str1, $str2)
             $pccLength = strlen($matches[2]);
             $pcLength =  strlen($matches[1]);
 
-            preg_match_all('!(</' . $allblocks . '>)!', $matches[2], $matches);
+            preg_match_all('!(<' . $allblocks . '>)!', $matches[2], $openedTags);
+            preg_match_all('!(</' . $allblocks . '>)!', $matches[2], $closedTags);
 
-            if ( count($matches[1])%2 != 0 || $pccLength < $pcLength){ //if cleeng content tags is odd protect all or if cleeng protected content is less than non-protected
+            if ( count($openedTags[1]) != count($closedTags[1]) || $pccLength < $pcLength){ //if cleeng content tags is odd protect all or if cleeng protected content is less than non-protected
                 $postContent = $str1.$postContent.$str2;
             } else {
                 $postContent = $postContentCleeng;
