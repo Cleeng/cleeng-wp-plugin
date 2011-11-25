@@ -1,0 +1,379 @@
+#cleeng-createContent {
+    outline: 0;
+    margin: 0 4px 0 0;
+    padding: .4em 1em;
+    text-decoration: none !important;
+    cursor: pointer;
+    position: relative;
+    text-align: center;    
+    width: 100%;
+}
+
+#cleeng-contentForm label {
+/*	display: block;*/
+}
+
+#cleeng-contentForm input {
+}
+
+.cleeng-ContentForm-wide {
+    
+	width: 100%;
+}
+
+#cleeng-ContentForm-LayerStartDate, #cleeng-ContentForm-LayerEndDate {
+    width: 140px;
+}
+
+#cleeng-ContentForm-PriceSlider {
+    margin-bottom: 5px;
+}
+
+#cleeng-ContentList li {
+    font-size: 11px;
+}
+#cleeng-ContentList {
+    margin-bottom: 10px;
+}
+
+#cleeng-ContentForm-Description {
+    height: 70px;
+}
+
+.cleeng_error p {
+    font-weight: bold;
+}
+
+.cleeng_error ul {
+    list-style-type: disc;
+    margin-left: 30px;
+    font-style: italic;
+}
+strong.cleeng-name {
+    color: #468429;
+    font-weight: bold;
+}
+
+#cleeng 
+.register-with-cleeng{
+    float:right;
+    margin:15px 5px;
+/*    font-weight:bold;
+    height:30px;
+    line-height:30px;
+    font-size:15px !important;    */
+}
+#cleeng
+.login-a{
+    background-image: url('../img/log-with-cleeng-a.png');
+    float:left;
+    width:175px;
+    height:241px;
+}
+#cleeng
+.login-b{
+    background-image: url('../img/log-with-cleeng-b.png');
+    float:left;
+    width:175px;
+    height:266px;
+}
+#cleeng
+.new-account-element{
+    background-image: url('../img/create-new-content.png');
+    float:left;       
+    width:400px;
+    height:315px;
+    margin:10px 20px;
+}
+#cleeng
+.editor{
+    background-image: url('../img/editor.png');
+    float:left;       
+    width:820px;
+    height:187px;
+    clear:both;
+    margin:15px 0;
+}    
+#cleeng
+.set-up-subscriptions{
+    background-image: url('../img/subscription_setup.png');
+    float:left;       
+    width:774px;
+    height:301px;        
+}
+#cleeng
+.cleeng-icon{
+    background: transparent url('../img/cleengit.png') center center no-repeat;
+    float:left;        
+    width:41px;
+    height:29px;
+    margin:0 8px;
+    padding-top: 3px;
+}
+#cleeng
+.cleeng_advanced{
+    display: none;
+    /*float:left;*/
+}
+#cleeng
+.learn-about-cleeng{
+    float:right;        
+    margin-top:35px;
+    margin-left:15px;
+    margin-right:15px;
+/*    font-weight:bold;
+    height:30px;
+    line-height:30px;
+    font-size:15px !important;*/
+}
+#cleeng
+.earth{
+    background: transparent url('../img/cleeng-happy-world.png');
+    float:left;        
+    width:225px;
+    height:196px;
+    margin:0 65px;
+}
+#cleeng
+.clock{
+    background-image: url('../img/cleeng_reasons_timer.png');
+    float:left;        
+    width:240px;
+    height:248px;
+    margin:0 60px;
+}
+#cleeng
+.commission{
+    background-image: url('../img/cleeng-share-commission.png');
+    float:left;        
+    width:300px;
+    height:182px;
+    margin:0 35px;
+}
+#cleeng
+#poststuff h2{
+    font-size: 25px;
+    font-family: "Bitstream Charter",Times,serif;
+    font-style: italic;
+    margin-top:0;
+}
+#cleeng
+#poststuff h3{
+    cursor: default
+}
+#cleeng
+#poststuff .left{
+    margin-right: 284px;
+    max-width:950px;
+
+}
+#cleeng
+#poststuff .right{
+    width:250px;
+    float:right;
+    margin:0 15px;
+    margin-top:47px;
+}
+#cleeng
+#poststuff .inside{
+    line-height:25px;
+    font-size:14px;
+}
+#cleeng
+#poststuff .right .inside{
+    line-height:20px;
+    font-size:12px;
+}
+#cleeng
+#advanced{
+    margin:0 10px 30px 10px;
+    clear:both;
+    float:left;
+    width:100%;
+}
+#cleeng
+.advanced form p{
+    margin:10px!important;
+    float:left
+}
+#cleeng
+.genius{
+    background-image: url('../img/genius.png');
+    float:left;        
+    width:735px;
+    height:28px;
+    margin:20px 100px;
+    
+}
+#cleeng
+.banana{
+    background-image: url('../img/banana.png');
+    float:left;        
+    width:370px;
+    height:216px;
+    margin:20px;
+}
+
+#cleeng
+.hends{
+    background-image: url('../img/cleeng-hands-money.png');
+    float:left;        
+    width:301px;
+    height:152px;
+}
+#cleeng
+#poststuff div{
+    line-height:25px;
+    font-size: 14px;
+}
+#cleeng
+.rss li{
+    background: url('../img/cleengit-small.png') no-repeat 1px 4px;
+    padding-left:25px;
+}
+#cleeng
+.likes li{
+    margin-left:15px;
+    list-style-image: url('../img/star.png') 
+}
+#cleeng
+.wrap{
+    float:left;
+}
+#cleeng
+.cleeng-noauth p{
+    margin:10px 10px;
+}
+#cleeng
+.cleeng-noauth a{
+    margin:15px 8px;
+    
+}
+#cleeng
+.cleeng-noauth{
+    padding-bottom:10px;
+}
+#cleeng
+.banana-desc{
+/*    background-image: url('../img/banana-desc.png');*/
+    float:left;        
+    width:461px;
+    height:192px;
+    margin-top:30px;
+    margin-left:60px;
+}
+#cleeng .ul-what-is-cleeng{
+    list-style-type: disc;
+    font-size:20px;
+}
+#cleeng .ul-what-is-cleeng li{
+    line-height:40px;
+    color:#7c7c7c;
+
+}
+.external{
+    background: url('../img/external.png') no-repeat;
+    
+    height:20px;
+}
+.external.support{
+    width:107px;
+    background-position: right -1px;
+}
+.external.demos{
+    width:63px;
+    background-position: right -1px;
+}
+.external.monetization{
+    width:120px;
+    background-position: right -1px;
+}
+#cleeng .become-publisher, #cleeng .become-publisher-logout{
+    margin:10px 0;
+    float:left;
+    margin-right:20px;
+}
+#cleeng .payment-methods{
+    background: url('../img/cleeng-payment-methods.png') no-repeat;
+    width:777px;
+    height:57px;
+    margin-top:20px;
+}
+
+#cleeng #arrow{
+    background: url('../img/arrow.png') no-repeat;
+    width:6px;
+    height:10px;
+    display:inline-block;
+    margin-bottom:-1px;
+}
+#cleeng #arrow.bottom{
+    background: url('../img/arrow-bottom.png') no-repeat;
+    width:12px;
+    height:10px;
+    margin-bottom:-2px;
+}
+
+h3 #cleeng-dashboard-logo, #cleeng-info-logo {
+    background: url('../img/cleeng-trans.png') no-repeat 1px 4px;
+    width:45px;
+    height:30px;
+    float:right;
+    margin-top:-6px;
+}
+#cleeng-info-logo {
+    float:left;
+    margin-right:4px;
+}
+
+.cleengit{
+    margin:10px 0;
+    cursor:pointer;
+    width:41px;
+    height:20px;
+    float:left;
+}
+.cleengit.cleeng-on{
+    background: url('../img/cleengit.png') no-repeat;    
+}
+.cleengit.cleeng-off{
+    background: url('../img/cleengit_disabled.png') no-repeat;   
+}
+.cleeng-loader, #cleeng-option-loader{
+    float:left;
+    background: url('../img/loader.gif') no-repeat;   
+    width:20px;
+    height:20px;
+    margin:10px 12px;
+}
+#cleeng-option-loader{
+    display:none;
+    margin:5px 8px;
+}
+#cleeng-options select{
+    float:left;
+}
+.cleeng-link{
+    text-decoration: none;
+    color: #66AC00 !important;
+}
+.cleeng-link:hover{
+    color: #3A6017 !important;
+}
+.cleeng-dashboad-table td, .cleeng-dashboad-table th{
+    padding:5px;
+}
+.cleeng-dashboad-table th{
+    font-weight: normal;
+    padding: 5px 15px 5px 5px;
+    color: #8F8F8F;
+}
+.cleeng-last-7-days{
+    padding:0 0 5px 5px;
+}
+.cleeng-see-details{
+    float:left;
+    margin:5px;
+    width:100%;
+    height:30px;
+}
