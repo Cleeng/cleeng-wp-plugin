@@ -21,6 +21,7 @@ class Cleeng_PostList
         } else {
             $this->userInfo = false;
         }
+        
         if (($this->wpClient->isUserAuthenticated() && $this->wpClient->getContentDefaultConditions() != null)) {
             setcookie("hasDefaultSetup", '1');
             $this->hasDefaultContentParams = true;
