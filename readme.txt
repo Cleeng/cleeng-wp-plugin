@@ -113,10 +113,11 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 == Changelog ==
 
 = trunk =
-* plugins description
-* adding protection issue
-* redirect to platform with anchor
-* protect content after paragraph in bulk protection
+* updated plugin description
+* redirect to Cleeng settings with anchor
+* bulk protection: protect content after first paragraph in
+* bulk protection: fixed permalink passed to Cleeng
+* bulk protection: fixes in behaviour
 * restored "About Cleeng" page in overlay
 
 = 2.2.5 =

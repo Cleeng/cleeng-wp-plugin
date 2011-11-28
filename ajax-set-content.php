@@ -63,7 +63,7 @@ if (isset($contentIds) && $contentIds != null) {
                     $content[$i]['shortDescription'] = substr($default['itemDescription'], 0, 100) . '...';
                     $content[$i]['price'] = $default['itemPrice'];
                     $content[$i]['itemType'] = 'article';
-                    $content[$i]['url'] = 'http://' . $_SERVER['HTTP_HOST'] . '?p=' . $contentId;
+                    $content[$i]['url'] = get_permalink($contentId);  // 'http://' . $_SERVER['HTTP_HOST'] . '?p=' . $contentId;
 
                     if ($default['referralProgram'] != 0) {
                         $content[$i]['referralRate'] = $default['referralProgram'] / 100;
@@ -169,7 +169,7 @@ if (isset($contentIds) && $contentIds != null) {
                 $content['shortDescription'] = substr($default['itemDescription'], 0, 100) . '...';
                 $content['price'] = $default['itemPrice'];
                 $content['itemType'] = 'article';
-                $content['url'] = 'http://' . $_SERVER['HTTP_HOST'] . '?p=' . $contentId;
+                $content['url'] = get_permalink($contentId); //'http://' . $_SERVER['HTTP_HOST'] . '?p=' . $contentId;
 
                 if ($default['referralProgram'] != 0) {
                     $content['referralRate'] = $default['referralProgram'] / 100;
