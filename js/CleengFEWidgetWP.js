@@ -206,13 +206,13 @@ var CleengWidget = {
 
             CleengWidget.cookie('cleeng_user_auth', 1, {path: '/'});
             var hasCookie = true;
-        }
+        }        
 
         jQuery('.cleeng-once').remove();
         for (var first in CleengWidget.contentInfo) {
             var info = CleengWidget.contentInfo[first];
 
-            if (info.price == 0 || (user && user.name && user.freeContentViews > 0 && parseFloat(info.price) < 0.99 ) ) {
+            if (info.price == 0 || (user && user.name && parseInt(info.freeContentViews.remained) > 0 && parseFloat(info.price) <= parseFloat(info.freeContentViews.maxPrice))) {
                 var object = null;
                 if (hasCookie) {
                     jQuery('.by-free-'+info.contentId).css('display','none');
@@ -225,22 +225,35 @@ var CleengWidget = {
                     }
                     jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
                     object.css('display','block');
-
-                } else {
-
-                }
-            } else if (((user && user.length) || info.price < 0.99) && hasCookie) {
+                } 
+            } else if (hasCookie) {
                 var object = null;
-                if (info.itemType == 'article') {
-                    object = jQuery('.buy-this-article-'+info.contentId);
-                } else if (info.itemType == 'video') {
-                    object = jQuery('.buy-this-video-'+info.contentId);
+
+                if (parseInt(info.freeContentViews.remained) > 0 && parseFloat(info.price) <= parseFloat(info.freeContentViews.maxPrice)) {
+                    jQuery('.by-free-'+info.contentId).css('display','none');
+                    if (info.itemType == 'article') {
+                        object = jQuery('.register-and-read-for-free-'+info.contentId);
+                    } else if (info.itemType == 'video') {
+                        object = jQuery('.register-and-watch-for-free-'+info.contentId);
+                    } else {
+                        object = jQuery('.register-and-access-for-free-'+info.contentId);
+                    }
+                    jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
+                    object.css('display','block');
+                    
                 } else {
-                    object = jQuery('.buy-this-item-'+info.contentId);
+                    if (info.itemType == 'article') {
+                        object = jQuery('.buy-this-article-'+info.contentId);
+                    } else if (info.itemType == 'video') {
+                        object = jQuery('.buy-this-video-'+info.contentId);
+                    } else {
+                        object = jQuery('.buy-this-item-'+info.contentId);
+                    }
+                    jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
+                    object.show();
                 }
-                jQuery('.cleeng-button', '#cleeng-layer-' + info.contentId).not(object).not('.cleeng-subscribe').hide();
-                object.show();
-            }
+
+            } 
 
             if (user && user.name && user.id == info.publisherId) {
                 jQuery('<span class="cleeng-once" style="color:red">This article is revealed because you are logged in as its publisher.</span>')
@@ -437,7 +450,7 @@ var CleengWidget = {
             var overlay = jQuery('<div>');
             overlay.attr('id', 'cleeng_tip_content')
                     .css('display', 'none')
-                   .click(function() { jQuery(this).hide(); });
+                   .click(function() {jQuery(this).hide();});
         } else {
             var overlay = jQuery('#cleeng_tip_content');
         }
@@ -447,7 +460,7 @@ var CleengWidget = {
                  + '<div class="cleeng-message-body">' + message + '</div>';
 
         overlay.html(html).appendTo(element)
-            .css({ top: 30, left: element.width() / 2 - 450 / 2 });
+            .css({top: 30, left: element.width() / 2 - 450 / 2});
         overlay.fadeIn('fast').delay(parseInt(duration)*1000).fadeOut('slow');
     },
 
