@@ -119,6 +119,7 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 * bulk protection: fixed permalink passed to Cleeng
 * bulk protection: fixes in behaviour
 * restored "About Cleeng" page in overlay
+* button logic with new free content views
 
 = 2.2.5 =
 * Fixed "activate account" not 
