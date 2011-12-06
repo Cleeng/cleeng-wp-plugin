@@ -21,6 +21,7 @@ class Cleeng_PostList
         } else {
             $this->userInfo = false;
         }
+        
         if (($this->wpClient->isUserAuthenticated() && $this->wpClient->getContentDefaultConditions() != null)) {
             setcookie("hasDefaultSetup", '1');
             $this->hasDefaultContentParams = true;
@@ -185,6 +186,7 @@ class Cleeng_PostList
              echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
              return;
         }
+        
         if (!isset($this->content[$post_content[0]['contentId']])) {
              echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
              return;
@@ -195,14 +197,11 @@ class Cleeng_PostList
         if ($content['contentId']) {
          
             $price = $content['price']==0?__('For free!', 'cleeng'):$content['currencySymbol'].$content['price'];
-
             echo '<input type="hidden" name="'.$id.'" value="'.$content['contentId'].'"/>';
             echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-on"  title="'.$price."\n ".$content['shortDescription'].'" ></a>';
 
         } else {
-            //if ($this->wpClient->isUserAuthenticated()) {
-                echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
-            //}
+            echo '<a id="cleeng-post-'.$id.'" class="cleeng-post cleengit cleeng-off" title="Protect it!" ></a>';
         }
         
     }

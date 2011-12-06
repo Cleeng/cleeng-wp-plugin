@@ -47,6 +47,7 @@ class Cleeng_Frontend
             $clientLang = 'en_US';
         }
 
+        
         wp_enqueue_script( 'CleengClient', 'https://' . $options['platformUrl'] . '/js-api/client.' . $clientLang . '.js' );
 
         wp_enqueue_script( 'CleengFEWidgetWP', CLEENG_PLUGIN_URL . 'js/CleengFEWidgetWP.js', array( 'jquery' ) );
@@ -83,6 +84,7 @@ class Cleeng_Frontend
     public function action_wp_head() {
         $options = Cleeng_Core::get_config();
 
+        
         if ($options['payment_method'] === 'paypal-only') {
             echo '<script src ="https://www.paypalobjects.com/js/external/dg.js" type="text/javascript"></script>';
         }
@@ -165,7 +167,7 @@ jQuery(function() {
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
         $this->cleeng_content = array( );
-        foreach ( $posts as $post ) {
+        if (is_array($posts)) foreach ( $posts as $post ) {
             /* Quick search for cleeng content */
             if ( false === strpos( $post->post_content, '[cleeng_content' ) ) {
                 continue;
@@ -263,12 +265,13 @@ jQuery(function() {
                 }
             }
             if (count($contentInfoIds)) {
+
                 try {
+
 //                    throw new Exception("test");
                     $contentInfo = $cleeng->getContentInfo( $contentInfoIds );
-                    
                     foreach ( $contentInfo as $key => $val ) {
-
+                                                                    
                         if (!is_array($val)) {
                             continue;
                         }
@@ -359,7 +362,7 @@ jQuery(function() {
         }
         return $content;
     }
-    function getClassDisplayBlock($price, $itemType, $hasCookie, $hasSubscription, $contentId)
+    function getClassDisplayBlock($price, $itemType, $hasCookie, $hasSubscription, $contentId, $freeContentViewsRemained, $freeContentViewsMaxPrice)
     {
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
@@ -367,7 +370,6 @@ jQuery(function() {
             $info = $cleeng->getUserInfo();
             $hasCookie = true;
         }
-
         if ($price == 0) {
             if ($itemType=='article') {
                 $class = $hasCookie?'.read-for-free-'.$contentId:'.register-and-read-for-free-'.$contentId;
@@ -378,8 +380,7 @@ jQuery(function() {
             }
         } else {
             if ($hasCookie == true) {
-
-                if ($price >= 0.99 || ($cleeng->isUserAuthenticated() && $info['freeContentViews']==0) ) {
+                if ((float)$freeContentViewsMaxPrice < $price || ($cleeng->isUserAuthenticated() && (int)$freeContentViewsRemained==0)) {
                     if ($itemType=='article') {
                         $class = '.buy-this-article-'.$contentId;
 
@@ -388,7 +389,7 @@ jQuery(function() {
                     } else {
                         $class = '.buy-this-item-'.$contentId;
                     }
-                } else if($price < 0.99 && $cleeng->isUserAuthenticated() && $info['freeContentViews']>0) {
+                } else if ($cleeng->isUserAuthenticated() && (int)$freeContentViewsRemained > 0 && (float)$freeContentViewsMaxPrice >= $price) {
                     if ($itemType=='article') {
                         $class = '.read-for-free-'.$contentId;
                     } else if ($itemType=='video') {
@@ -396,7 +397,7 @@ jQuery(function() {
                     } else {
                         $class = '.access-for-free-'.$contentId;
                     }
-                } else if($price < 0.99 ){
+                } else {
                     if ($itemType=='article') {
                         $class = '.buy-this-article-'.$contentId;
 
@@ -408,23 +409,21 @@ jQuery(function() {
                 }
 
             } else {
-                if ($price >= 0.99) {
-                    if ($itemType=='article') {
-
-                        $class = '.buy-this-article-'.$contentId;
-
-                    } else if ($itemType=='video') {
-                        $class = '.buy-this-video-'.$contentId;
-                    } else {
-                        $class = '.buy-this-item-'.$contentId;
-                    }
-                } else {
+                if ((int)$freeContentViewsRemained > 0 && (float)$freeContentViewsMaxPrice >= $price) {
                     if ($itemType=='article') {
                         $class = '.register-and-read-for-free-'.$contentId;
                     } else if ($itemType=='video') {
                         $class = '.register-and-watch-for-free-'.$contentId;
                     } else {
                         $class = '.register-and-access-for-free-'.$contentId;
+                    }
+                } else {
+                    if ($itemType=='article') {
+                        $class = '.buy-this-article-'.$contentId;
+                    } else if ($itemType=='video') {
+                        $class = '.buy-this-video-'.$contentId;
+                    } else {
+                        $class = '.buy-this-item-'.$contentId;
                     }
                 }
             }
@@ -472,6 +471,15 @@ function get_layer_markup( $postId, $text, $content ) {
             }
         } catch (Exception $e) {
         }
+        $freeContentViews = array();
+        if ( isset($content['freeContentViews']) ) {
+            $freeContentViews['remained'] = $content['freeContentViews']['remained'];
+            $freeContentViews['maxPrice'] = $content['freeContentViews']['maxPrice'];
+        } else {
+            $freeContentViews['remained'] = 0;
+            $freeContentViews['maxPrice'] = 0;
+        }
+        
         $referralRate = $purchased = $contentId = $publisherId = $publisherName = $itemType
                  = $shortDescription = $averageRating = $price = $currencySymbol = $shortUrl
                  = $referralProgramEnabled = $canVote = '';
@@ -624,7 +632,7 @@ function get_layer_markup( $postId, $text, $content ) {
                                      style="display:<?php echo $subscriptionOffer?'block':'none' ?>"><?php echo $subscriptionPrompt ?>
                                 </div>
 
-                                <?php $class = $this->getClassDisplayBlock($price,$itemType, $hasCookie, $subscriptionOffer, $contentId) ?>
+                                <?php $class = $this->getClassDisplayBlock($price,$itemType, $hasCookie, $subscriptionOffer, $contentId, $freeContentViews['remained'], $freeContentViews['maxPrice']) ?>
                                     <style>
                                         <?php echo $this->setDisplayNone($contentId); ?>
                                         <?php echo $class ?> {
