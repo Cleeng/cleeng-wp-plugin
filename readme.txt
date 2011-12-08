@@ -112,6 +112,16 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 
 == Changelog ==
 
+= trunk =
+* updated plugin description
+* redirect to Cleeng settings with anchor
+* bulk protection: protect content after first paragraph
+* bulk protection: fixed permalink passed to Cleeng
+* bulk protection: fixes in behaviour
+* restored "About Cleeng" page in overlay
+* updated button logic to reflect new free content view policy
+* check if $posts is an array
+
 = 2.2.5 =
 * Fixed "activate account" not 
 * Fixed notices when WP_DEBUG is set to true
