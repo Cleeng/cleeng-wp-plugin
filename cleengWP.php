@@ -2,7 +2,11 @@
 /*
   Plugin Name: Cleeng for WordPress
   Plugin URI: http://cleeng.com/?utm_source=WP&utm_medium=Link&utm_campaign=setting_page
+<<<<<<< HEAD
   Version: 2.2.5
+=======
+  Version: 2.2.6
+>>>>>>> 7d299494a2beadffae0d73efd8100033b50e7f46
   Description: Cleeng helps you to make money with your WordPress content. The Cleeng plugin offers a single-click pay as you go solution to your website visitors; it avoids the hassle of multiple subscriptions. When publishing a post or page you as the publisher can define for which part of your content visitors need to pay (in between 0.14 and 19.99$/€). 1. <a href="http://cleeng.com/us/publisher-registration">Activate your account</a> and 2. See examples on how to best use Cleeng.
   Author: Cleeng
   Author URI: http://cleeng.com/?utm_source=WP&utm_medium=Link&utm_campaign=setting_page

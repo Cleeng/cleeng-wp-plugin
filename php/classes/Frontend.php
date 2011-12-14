@@ -167,7 +167,7 @@ jQuery(function() {
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
         $this->cleeng_content = array( );
-        foreach ( $posts as $post ) {
+        if (is_array($posts)) foreach ( $posts as $post ) {
             /* Quick search for cleeng content */
             if ( false === strpos( $post->post_content, '[cleeng_content' ) ) {
                 continue;
