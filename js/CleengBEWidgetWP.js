@@ -80,7 +80,7 @@ var CleengWidget = {
             });
             return false;
         });
-        jQuery('#cleeng-register-publisher').click(function() {
+        jQuery('#cleeng-register-publisher, #cleeng-register-publisher2').click(function() {
             CleengClient.registerAsPublisher(CleengWidget.appSecureKey, function(resp) {
                 if (resp.token) {
                     jQuery.post(

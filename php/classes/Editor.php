@@ -273,7 +273,7 @@ class Cleeng_Editor
                 </div>
             <div id="cleeng-notPublisher" style="display:none;">
 <?php _e( 'You need to have a Publisher account before using this widget.', 'cleeng' ) ?>
-            <a target="_blank" href="<?php echo $cleeng->getUrl() . '/edit-profile/upgrade/1' ?>">
+            <a target="_blank" id="cleeng-register-publisher2" href="<?php echo $cleeng->getUrl() . '/publisher-registration/popup/1' ?>">
 <?php _e( 'Please upgrade your account here', 'cleeng' ) ?></a>.
         </div>
     </div>
