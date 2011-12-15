@@ -298,8 +298,9 @@ var CleengWidget = {
                 var id = jQuery(this).attr('id');
                 if (id && typeof id.split('-')[2] !== 'undefined') {
                     id = id.split('-')[2];
+                    var postId = jQuery('#cleeng-'+id).attr('rel');
                     content.push('content[' + i + '][id]=' + id
-                                + '&content[' + i + '][postId]=' + jQuery(this).data('postId'))
+                                + '&content[' + i + '][postId]=' + postId)
                     i++;
                 }
             });

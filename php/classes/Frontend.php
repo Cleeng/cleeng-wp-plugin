@@ -509,8 +509,9 @@ function get_layer_markup( $postId, $text, $content ) {
         if ( $purchased ) {
             echo 'style="display:none"';
         }
+                
     ?>>
-        <div class="cleeng-protected-content">Exclusive content</div>
+        <div class="cleeng-protected-content" id="cleeng-<?php echo $contentId ?>" rel="<?php echo $postId ?>" >Exclusive content</div>
         <div class="cleeng-layer-left"></div>
 
         <div class="cleeng-text">
@@ -663,11 +664,6 @@ function get_layer_markup( $postId, $text, $content ) {
 
         <div class="cleeng-layer-right"></div>
     </div>
-    <script type="text/javascript">
-        // <![CDATA[
-        jQuery('#cleeng-layer-<?php echo $contentId ?>').data('postId', <?php echo $postId ?>);
-        // ]]>
-    </script>
     <div id="cleeng-nolayer-<?php echo $contentId ?>" class="cleeng-nolayer" <?php
                  if ( ! $purchased ) {
                      echo 'style="display:none"';
