@@ -13,7 +13,7 @@ class Cleeng_Core
 
         // platformUrl, clientId and clientSecret are essential for connecting with Cleeng Platform API
         'platformUrl' =>  'cleeng.com', //'staging.cleeng.com'//$options['environment']
-
+        'pluginVersion' => '2.2.6',
         'appId' => null,
         'appSecureKey' => null,
 

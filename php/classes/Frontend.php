@@ -105,6 +105,9 @@ class Cleeng_Frontend
      * Output javascript code setting Cleeng Plugin URL
      */
     public function action_wp_footer() {
+        $options = Cleeng_Core::get_config();
+
+        echo "\n\n<!-- cleeng plugin version:".$options['pluginVersion']." -->\n\n\n";
         echo
         '<script type="text/javascript">
         // <![CDATA
