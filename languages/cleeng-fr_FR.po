@@ -1,0 +1,856 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Cleeng For Wordpress\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-18 09:47+0100\n"
+"PO-Revision-Date: 2011-10-18 09:49+0100\n"
+"Last-Translator: Mateusz Tymek <mtymek@gmail.com>\n"
+"Language-Team: Cleeng Team <theteam@cleeng.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: France\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ./..\n"
+
+#: ../php/classes/Frontend.php:124
+msgid "Cleeng in 1 minute"
+msgstr ""
+
+#: ../php/classes/Frontend.php:129
+msgid "Instant delivery & access"
+msgstr ""
+
+#: ../php/classes/Frontend.php:130
+#, fuzzy
+msgid "All your content in 1 place"
+msgstr "Vendez votre contenu, à votre convenance"
+
+#: ../php/classes/Frontend.php:131
+msgid "Safe & secure"
+msgstr ""
+
+#: ../php/classes/Frontend.php:135
+msgid "Your privacy is protected"
+msgstr ""
+
+#: ../php/classes/Frontend.php:483
+#, fuzzy
+msgid "The rest of this article is exclusive, use Cleeng to view it."
+msgstr "Le reste de l'article est protégé, utilisez Cleeng pour le voir."
+
+#: ../php/classes/Frontend.php:486
+#, fuzzy
+msgid "The rest of this article is exclusive, use Cleeng again to view it."
+msgstr "le reste de l'article est protégé, utilisez Cleeng pour le voir à nouveau."
+
+#: ../php/classes/Frontend.php:489
+#, fuzzy
+msgid "The rest of this article is exclusive,"
+msgstr "Le reste de l'article est protégé,"
+
+#: ../php/classes/Frontend.php:491
+msgid "click \"buy\" and view it instantly."
+msgstr "click \"buy\" et visionner instantanément."
+
+#: ../php/classes/Frontend.php:524
+msgid "Already have a Cleeng account?"
+msgstr "Vous possédez déjà un compte Cleeng?"
+
+#: ../php/classes/Frontend.php:528
+msgid "Welcome back!"
+msgstr "Bienvenue à nouveau! "
+
+#: ../php/classes/Frontend.php:537
+#: ../php/classes/Frontend.php:675
+#: ../php/classes/Page/Sidebar.php:55
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: ../php/classes/Frontend.php:539
+#: ../php/classes/Frontend.php:678
+#, php-format
+msgid "Welcome, <a class=\"cleeng-username\" href=\"%s/my-account\">%s</a>"
+msgstr "Bienvenue, <a class=\"cleeng-username\" href=\"%s/my-account\">%s</a>"
+
+#: ../php/classes/Frontend.php:556
+#: ../php/classes/Frontend.php:699
+msgid "Customer rating:"
+msgstr "Evaluation utilisateur: "
+
+#: ../php/classes/Frontend.php:561
+msgid "Good news! You still have <span></span> free purchase(s)."
+msgstr "Bonne nouvelle! Il vous reste encore <span></span> essai(s) gratuit(s)."
+
+#: ../php/classes/Frontend.php:584
+msgid "Register and read for free "
+msgstr "S'enregistrer et lire gratuitement"
+
+#: ../php/classes/Frontend.php:588
+msgid "Register and watch for free "
+msgstr "S'enregistrer et regarder gratuitement"
+
+#: ../php/classes/Frontend.php:592
+msgid "Register and access for free "
+msgstr "S'enregistrer et lire gratuitement"
+
+#: ../php/classes/Frontend.php:596
+msgid "Read for free "
+msgstr "Lire gratuitement"
+
+#: ../php/classes/Frontend.php:600
+msgid "Watch for free "
+msgstr "Regarder gratuitement"
+
+#: ../php/classes/Frontend.php:604
+msgid "Access for free "
+msgstr "Accéder gratuitement"
+
+#: ../php/classes/Frontend.php:608
+msgid "Buy this article "
+msgstr "Acheter cet article"
+
+#: ../php/classes/Frontend.php:613
+msgid "Buy this video "
+msgstr "Acheter cette vidéo"
+
+#: ../php/classes/Frontend.php:618
+msgid "Buy this item "
+msgstr "Acheter cet article"
+
+#: ../php/classes/Frontend.php:638
+msgid "Pay with PayPal"
+msgstr "Payez avec PayPal"
+
+#: ../php/classes/Frontend.php:648
+#, php-format
+msgid ""
+"Powered by <a href=\"%s/what-is-cleeng\"><img src=\"%s\"\r\n"
+"                            alt=\"Cleeng\"/></a>"
+msgstr ""
+
+#: ../php/classes/Frontend.php:694
+msgid "Rate:"
+msgstr "Evaluation:"
+
+#: ../php/classes/Frontend.php:703
+msgid "Share:"
+msgstr "Partagez:"
+
+#: ../php/classes/Frontend.php:713
+#, php-format
+msgid "Earn: <span>%s%%</span> commission"
+msgstr "Touchez: <span>%s%%</span> commission"
+
+#: ../php/classes/Dashboard.php:8
+#, fuzzy
+msgid "Cleeng - Sell your content <span id=\"cleeng-dashboard-logo\"></span>"
+msgstr "Bienvenue, <span id=\"cleeng-username\">%s</span>"
+
+#: ../php/classes/Dashboard.php:26
+msgid "Earnings last 7 days:"
+msgstr ""
+
+#: ../php/classes/Dashboard.php:26
+msgid "Your balance:"
+msgstr ""
+
+#: ../php/classes/Dashboard.php:26
+msgid "See details in the <a target=\"_BLANK\" href=\""
+msgstr ""
+
+#: ../php/classes/Dashboard.php:29
+#: ../php/classes/Editor.php:269
+msgid "Log in"
+msgstr "Connexion"
+
+#: ../php/classes/Dashboard.php:30
+msgid "or"
+msgstr ""
+
+#: ../php/classes/Dashboard.php:31
+#, fuzzy
+msgid "register"
+msgstr "S'enregistrer"
+
+#: ../php/classes/Dashboard.php:32
+msgid "in order to sell content directly from your website."
+msgstr ""
+
+#: ../php/classes/Admin.php:198
+#: ../php/classes/PostList.php:98
+msgid "Cleeng"
+msgstr "Cleeng"
+
+#: ../php/classes/Admin.php:203
+#: ../php/classes/Page/WhatIsCleeng.php:23
+msgid "What is Cleeng?"
+msgstr "Qu'est ce que Cleeng?"
+
+#: ../php/classes/Admin.php:207
+msgid "Quick-start guide"
+msgstr "Guide de démarrage rapide"
+
+#: ../php/classes/Admin.php:211
+#: ../php/classes/Page/Settings.php:127
+#, fuzzy
+msgid "Settings to manage"
+msgstr "Paramètres"
+
+#: ../php/classes/Admin.php:216
+msgid "<div class=\"external support\">Support & FAQ</div>"
+msgstr "<div class=\"aide externe\">Aide & Questions/Réponses fréquentes</div>"
+
+#: ../php/classes/Admin.php:220
+msgid "<div class=\"external monetization\">Monetization tips</div>"
+msgstr "<div class=\"monétisation externe\">Astuces pour monétiser</div>"
+
+#: ../php/classes/Admin.php:224
+msgid "<div class=\"external demos\">Demos</div>"
+msgstr "<div class=\"démos externes\">Démos</div>"
+
+#: ../php/classes/Admin.php:237
+msgid "Settings"
+msgstr "Paramètres"
+
+#: ../php/classes/PostList.php:134
+msgid "For free!"
+msgstr "Gratuit!"
+
+#: ../php/classes/Editor.php:34
+#: ../php/classes/Editor.php:36
+msgid "<span>Cleeng Content Widget</span>"
+msgstr "<span>Cleeng Content Widget</span>"
+
+#: ../php/classes/Editor.php:175
+msgid "You have to be authenticated to Cleeng Platform before saving Cleeng Content."
+msgstr "Vous devez être identifié par la plateforme Cleeng pour sauvegarder le contenu."
+
+#: ../php/classes/Editor.php:239
+msgid "Unable to save Cleeng content:"
+msgstr "Impossible de sauvegarder le contenu Cleeng:"
+
+#: ../php/classes/Editor.php:255
+msgid "An error occured while processing your request"
+msgstr "Une erreur est survenue pendant l'exécution de la requête"
+
+#: ../php/classes/Editor.php:259
+msgid "Connecting to Cleeng Platform..."
+msgstr "Connexion à la plateforme Cleeng..."
+
+#: ../php/classes/Editor.php:262
+#, php-format
+msgid "Welcome, <a href=\"%s/my-account\" id=\"cleeng-username\" target=\"_blank\" title=\"Visit my account\"></a>"
+msgstr "Bienvenue, <a href=\"%s/my-account\" id=\"cleeng-username\" target=\"_blank\" title=\"Visit my account\"></a>"
+
+#: ../php/classes/Editor.php:264
+msgid "Log out"
+msgstr "Déconnexion"
+
+#: ../php/classes/Editor.php:267
+#, fuzzy
+msgid "Thanks for using <strong class=\"cleeng-name\">Cleeng</strong>.<br /><br />Please log in to protect your content."
+msgstr "Merci d'avoir installé <strong class=\"cleeng-name\">Cleeng</strong>.<br />Merci <a class=\"CleengWidget-auth-link\" id=\"cleeng-login\" href=\"#\">enregistrez-vous avec Cleeng</a>pour protéger votre content."
+
+#: ../php/classes/Editor.php:271
+msgid ""
+"Or\r\n"
+"                        <a class=\"publisher-account\" href=\"http://staging.cleeng.com/publisher-registration/popup/1\">register</a>\r\n"
+"                        as publisher if you are new to us."
+msgstr ""
+"Or\r\n"
+"                        <a class=\"compte-éditeur\" href=\"http://staging.cleeng.com/enregistrement-éditeur/popup/1\">Enregistrez-vous</a>\r\n"
+"                        comme éditeur si vous êtes un nouvel utilisateur."
+
+#: ../php/classes/Editor.php:276
+msgid "You need to have a Publisher account before using this widget."
+msgstr "Vous devez posséder un compte éditeur avant de pouvoir utiliser ce widget."
+
+#: ../php/classes/Editor.php:278
+msgid "Please upgrade your account here"
+msgstr "Créez un compte éditeur ici"
+
+#: ../php/classes/Editor.php:283
+msgid "Content on the current page:"
+msgstr "Contenu sur la page actuelle:"
+
+#: ../php/classes/Editor.php:288
+msgid "Please make a selection first!"
+msgstr "Merci de sélectionner d'abord! "
+
+#: ../php/classes/Editor.php:289
+msgid "Just select the content you want to protect in the editing window and press below green button."
+msgstr "Sélectionnez simplement le contenu que vous voulez protéger dans la fenêtre d'édition et cliquer sur le bouton vert ci-dessous."
+
+#: ../php/classes/Editor.php:292
+msgid "Create Cleeng Content from selection."
+msgstr "Creez du contenu à partir de la sélection"
+
+#: ../php/classes/Editor.php:307
+msgid "Description"
+msgstr "Description"
+
+#: ../php/classes/Editor.php:308
+msgid "characters left"
+msgstr "Caractères restants"
+
+#: ../php/classes/Editor.php:312
+msgid "Price:"
+msgstr "Prix:"
+
+#: ../php/classes/Editor.php:315
+msgid "Item type:"
+msgstr "Type de contenu:"
+
+#: ../php/classes/Editor.php:317
+msgid "Article"
+msgstr "Article"
+
+#: ../php/classes/Editor.php:318
+msgid "Chart"
+msgstr "Graphique"
+
+#: ../php/classes/Editor.php:319
+msgid "File"
+msgstr "Fichier"
+
+#: ../php/classes/Editor.php:320
+msgid "Image"
+msgstr "Image"
+
+#: ../php/classes/Editor.php:321
+msgid "Spreadsheet"
+msgstr "Tableur"
+
+#: ../php/classes/Editor.php:322
+msgid "Video"
+msgstr "Vidéo"
+
+#: ../php/classes/Editor.php:326
+msgid "Enable layer dates."
+msgstr "Activez les dates sur le cache"
+
+#: ../php/classes/Editor.php:328
+msgid "from:"
+msgstr "de:"
+
+#: ../php/classes/Editor.php:330
+msgid "to:"
+msgstr "à:"
+
+#: ../php/classes/Editor.php:334
+msgid "Enable referral program"
+msgstr "Activez le programme de recommandation"
+
+#: ../php/classes/Editor.php:336
+msgid "Referral rate:"
+msgstr "Evaluation: "
+
+#: ../php/classes/Page/Quickstart.php:15
+msgid "Cleeng for WordPress / Get started in 3 minutes"
+msgstr "Cleeng pour WordPress / Commencer en moins de 3mn"
+
+#: ../php/classes/Page/Quickstart.php:20
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: ../php/classes/Page/Quickstart.php:24
+msgid ""
+"You have to create a publisher account with Cleeng in order to start selling content (hey, we need to know who\r\n"
+"                    should get the money!). While you register you can define your currency and other settings, or adjust them later in your\r\n"
+"                    profile settings. Cleeng is free to use.\r\n"
+"                    "
+msgstr "Vous devez créer un compte éditeur Cleeng pour vendre du contenu (et oui, nous devons vous connaître pour vous envoyer vos sous!) Vous définirez votre monnaie par défaut et d'autres paramètres au moment de l'enregistrement et vous pourrez les modifier à tout moment dans votre profil. Cleeng est gratuit."
+
+#: ../php/classes/Page/Quickstart.php:29
+msgid "Register with cleeng and start make money"
+msgstr "Enregistrez-vous avec Cleeng et gagnez de l'argent"
+
+#: ../php/classes/Page/Quickstart.php:38
+msgid "Sell per item"
+msgstr "Vendre à l'unité"
+
+#: ../php/classes/Page/Quickstart.php:41
+msgid "When you edit posts or pages you'll find a Cleeng widget on the right-hand side."
+msgstr "Lors de la création d'un article ou d'une page, un interface Cleeng apparaît sur la droite de la page."
+
+#: ../php/classes/Page/Quickstart.php:45
+msgid ""
+"<b>A. Log in with Cleeng</b><br/>\r\n"
+"                        When you edit posts or\r\n"
+"                        pages you'll find a Cleeng\r\n"
+"                        widget on the right-hand\r\n"
+"                        side. Make sure you are\r\n"
+"                        logged in with Cleeng\r\n"
+"                        "
+msgstr ""
+"<b>A. Connexion</b><br/>\r\n"
+"                        Lors de la création d'un article ou\r\n"
+"                        d'une page un interface Cleeng apparait\r\n"
+"                        sur la droite\r\n"
+"                        de la page. Vous devez être connecté sur Cleeng\r\n"
+"                        "
+
+#: ../php/classes/Page/Quickstart.php:57
+msgid ""
+"<b>B. Select the content to protect</b><br/>\r\n"
+"                            Once you are logged with a\r\n"
+"                            publisher account you see a big\r\n"
+"                            green button on the right-hand\r\n"
+"                            side. Just select the piece of\r\n"
+"                            content in the editor you want to\r\n"
+"                            sell and click the green button. You\r\n"
+"                            can select text, images or even\r\n"
+"                            objects. In general it is best to give\r\n"
+"                            part of your content for free, and\r\n"
+"                            only sell the most valuable piece.\r\n"
+"                            "
+msgstr ""
+"<b>B. Sélectionner le contenu à protéger</b><br/>\r\n"
+"                            Une fois connecté avec a\r\n"
+"                            un compte éditeur vous voyez\r\n"
+"                            un bouton vert sur la droite\r\n"
+"                            de la page. Sélectionnez la partie que\r\n"
+"                            vous souhaitez \"cacher\" pour la vendre\r\n"
+"                            Cliquer sur le bouton vert. Vous\r\n"
+"                            pouvez choisir du texte, des images ou des objects.\r\n"
+"                            Nous vous recommandons de laisser une partie du contenu visible\r\n"
+"                           donc gratuit et de vendre ce qui a le plus de valeur.\r\n"
+"                                                       "
+
+#: ../php/classes/Page/Quickstart.php:72
+msgid ""
+"<b>C. Define item price and more <br/> </b>After you have selected\r\n"
+"                                the content you want to protect and sell, you can define the\r\n"
+"                                settings for this item. First define a good teaser that\r\n"
+"                                describes what you are selling. A good description will help\r\n"
+"                                conversion. Than define the right price-point. With Cleeng\r\n"
+"                                you can sell anything in between 14 cents and 19.99$ (or &euro;/&pound;).\r\n"
+"                            "
+msgstr ""
+"<b>C. Définir le prix de l'article <br/> </b>Une fois que vous avez défini\r\n"
+"                                le contenu à protéger pour le vendre, vous pouvez\r\n"
+"                                définir plusieurs paramètres. Tout d'abord donnez envie au lecteur.\r\n"
+"                                Une description alléchante est essentielle pour votre taux de \r\n"
+"                                conversion. Ensuite déterminer le bon prix. Avec Cleeng\r\n"
+"                                vous pouvez vendre votre contenu entre 14 cents et 19.99$ (ou &euro;/&pound;).\r\n"
+"                            "
+
+#: ../php/classes/Page/Quickstart.php:81
+msgid ""
+"You have the option to set dates for the period you want to\r\n"
+"                            sell your content. Outside these dates your content will be\r\n"
+"                            freely available. So for example you can decide to only sell\r\n"
+"                            your content for the first day, or even hour.\r\n"
+"                            "
+msgstr ""
+"Vous avez la possibilité de définir les périodes pendant lesquelles votre contenu sera protégé donc à vendre.\r\n"
+"                            En dehors de ces dates, votre contenu sera visible donc gratuit.\r\n"
+"                            Par exemple vous pouvez décider que votre contenu sera protégé le premier jour\r\n"
+"                            ou pour quelques heures ou pendant une semaine.\r\n"
+"                            "
+
+#: ../php/classes/Page/Quickstart.php:87
+msgid ""
+"Last, the referral program. Define the commission that your\r\n"
+"                            visitors will earn once they successfully refer your content,\r\n"
+"                            and they pay. Last, the social commission program.\r\n"
+"                            Define the commission that your visitors earn once they successfully\r\n"
+"                            refer your content. With the personal cleeng.it URL the visitors\r\n"
+"                            and the purchases are tracked. Credits are automatically\r\n"
+"                            calculated and paid to the original referrer.\r\n"
+"                            "
+msgstr ""
+"Enfin, le programme de recommandation. Définissez la commission que\r\n"
+"                            vous souhaitez reverser aux utilisateurs qui recommandent votre contenu.\r\n"
+"                            Ces utilisateurs auront eux-mêmes acheté votre contenu\r\n"
+"                            et ne toucheront de commission de votre part que si le contenu recommandé a été acheté\r\n"
+"                            à son tour. Grâce à l'url spécifique \"Cleeng.it\" l'utilisateur\r\n"
+"                            et les achats qu'il aura généré sont identifiables. La commission (sous forme de crédits)\r\n"
+"                            sera automatiquement calculée et reversée à la personne qui a recommandé le contenu.\r\n"
+"                            "
+
+#: ../php/classes/Page/Quickstart.php:100
+msgid ""
+"Now click save, and that's it! Two markers appear in your\r\n"
+"                    editor indicating the protected part of your content.\r\n"
+"                    After you click “publish” the content in between\r\n"
+"                    the tags is automatically protected and ready to be sold.\r\n"
+"                            "
+msgstr ""
+"Maintenant sauvegardez et voilà! Deux repères apparaissent dans votre\r\n"
+"                    contenu indiquant quelle partie a été protégée.\r\n"
+"                    Une fois publié le contenu sélectionné est caché\r\n"
+"                    automatiquement et proposé à la vente.\r\n"
+"                            "
+
+#: ../php/classes/Page/Quickstart.php:115
+msgid "Set-up daily pass & subscriptions"
+msgstr "Mis en place du \"Pass journalier\" et des souscriptions"
+
+#: ../php/classes/Page/Quickstart.php:119
+msgid ""
+"\r\n"
+"        Once you have protected multiple pages and/or posts, you can offer daily passes or subscriptions. Go to your <a href=\""
+msgstr ""
+"\r\n"
+"        Une fois que vous avez protégé plusieurs articles et/ou pages, vous pouvez offrir l'option \"Pass journalier\" ou une formule d'abonnement. Aller à<a href=\""
+
+#: ../php/classes/Page/Sidebar.php:28
+msgid "Register with Cleeng"
+msgstr "Enregistrez-vous sur Cleeng"
+
+#: ../php/classes/Page/Sidebar.php:29
+msgid "Sign up with Cleeng to protect your content."
+msgstr "Inscrivez-vous sur Cleeng afin de protéger votre contenu."
+
+#: ../php/classes/Page/Sidebar.php:30
+msgid "Welcome, you need to log-in to protect your content."
+msgstr "Bienvenue, vous devez vous identifier pour protéger votre contenu. "
+
+#: ../php/classes/Page/Sidebar.php:33
+msgid "Register as publisher"
+msgstr "S'inscrire en tant qu'éditeur"
+
+#: ../php/classes/Page/Sidebar.php:37
+#, php-format
+msgid "Welcome, <span id=\"cleeng-username\">%s</span>"
+msgstr "Bienvenue, <span id=\"cleeng-username\">%s</span>"
+
+#: ../php/classes/Page/Sidebar.php:42
+msgid "Sales report"
+msgstr "Rapport de ventes "
+
+#: ../php/classes/Page/Sidebar.php:45
+#, fuzzy
+msgid "Your settings"
+msgstr "Paramètres"
+
+#: ../php/classes/Page/Sidebar.php:48
+msgid "Logout from Cleeng"
+msgstr "Déconnexion de Cleeng"
+
+#: ../php/classes/Page/Sidebar.php:53
+#, fuzzy
+msgid "You need to have a Publisher account before using this widget. Please upgrade your account:"
+msgstr "Vous devez posséder un compte éditeur avant de pouvoir utiliser ce widget."
+
+#: ../php/classes/Page/Sidebar.php:54
+msgid "Become publisher"
+msgstr "Devenez éditeur"
+
+#: ../php/classes/Page/Sidebar.php:63
+msgid "Like this plugin?"
+msgstr "Vous aimez ce plug-in?"
+
+#: ../php/classes/Page/Sidebar.php:65
+msgid "Why not do any or all of the following"
+msgstr "N'oubliez pas que vous pouvez:"
+
+#: ../php/classes/Page/Sidebar.php:70
+msgid "Share your story on Facebook"
+msgstr "Partager votre expérience sur Facebook"
+
+#: ../php/classes/Page/Sidebar.php:72
+msgid "Give it a 5 star rating on WordPress.org"
+msgstr "Bien noter ce plug-in sur WordPress.org (merci, ça aide)"
+
+#: ../php/classes/Page/Sidebar.php:73
+msgid "Tell about this free plugin on Twitter"
+msgstr "Parler de ce plug-in sur Twitter"
+
+#: ../php/classes/Page/Sidebar.php:78
+msgid "Need support?"
+msgstr "Besoin d'aide?"
+
+#: ../php/classes/Page/Sidebar.php:80
+msgid ""
+"If you have problems with this\r\n"
+"              plugin or good ideas for improvements\r\n"
+"              or new features, please talk about\r\n"
+"              them in the <a href=\"https://support.cleeng.com/home\">Support forums</a>."
+msgstr ""
+"Si vous avez des difficultés avec ce\r\n"
+"              plugin ou des suggestions pour l'améliorer\r\n"
+"              ou développer des nouvelles fonctionnalités\r\n"
+"              parlez en sur<a href=\"https://support.cleeng.com/home\">Aide forums</a>."
+
+#: ../php/classes/Page/Sidebar.php:89
+msgid "Latest news from Cleeng"
+msgstr "Dernières infos à propos de Cleeng"
+
+#: ../php/classes/Page/Settings.php:18
+msgid "LIVE (real transactions!)"
+msgstr "Live (transactions réelles) "
+
+#: ../php/classes/Page/Settings.php:23
+msgid "SANDBOX (test transactions)"
+msgstr "Test (transactions test) "
+
+#: ../php/classes/Page/Settings.php:40
+msgid "Enable text above layer."
+msgstr "Activez le texte au dessus du cache"
+
+#: ../php/classes/Page/Settings.php:59
+msgid "<strong>Standard</strong>: Multiple payment options including PayPal, using credits stored on the Cleeng account"
+msgstr "<strong>Standard</strong>: Plusieurs options de paiement dont PayPal ou les crédits du compte Cleeng"
+
+#: ../php/classes/Page/Settings.php:65
+msgid ""
+"<strong>PayPal only</strong>: direct PayPal Digital Goods payment from the layer<br />\r\n"
+"    Note: PayPal only payments are applicable for payments above 0.49 cents. All other functionalities (user library, social commission) will remain identical."
+msgstr ""
+"<strong>PayPal seulement </strong>: paiement direct PayPal Digital Goods depuis le cache\n"
+"Note Les paiement par PayPal ne sont possibles qu'au-dessus de 0.49 cents. Toutes les fonctionnalités (bibliothèque utilisateur, commission sociale) restent identiques. "
+
+#: ../php/classes/Page/Settings.php:72
+msgid "<p>Here you can select if you want to enable real transactions and earn money (LIVE) or just experiment and test with the Cleeng service using the sandbox environment (SANDBOX). In case you have selected \"SANDBOX\", please avoid covering content on your public website as your visitors might be very confused. Also note that your settings, content references and accounts are NOT copied in between SANDBOX servers and the LIVE servers. So only use SANDBOX if you want to test on a non-public website.</p>"
+msgstr "<p>Vous pouvez choisir d'activer les transactions réelles et gagner de l'argent (LIVE) ou tout simplement d'expérimenter et tester le service Cleeng en utilisant l'environnement de test (SANDBOX). Si vous avez sélectionné \"SANDBOX\", merci de ne pas cacher le contenu de votre site Web car vos visiteurs pourraient être confus. Notez également que vos paramètres, les références et le contenu des comptes ne sont PAS copiés entre les serveurs et les serveurs SANDBOX. L'utilisation de SANDBOX est réservée à des tests sur un site Web non-public. </ p>"
+
+#: ../php/classes/Page/Settings.php:76
+msgid "<p>With protected content, Cleeng would automatically add a short text above the layer. This text will increase the likelyhood to buy for consumers. If you prefer to write this text yourself just, just un-tick the box below.</p>"
+msgstr "<p>Lorsqu'un contenu est protégé, Cleeng ajoute automatiquement un court texte sur le cache. Ce texte augmente la probabilité d'achat par les consommateurs. Si vous préférez écrire ce texte vous pouvez le faire ci-dessous. </ p>"
+
+#: ../php/classes/Page/Settings.php:80
+msgid "<p>You may choose between 2 different payment options on the Cleeng layers.</p>"
+msgstr "<p> Vous pouvez choisir entre deux options de paiements sur les caches Cleeng.</p>"
+
+#: ../php/classes/Page/Settings.php:88
+#: ../php/classes/Page/Settings.php:101
+msgid "Payment activation mechanism"
+msgstr "Méchanisme d'activation de paiement "
+
+#: ../php/classes/Page/Settings.php:90
+#: ../php/classes/Page/Settings.php:103
+msgid "Text above layer"
+msgstr "Texte au dessus du cache"
+
+#: ../php/classes/Page/Settings.php:92
+#: ../php/classes/Page/Settings.php:105
+msgid "Choose LIVE or SANDBOX"
+msgstr "Choisissez Live ou Test"
+
+#: ../php/classes/Page/Settings.php:124
+msgid "Cleeng for WordPress / Settings"
+msgstr "Paramètres Cleeng pour WordPress"
+
+#: ../php/classes/Page/Settings.php:129
+msgid "To fully leverage Cleeng you need to understand the different \"settings\":"
+msgstr "Pour tirer le meilleur parti de Cleeng, vous devez comprendre les differents \"paramètres\":"
+
+#: ../php/classes/Page/Settings.php:131
+msgid "<strong>Publisher settings - </strong>like your publisher name, your currency and pay-out details. First you need to <a class=\"publisher-account\" href=\""
+msgstr "<strong>Paramètres editeur - </strong>comme votre nom d'éditeur, votre monnaie et les coordonnées bancaires. Premièrement vous devez <a class=\"compte éditeur\" href=\""
+
+#: ../php/classes/Page/Settings.php:136
+msgid ""
+"<strong>Protection / sell per item settings - </strong>like price, description and referral rate. Within WordPress you can define this on the\r\n"
+"                    editor for posts and pages. Select the piece of content you want to protect and once you click on the button (right-hand\r\n"
+"                    side) you can set the price, define a description, etc.\r\n"
+"            "
+msgstr ""
+"<strong>Protection / paramètres de vente à l'unité - </strong>tel que le prix, la description et le taux de commission. Vous pouvez les définir au sein de WordPress dans l'éditeur\r\n"
+"                    pour les articles et les pages. Sélectionner la partie du contenu à cacher et cliquer sur le bouton vert (à droite\r\n"
+"                    ) vous pouvez définir le prix, la description, etc.\r\n"
+"            "
+
+#: ../php/classes/Page/Settings.php:141
+msgid ""
+"<strong>Daily pass & Subscriptions - </strong>Once you have protected multiple items, you can consider to set up subscriptions. You can\r\n"
+"                    manage them in your <a href=\""
+msgstr ""
+"<strong> Pass journalier & Souscriptions - </strong> Une fois que vous avez protégé plusieurs articles, vous pouvez envisager de mettre en place une offre de souscription\r\n"
+"                    Vous pouvez les gérer dans <a href=\""
+
+#: ../php/classes/Page/Settings.php:146
+msgid ""
+"<strong>Cleeng settings for WordPress - </strong>a few additional settings that are specific to the plugin you are using. You can find them\r\n"
+"                        <a href=\"#\" id=\"cleeng_advanced2\">below</a>.\r\n"
+"            "
+msgstr ""
+"<strong>Paramètres Cleeng dans WordPress - </strong> Il existe quelques paramètres spécifiques à ce plug-in, que vous trouverez dans\r\n"
+"                        <a href=\"#\" id=\"cleeng_advanced2\">ci-dessous</a>.\r\n"
+"            "
+
+#: ../php/classes/Page/Settings.php:150
+msgid "Cleeng settings for WordPress"
+msgstr "Paramètres Cleeng pour WordPress"
+
+#: ../php/classes/Page/WhatIsCleeng.php:19
+msgid "Cleeng for WordPress / What is Cleeng?"
+msgstr "Paramètres Cleeng pour WordPress"
+
+#: ../php/classes/Page/WhatIsCleeng.php:31
+msgid "Generate more revenue, save money & time"
+msgstr "Générez plus de revenus et gagnez du temps et de l'argent"
+
+#: ../php/classes/Page/WhatIsCleeng.php:32
+msgid "Monetize all content types: text, video, images"
+msgstr "Monétiser tout type de contenus: des textes, des vidéos, des images"
+
+#: ../php/classes/Page/WhatIsCleeng.php:33
+msgid "From single sales to full site subscriptions"
+msgstr "Vente à l'unité ou par offres d'abonnement"
+
+#: ../php/classes/Page/WhatIsCleeng.php:34
+msgid "Risk free, cost efficient and progressive"
+msgstr "Sans risque, pour un moindre coût et progressif"
+
+#: ../php/classes/Page/WhatIsCleeng.php:46
+msgid "Sell your content, your way"
+msgstr "Vendez votre contenu, à votre convenance"
+
+#: ../php/classes/Page/WhatIsCleeng.php:52
+msgid ""
+"We are all potential artists: musician, blogger, teachers, photographers! Unleash your\r\n"
+"                Monetization tips creativity, publish and thanks to Cleeng make money from it! Cleeng makes content\r\n"
+"                Demos monetization very easy, whatever you create: text, pictures, videos and all you can\r\n"
+"                think of! Just focus on bringing added-value to your readers and Cleeng takes care of\r\n"
+"                the rest!\r\n"
+"                "
+msgstr ""
+"Nous sommes tous des artistes en puissance: musicien, blogueur, photographe! Libérez votre créativité\r\n"
+"                Créez, publiez et grâce à Cleeng générez des revenus\r\n"
+"                Cleeng fonctionne pour les textes, les images, les videos et tout ce que vous\r\n"
+"                pouvez imaginer! Concentrez vous sur votre contenu, apportez de la valeur ajoutée à vos lecteurs and Cleeng s'occupe\r\n"
+"                du reste!\r\n"
+"                "
+
+#: ../php/classes/Page/WhatIsCleeng.php:62
+msgid ""
+"With Cleeng you can sell any individual piece of content directly from your\r\n"
+"                own website. With Cleeng you can offer your digital goods:\r\n"
+"        "
+msgstr ""
+"Avec Cleeng vous vendez n'importe quel type de contenu directement sur\r\n"
+"                votre site web.\r\n"
+"        "
+
+#: ../php/classes/Page/WhatIsCleeng.php:67
+msgid "1. Sell <b>single items,</b>"
+msgstr "1. Vendez<b>à l'unité,</b>"
+
+#: ../php/classes/Page/WhatIsCleeng.php:68
+msgid "2. Provide a <b>Daily pass</b>(24h), or"
+msgstr "Offrez le <b>Pass journalier<b/>(24h), ou"
+
+#: ../php/classes/Page/WhatIsCleeng.php:69
+msgid "3. Give access to all your content via <b>subscriptions</b>"
+msgstr "Proposez des offres de <b>souscriptions<b/>"
+
+#: ../php/classes/Page/WhatIsCleeng.php:71
+msgid "Cleeng supports USD, EUR and GBP and you can price single items from 0.14 to 19.99 cents."
+msgstr "Cleeng gère les USD, EUR et GBP et vous permet de monétiser vos contenus entre 0.14 cents et 19.99."
+
+#: ../php/classes/Page/WhatIsCleeng.php:72
+msgid ""
+"With installing this plugin you can enjoy automatically many payment methods,\r\n"
+"including:"
+msgstr "Avec ce plug-in vous pouvez bénéficier et offir automatiquement plusieurs moyens de paiement, tels que:"
+
+#: ../php/classes/Page/WhatIsCleeng.php:78
+msgid "Learn about all features on Cleeng.com"
+msgstr "Consultez les caractéristiques produits sur cleeng.com"
+
+#: ../php/classes/Page/WhatIsCleeng.php:84
+msgid "What else you need to know"
+msgstr "Ce que vous avez besoin de savoir"
+
+#: ../php/classes/Page/WhatIsCleeng.php:87
+msgid "<b>In page monetization for higher conversions.</b>"
+msgstr "Monétisation au sein de la page pour de meilleures conversions"
+
+#: ../php/classes/Page/WhatIsCleeng.php:88
+msgid ""
+"Within the editor for pages or posts you can select any piece of content you want to hide, type a teaser/description and\r\n"
+"            select the price for the item. You can also define dates to only protect your content a specific period (e.g first 2h after\r\n"
+"            publication, or after 2 days of publication). Once the page is published your visitors can get instant access to it."
+msgstr ""
+"Au sein de l'éditeur d'article ou de page vous pouvez sélectionner n'importe quelles partie du contenu que vous souhaitez cacher\r\n"
+"            écrivez une description impactante qui donne envie de lire le reste du contenu et définissez le prix de l'article. Vous pouvez également déterminer les périodes de protection (ex: quelques heures, le premier jour\r\n"
+"            ou une semaine, passé ce délai le contenu n'est plus caché et donc accessible gartuitement."
+
+#: ../php/classes/Page/WhatIsCleeng.php:92
+msgid "<b>Daily Pass & Subscriptions</b>"
+msgstr "<b> Pass Journalier & Souscriptions<b/>"
+
+#: ../php/classes/Page/WhatIsCleeng.php:96
+msgid ""
+"You might consider to offer access to your premium content to your loyal visitors\r\n"
+"        in a different way as well. Therefore this Cleeng offers a Daily pass and\r\n"
+"        subscriptions. When a visitor purchases one of those - they get instant access to\r\n"
+"        all the content published under your publisher account. You can define the set-\r\n"
+"        up for Daily pass and subscription in your <a  href=\""
+msgstr "Vous pouvez également permettre l'accès à votre contenu premium différemment, via un Pass journalier ou une offre d'abonnement.Si vos lecteurs choisissent l'une de ces formules, ils auront immédiatement accès à l'intégralité des contenus que vous publiez. Vous pouvez définir les options du Pass Journalier et les offres de souscriptions dans:"
+
+#: ../php/classes/Page/WhatIsCleeng.php:110
+msgid "<b>Completely free to try, learn and adapt</b>"
+msgstr "Essayez, apprenez et vendez: c'est gratuit !"
+
+#: ../php/classes/Page/WhatIsCleeng.php:113
+msgid ""
+"Do you know what people are willing to pay for? Creating a content strategy, and\r\n"
+"            having a good understanding of what your audience is wiling to pay for is likely\r\n"
+"            something you need to learn by trying. With Cleeng you can try, learn and adapt\r\n"
+"            without upfront investments. You can experiment for free.\r\n"
+"    "
+msgstr ""
+"Quel contenu, les internautes sont ils prêts à acheter? Créer une vraie strategie de contenu et comprendre \r\n"
+"            les attentes des consommateurs, n'est pas aisé et sera au fil du temps.\r\n"
+"            Avec Cleeng c'est facile d'essayer, de progresser et de s'adapter\r\n"
+"            sans investissement de votre part. Essayez, c'est gratuit.\r\n"
+"    "
+
+#: ../php/classes/Page/WhatIsCleeng.php:119
+msgid "<b>Get paid monthly via PayPal or wire transfer</b>"
+msgstr "<b>Recevez vos paiements mensuels via PayPal ou par virement bancaire."
+
+#: ../php/classes/Page/WhatIsCleeng.php:121
+msgid "Within your <a  href=\""
+msgstr "Dans votre <a href=\""
+
+#: ../php/classes/Page/WhatIsCleeng.php:129
+msgid "<b>Let your visitors share & earn</b>"
+msgstr "Autorisez vos lecteurs à partager et être récompensé"
+
+#: ../php/classes/Page/WhatIsCleeng.php:131
+msgid ""
+"Cleeng offers a truly unique feature: a social commission system allowing\r\n"
+"        users to be rewarded when sharing content with their friends.\r\n"
+"\r\n"
+"    "
+msgstr "Cleeng offre une fonctionnalité vraiment intéressante: un système de recommandation \"sociale\" qui permet à vos lecteurs d'être commissionné en recommandant votre contenu à leurs amis."
+
+#: ../php/classes/Page/WhatIsCleeng.php:136
+msgid ""
+"You can enable the “cleeng it” program per individual piece of content. People\r\n"
+"        can share and recommend the content directly from the layer once they have\r\n"
+"        purchased the content or later from the library. If the article is purchased via\r\n"
+"        the link they shared they will receive a commission.\r\n"
+"    "
+msgstr "Si vous activez le programme \"Cleeng it\" (vous avez le choix de le faire par article proposé à la vente), les utilisateurs qui ont acheté votre contenu pourront le recommander à leurs amis et recevront une commission de votre part chaque fois que le contenu est acheté par leurs amis, en utilisant le lien qu'ils ont partagé."
+
+#~ msgid "What is <a href=\"%s/what-is-cleeng\">Cleeng?</a>"
+#~ msgstr "Qu'est-ce-que <a href=\"%s/what-is-cleeng\">Cleeng?</a>"
+
+#~ msgid "To view this "
+#~ msgstr "Pour voir ceci"
+
+#~ msgid "Sign-up for free in 1-Click"
+#~ msgstr "Enregristrez-vous en 1-Click"
+
+#~ msgid "To view this article,<br />Please sign-in"
+#~ msgstr "Afin de voir cet article, <br />Merci de vous enregistrer"
+
+#~ msgid "Free"
+#~ msgstr "Gratuit"
+
+#~ msgid "Buy & Access<br /> Instantly"
+#~ msgstr "Achetez & Accédez<br /> Instantanément"
+
+#~ msgid "or pay with <em>PayPal</em>"
+#~ msgstr "ou payer avec <em>PayPal</em>"
