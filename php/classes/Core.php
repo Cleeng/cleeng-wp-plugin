@@ -4,6 +4,7 @@ class Cleeng_Core
 {
 
     const DATABASE_VERSION = 2;
+    const PLUGIN_VERSION = '2.2.7';
 
     /**
      * Configuration injected to each created class
@@ -13,7 +14,6 @@ class Cleeng_Core
 
         // platformUrl, clientId and clientSecret are essential for connecting with Cleeng Platform API
         'platformUrl' =>  'cleeng.com', //'staging.cleeng.com'//$options['environment']
-        'pluginVersion' => '2.2.6',
         'appId' => null,
         'appSecureKey' => null,
 

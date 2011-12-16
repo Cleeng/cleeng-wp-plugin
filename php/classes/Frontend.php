@@ -107,7 +107,7 @@ class Cleeng_Frontend
     public function action_wp_footer() {
         $options = Cleeng_Core::get_config();
 
-        echo "\n\n<!-- cleeng plugin version:".$options['pluginVersion']." -->\n\n\n";
+        echo "\n\n<!-- Cleeng For WordPress v" . Cleeng_Core::PLUGIN_VERSION . " -->\n";
         echo
         '<script type="text/javascript">
         // <![CDATA
