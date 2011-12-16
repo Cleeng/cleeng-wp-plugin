@@ -113,7 +113,8 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 == Changelog ==
 = trunk =
 * fixed link "Please upgrade your account here"
-
+* updated screenshots 
+* version number in now reported in html comment
 
 = 2.2.6 =
 * updated plugin description

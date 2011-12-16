@@ -152,6 +152,7 @@ var CleengWidget = {
      * Fetch information about currently authenticated user
      */
     getUserInfo: function(dontFetchContentInfo) {
+        
         CleengWidget.showLoader();
         CleengClient.getUserInfo(function(resp) {
             CleengWidget.userInfo = resp;
