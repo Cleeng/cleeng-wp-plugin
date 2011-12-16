@@ -111,8 +111,12 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 6. User library, to access all his/her content
 
 == Changelog ==
+
 = 2.2.7 =
 * fixed link "Please upgrade your account here"
+* updated screenshots 
+* version number in now reported in html comment
+* small CSS update
 
 = 2.2.6 =
 * updated plugin description
