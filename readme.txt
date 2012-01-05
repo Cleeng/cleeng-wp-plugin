@@ -2,8 +2,8 @@
 Contributors: mtymek, Donald Res
 Tags: cleeng, content monetization, pay-per-item, sell digital goods, subscriptions, paypal, visa, master card, ideal, make money, earn money, social payment, affiliate, sell content, micropayment, secure, monthly subscriptions, daily pass, paywall, search engine friendly, members, membership
 Requires at least: 2.9.2
-Tested up to: 3.3
-Stable tag: 2.2.8
+Tested up to: 3.3.1
+Stable tag: 2.2.9
 License: New BSD License
 
 The best free plugin to sell articles, videos, images & downloads! Exclusive: sell single item + subscription at the same time, keep advertising $
@@ -115,6 +115,7 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 = 2.2.9 =
 * italian translations (by Davide Brioschi)
 * increased size of "upgrade accout" popup window
+* allowed content prices up to 99.99 USD/EUR/GBP
 
 = 2.2.8 =
 * fixed link "Please upgrade your account here"
