@@ -120,13 +120,12 @@ class Cleeng_Core
         }
         self::$config = array_merge(self::$config, $options);
 
-        if (!$options['appId']) {  // no appId - register new application
+        if (!self::$config['appId']) {  // no appId - register new application
             $app = self::load('Cleeng_Installer')->register_client_app();
             if ($app) {
-                $options['appId'] = $app['appId'];
-                $options['appSecureKey'] = $app['appSecureKey'];
-                update_option('cleeng_options', $options);
-                self::$config = $options;
+                self::$config['appId'] = $app['appId'];
+                self::$config['appSecureKey'] = $app['appSecureKey'];
+                update_option('cleeng_options', self::$config);
             }
         }
 
