@@ -112,6 +112,9 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 
 == Changelog ==
 
+= 2.2.9 =
+* Italian translations (by Davide Brioschi)
+
 = 2.2.8 =
 * fixed link "Please upgrade your account here"
 * updated screenshots 
