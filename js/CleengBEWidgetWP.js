@@ -292,7 +292,7 @@ var CleengWidget = {
                 minWidth: 350,
                 buttons: {
                     'Set default settings': function() {
-                        window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1/anchor/1','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
+			window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1/anchor/1','mywindow','width=1024,height=800,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
                         jQuery( this ).dialog( "close" );
                     }
                 }

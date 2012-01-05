@@ -113,7 +113,8 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 == Changelog ==
 
 = 2.2.9 =
-* Italian translations (by Davide Brioschi)
+* italian translations (by Davide Brioschi)
+* increased size of "upgrade accout" popup window
 
 = 2.2.8 =
 * fixed link "Please upgrade your account here"
@@ -132,8 +133,8 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 * check if $posts is an array
 
 = 2.2.5 =
-* Fixed "activate account" not 
-* Fixed notices when WP_DEBUG is set to true
+* fixed "activate account" not working properly
+* fixed notices when WP_DEBUG is set to true
 
 = 2.2.4 =
 * subscriptions in PayPal mode
