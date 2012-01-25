@@ -24,12 +24,23 @@ var CleengWidget = {
     appSecureKey: null,
     contentIds: {},
     protection: null,
+<<<<<<< HEAD
     
     sliderToPrice: [
         0, 0.14, 0.19, 0.24, 0.29, 0.34, 0.39, 0.44, 0.49, 0.54, 0.59, 0.64, 0.69, 0.74, 0.79, 0.84, 0.89, 0.94, 0.99,
         1.24, 1.49, 1.74, 1.99, 2.24, 2.49, 2.74, 2.99, 3.24, 3.49, 3.74, 3.99, 4.24, 4.49, 4.74, 4.99, 5.24, 5.49, 5.74, 5.99,
         6.49, 6.99, 7.49, 7.99, 8.49, 8.99, 9.49, 9.99, 10.49, 10.99, 11.49, 11.99, 12.49, 12.99, 13.49, 13.99, 14.49, 14.99, 15.49, 15.99, 16.49, 16.99, 17.49, 17.99, 18.49, 18.99, 19.49, 19.99
     ],
+=======
+
+    sliderToPrice: [
+        0, 0.14, 0.19, 0.24, 0.29, 0.34, 0.39, 0.44, 0.49, 0.54, 0.59, 0.69, 0.79, 0.89, 0.99,
+        1.24, 1.49, 1.74, 1.99, 2.24, 2.49, 2.74, 2.99, 3.24, 3.49, 3.99, 4.49, 4.99, 5.49, 5.99,
+        6.49, 6.99, 7.49, 7.99, 8.49, 8.99, 9.49, 9.99, 10.49, 10.99, 
+	11.99, 12.99, 13.99, 14.99, 15.99, 16.99, 17.99, 18.99, 19.99,
+	24.95, 29.95, 34.95, 39.95, 44.95, 49.95, 54.95, 59.95, 64.95, 69.95, 74.95, 79.95, 84.95, 89.95,  94.95, 99.95
+    ],    
+>>>>>>> 6015cb55499c717eec19f62af47a5ee53859424a
     
     teserInputWatcher: function() {
         var desc = jQuery('#cleeng-ContentForm-Description');
@@ -176,6 +187,11 @@ var CleengWidget = {
             CleengWidget.setContent(contentId, isCleengContent);
         });
 
+<<<<<<< HEAD
+=======
+        CleengWidget.setHasDefaultSetup();
+        
+>>>>>>> 6015cb55499c717eec19f62af47a5ee53859424a
     },
     setUpPluginDescription: function() {
         
@@ -222,6 +238,7 @@ var CleengWidget = {
         }
 
         if (CleengWidget.protection != 99) {
+<<<<<<< HEAD
             CleengClient.getContentDefaultConditions(function(resp) {
                 
                 if (resp) {
@@ -264,6 +281,32 @@ var CleengWidget = {
                 }
             });
 
+=======
+            jQuery('#cleeng-option-loader').show();
+
+            if(CleengWidget.getSelectedIds().length != 0) {
+                jQuery.getJSON(
+                    Cleeng_PluginPath+'ajax-set-content.php?contentIds='+CleengWidget.getSelectedIds()+'&protection='+CleengWidget.protection,
+                    function(resp) {
+                        window.location.reload();
+                        return true;
+                    }
+                );
+                return true;
+            } else {
+                 jQuery( "#cleeng-message-no-selected" ).dialog({
+                    modal: true,
+                    minWidth: 350,
+                    buttons: {
+                        Ok: function() {
+                            jQuery( this ).dialog( "close" );
+                        }
+                    }
+                });
+
+                jQuery('#cleeng-option-loader').hide();
+            }
+>>>>>>> 6015cb55499c717eec19f62af47a5ee53859424a
         }
     },
     getSelectedIds: function() {
@@ -301,7 +344,25 @@ var CleengWidget = {
             CleengWidget.openPublisherRegistrationWindow();
             return false;
         }
+<<<<<<< HEAD
        
+=======
+        
+        if (!CleengWidget.hasDefaultSetup()) {
+            jQuery( "#cleeng-message-no-default-setup" ).dialog({
+                modal: true,
+                minWidth: 350,
+                buttons: {
+                    'Set default settings': function() {
+			window.open(CleengClient.getUrl()+'/my-account/settings/single-item-sales/1/anchor/1','mywindow','width=1024,height=800,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes')
+                        jQuery( this ).dialog( "close" );
+                    }
+                }
+            });
+            jQuery('button').addClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only");
+            return false;
+        }
+>>>>>>> 6015cb55499c717eec19f62af47a5ee53859424a
         return true;
     },
     setContent: function(contentId, isCleengContent) {
@@ -313,6 +374,7 @@ var CleengWidget = {
         } else {
             CleengWidget.protection = 'add-protection';
         }
+<<<<<<< HEAD
                 
         if (CleengWidget.isPosibilityToProtect() == false) {
             return false;
@@ -355,6 +417,64 @@ var CleengWidget = {
     showContentFormWithDefaultParams: function() {
         var user = CleengWidget.userInfo;
         if (user) {
+=======
+        
+        if (CleengWidget.isPosibilityToProtect() == false) {
+            return false;
+        }
+
+        var c = jQuery('a#cleeng-post-'+contentId);
+        c.attr('class','cleeng-loader');
+        jQuery.getJSON(
+            Cleeng_PluginPath+'ajax-set-content.php?contentId='+contentId+'&protection='+CleengWidget.protection,
+            function(resp) {
+
+                if ( CleengWidget.hasDefaultSetup() ) {
+
+                    c.attr('class','cleeng-post cleengit cleeng-'+resp.protecting) ;
+                    if (resp.protecting == 'on') {
+                        c.attr('title',resp.info.symbol+resp.info.price+ "\n"+resp.info.shortDescription);
+                    } else {
+                        c.attr('title','Protect it!');
+                    }
+
+                } else {
+                    c.attr('class','cleeng-post cleengit') ;
+                }
+                return true;
+            }
+        );
+
+    },
+    setHasDefaultSetup: function() {
+
+        //if(CleengWidget.getCookie('hasDefaultSetup') == undefined) {
+
+            CleengClient.getContentDefaultConditions(function(resp){
+                if(resp == null){
+                    CleengWidget.setCookie('hasDefaultSetup', '0', 1);
+                } else {
+                    CleengWidget.setCookie('hasDefaultSetup', '1', 1);
+                }
+            });
+        //}
+
+    },
+    hasDefaultSetup : function() {
+        if(CleengWidget.getCookie('hasDefaultSetup') == undefined) {
+            CleengWidget.setHasDefaultSetup();
+            setTimeout(function() {
+                CleengWidget.hasDefaultSetup();
+            }, 1000);
+        } else {
+            return CleengWidget.getCookie('hasDefaultSetup')==1?true:false;
+        }
+    },
+    showContentFormWithDefaultParams: function() {
+        var user = CleengWidget.userInfo;
+        if (user) {
+
+>>>>>>> 6015cb55499c717eec19f62af47a5ee53859424a
           CleengClient.getContentDefaultConditions(function(resp){
               if(resp == null){
                   CleengWidget.showContentForm({});

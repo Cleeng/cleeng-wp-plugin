@@ -56,7 +56,7 @@ if (isset($contentIds) && $contentIds != null) {
                             WHERE id = $contentId 
                         ");
                     }
-                    
+
                 }
                 break;
             case 'add-protection':
@@ -84,10 +84,11 @@ if (isset($contentIds) && $contentIds != null) {
 
     switch ($protection) {
         case 'remove-protection':
+
             if (empty($cleengContentIds)) {
                 throw new Exception('Cleeng content id is empty.');
             }
-            
+
             $cleeng->removeContent($cleengContentIds);
             break;
         case 'add-protection':
@@ -142,10 +143,11 @@ if (isset($contentIds) && $contentIds != null) {
             preg_match_all('/(\[\/cleeng_content\])/', $postContent, $matches);
             $postContent = str_replace($matches[1][0], ' ', $postContent);
             
+
             if (!$cleengContentId) {
                 throw new Exception('Cleeng content id is empty.');
             }
-            
+
             $contentInfo = $cleeng->getContentInfo(array($cleengContentId));
 
             $r = $wpdb->update($table_name, array('post_content' => $postContent), array('id' => $contentId));
