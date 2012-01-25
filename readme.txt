@@ -111,6 +111,9 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 6. User library, to access all his/her content
 
 == Changelog ==
+= trunk =
+* verify data before calling Cleeng API
+* verify "default sale condition" before protecting content calling Cleeng API
 
 = 2.2.7 =
 * fixed link "Please upgrade your account here"

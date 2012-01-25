@@ -48,12 +48,15 @@ if (isset($contentIds) && $contentIds != null) {
                     $postContent = str_replace($matches[1][0], ' ', $postContent);
 
                     $cleengContentIds[] = $cleengContentId;
-
-                    $wpdb->query(
-                        "UPDATE $table_name 
-                        SET post_content = '$postContent'
-                        WHERE id = $contentId 
-                    ");
+                    
+                    if ($cleengContentId) {
+                        $wpdb->query(
+                            "UPDATE $table_name 
+                            SET post_content = '$postContent'
+                            WHERE id = $contentId 
+                        ");
+                    }
+                    
                 }
                 break;
             case 'add-protection':
@@ -81,6 +84,10 @@ if (isset($contentIds) && $contentIds != null) {
 
     switch ($protection) {
         case 'remove-protection':
+            if (empty($cleengContentIds)) {
+                throw new Exception('Cleeng content id is empty.');
+            }
+            
             $cleeng->removeContent($cleengContentIds);
             break;
         case 'add-protection':
@@ -134,6 +141,10 @@ if (isset($contentIds) && $contentIds != null) {
 
             preg_match_all('/(\[\/cleeng_content\])/', $postContent, $matches);
             $postContent = str_replace($matches[1][0], ' ', $postContent);
+            
+            if (!$cleengContentId) {
+                throw new Exception('Cleeng content id is empty.');
+            }
             
             $contentInfo = $cleeng->getContentInfo(array($cleengContentId));
 
