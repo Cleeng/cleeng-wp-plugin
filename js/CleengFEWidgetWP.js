@@ -263,6 +263,7 @@ var CleengWidget = {
         }
     },
     logIn: function() {
+
         CleengClient.logIn(function(result) {
             CleengWidget.getUserInfo();
             if (result && typeof result.showMessage !== 'undefined' && result.showMessage) {
