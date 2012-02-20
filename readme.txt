@@ -111,9 +111,12 @@ You can find all FAQ on http://support.cleeng.com (or ask your question there if
 6. User library, to access all his/her content
 
 == Changelog ==
-= trunk =
-* verify data before calling Cleeng API
-* verify "default sale condition" before protecting content calling Cleeng API
+
+= 2.2.10 =
+* improved loading speed of pages with Cleeng items
+* removed redundant calls to Cleeng API, improved data validation before it is sent
+* verify if user has set default pricing conditions with AJAX request
+* small CSS improvements
 
 = 2.2.9 =
 * italian translations (by Davide Brioschi)

@@ -98,7 +98,9 @@ class Cleeng_Installer
           referral_rate float(18,4),
           short_url varchar(200),
           item_type varchar(50),
-          referral_program_enabled tinyint(1)
+          referral_program_enabled tinyint(1),
+          subscription_offer tinyint(1),
+          subscription_prompt varchar(64)
         );";
 
 

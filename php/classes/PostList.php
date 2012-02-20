@@ -122,6 +122,8 @@ class Cleeng_PostList
                 'price' => $cont['price'],
                 'referralProgramEnabled' => $cont['referral_program_enabled'],
                 'referralRate' => $cont['referral_rate'],
+                'subscriptionOffer' => $cont['subscription_offer'],
+                'subscriptionPrompt' => $cont['subscription_prompt'],
             );
         }
 
@@ -141,6 +143,8 @@ class Cleeng_PostList
                         'price' => $cont['price'],
                         'referral_program_enabled' => $cont['referralProgramEnabled'],
                         'referral_rate' => $cont['referralRate'],
+                        'subscription_offer' => $cont['subscriptionOffer'],
+                        'subscription_prompt' => $cont['subscriptionPrompt'],
                     );
 
                     $wpdb->insert( $table_name, $insert);

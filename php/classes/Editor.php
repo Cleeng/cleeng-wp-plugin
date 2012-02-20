@@ -265,7 +265,7 @@ class Cleeng_Editor
             <div style="display:none;">
                 <?php _e('Thanks for using <strong class="cleeng-name">Cleeng</strong>.<br /><br />Please log in to protect your content.', 'cleeng') ?>
                 <br /> <br />
-                    <a style="margin-left:200px;" class="CleengWidget-auth-link button-primary" id="cleeng-login" href="#"><?php _e('Log in','cleeng') ?></a>
+                    <a style="float:right" class="CleengWidget-auth-link button-primary" id="cleeng-login" href="#"><?php _e('Log in','cleeng') ?></a>
                     <br/><br/>
                     <div style="margin-left: 20px;"><?php _e( 'Or
                         <a href="#" id="cleeng-register-publisher">register</a>

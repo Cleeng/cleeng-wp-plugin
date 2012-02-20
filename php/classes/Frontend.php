@@ -24,6 +24,11 @@ class Cleeng_Frontend
     protected $cleeng_content;
 
     /**
+     * @var bool
+     */
+    protected $cleeng_items_parsed = false;
+
+    /**
      * Whether to call getContentInfo API when page is loaded or not.
      * Right now it won't work if set to false.
      *
@@ -47,7 +52,6 @@ class Cleeng_Frontend
             $clientLang = 'en_US';
         }
 
-        
         wp_enqueue_script( 'CleengClient', 'https://' . $options['platformUrl'] . '/js-api/client.' . $clientLang . '.js' );
 
         wp_enqueue_script( 'CleengFEWidgetWP', CLEENG_PLUGIN_URL . 'js/CleengFEWidgetWP.js', array( 'jquery' ) );
@@ -159,13 +163,19 @@ jQuery(function() {
 
     /**
      * Wordpress action.
-     * Hook to Wordpress loop. It scans every post and searches for Cleeng
-     * items. Then it fetches information about the content using WebAPI
      *
-     * @global array $posts
      */
     public function action_loop_start() {
+        $this->cleeng_items_parsed = false;
+    }
+
+    /**
+     * Processes posts in a loop in search for Cleeng tags
+     *
+     */
+    public function parse_cleeng_items() {
         global $posts;
+        global $wpdb;
 
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 
@@ -229,6 +239,9 @@ jQuery(function() {
             }
         }
 
+        // sync with cached content from database
+
+
         if ( count( $this->cleeng_content ) ) {
             $this->cleeng_has_content = true;
 
@@ -259,22 +272,53 @@ jQuery(function() {
                 $this->cleeng_preload_content = false;
                 return;
             }
-            $ids = array_keys( $this->cleeng_content );
+
+            if ($cleeng->isUserAuthenticated()) {
+                $auth = true;
+            } else {
+                $auth = false;
+            }
 
             $contentInfoIds = array();
-            foreach ($ids as $key => $value) {
-                if (is_numeric($value)) {
-                    $contentInfoIds[] = $value;
+            $possiblyCached = array();
+            foreach ($this->cleeng_content as $key => $value) {
+                if (is_numeric($key)) {
+                    if ($auth || $value['hasLayerDates']) {
+                        $contentInfoIds[] = $key;
+                    } else {
+                        $possiblyCached[] = $key;
+                    }
                 }
             }
-            if (count($contentInfoIds)) {
 
+
+            $table_name = $wpdb->prefix . "cleeng_content";
+            $rows = $wpdb->get_results(
+                "SELECT * FROM " . $table_name . ' WHERE content_id IN ("' . implode('","', $possiblyCached) . '")'
+            );
+            foreach ($rows as $cont) {
+                $cont = (array)$cont;
+                if (in_array($cont['content_id'], $possiblyCached)) {
+                    unset($possiblyCached[array_search($cont['content_id'], $possiblyCached)]);
+                    $this->cleeng_content[$cont['content_id']]['sync'] = true;
+                    $this->cleeng_content[$cont['content_id']]['currency'] = $cont['currency'];
+                    $this->cleeng_content[$cont['content_id']]['currencySymbol'] = $cont['currency_symbol'];
+                    $this->cleeng_content[$cont['content_id']]['subscriptionOffer'] = $cont['subscription_offer'];
+                    $this->cleeng_content[$cont['content_id']]['subscriptionPrompt'] = $cont['subscription_prompt'];
+                    $this->cleeng_content[$cont['content_id']]['publisherId'] = $cont['publisher_id'];
+                }
+            }
+
+            if (count($possiblyCached)) {
+                $contentInfoIds = array_merge($contentInfoIds, $possiblyCached);
+            }
+
+            if (count($contentInfoIds)) {
                 try {
 
-//                    throw new Exception("test");
                     $contentInfo = $cleeng->getContentInfo( $contentInfoIds );
                     foreach ( $contentInfo as $key => $val ) {
-                                                                    
+
                         if (!is_array($val)) {
                             continue;
                         }
@@ -299,6 +343,12 @@ jQuery(function() {
      * @return string
      */
     function cleeng_add_layers( $content ) {
+
+        if (!$this->cleeng_items_parsed) {
+            $this->parse_cleeng_items();
+            $this->cleeng_items_parsed = 1;
+        }
+
         global $post;
         $cleeng = Cleeng_Core::load('Cleeng_Client');
         $expr = '/\[cleeng_content.*?id\s*=\s*(?:\"|&quot;)([\dt]+)(?:\"|&quot;).*?[^\\\]\](.*?[^\\\])\[\/cleeng_content\]/is';
@@ -453,7 +503,7 @@ jQuery(function() {
      * Helper function
      * Outputs Cleeng Layer's HTML code
      */
-function get_layer_markup( $postId, $text, $content ) {
+    function get_layer_markup( $postId, $text, $content ) {
     
         $cleeng = Cleeng_Core::load('Cleeng_Client');
 

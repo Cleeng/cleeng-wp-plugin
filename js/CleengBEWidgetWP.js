@@ -32,11 +32,7 @@ var CleengWidget = {
 	11.99, 12.99, 13.99, 14.99, 15.99, 16.99, 17.99, 18.99, 19.99,
 	24.95, 29.95, 34.95, 39.95, 44.95, 49.95, 54.95, 59.95, 64.95, 69.95, 74.95, 79.95, 84.95, 89.95,  94.95, 99.95
     ],    
-<<<<<<< HEAD
-=======
 
->>>>>>> 31856ac7f95b3b47377ba841a4e4ce0e95764c54
-    
     teserInputWatcher: function() {
         var desc = jQuery('#cleeng-ContentForm-Description');
         if (desc.val().length > 110) {
