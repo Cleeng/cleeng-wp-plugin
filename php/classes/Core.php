@@ -4,6 +4,7 @@ class Cleeng_Core
 {
 
     const DATABASE_VERSION = 2;
+
     const PLUGIN_VERSION = '2.2.8';
 
     /**
@@ -120,6 +121,10 @@ class Cleeng_Core
         }
         self::$config = array_merge(self::$config, $options);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 31856ac7f95b3b47377ba841a4e4ce0e95764c54
         if (!self::$config['appId']) {  // no appId - register new application
             $app = self::load('Cleeng_Installer')->register_client_app();
             if ($app) {
