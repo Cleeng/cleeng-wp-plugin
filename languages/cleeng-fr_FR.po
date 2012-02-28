@@ -195,6 +195,10 @@ msgstr "Qu'est ce que Cleeng?"
 msgid "Quick-start guide"
 msgstr "Guide de démarrage rapide"
 
+#: ../php/classes/Admin.php:229
+msgid "Settings to manage"
+msgstr "Comment paramètrer Cleeng?"
+
 #: ../php/classes/Admin.php:211
 #: ../php/classes/Page/Settings.php:127
 #, fuzzy

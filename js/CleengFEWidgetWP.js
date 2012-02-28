@@ -30,7 +30,7 @@ var CleengWidget = {
             }
         });        
 
-        jQuery('.cleeng-login').click(function() {CleengWidget.logIn();return false;});
+        //jQuery('.cleeng-login').click(function() {CleengWidget.logIn();return false;});
         jQuery('.cleeng-logout').click(function() {CleengWidget.logOut();return false;});
         
         CleengWidget.contentIds = [];
@@ -41,6 +41,11 @@ var CleengWidget = {
             jQuery('#cleeng-layer-' + contentId + ' .cleeng-subscribe')
                 .click(function() {
                     CleengWidget.subscribe(contentId);
+                    return false;
+                });
+            jQuery('#cleeng-layer-' + contentId + ' .cleeng-login')
+                .click(function() {
+                    CleengWidget.logIn(contentId);
                     return false;
                 });
             jQuery('#cleeng-layer-' + contentId + ' .cleeng-button').not('.cleeng-subscribe')
@@ -262,8 +267,9 @@ var CleengWidget = {
             }
         }
     },
-    logIn: function() {
-
+    logIn: function(contentId) {
+        
+        CleengClient.setCobrandedPublisherId(CleengWidget.contentInfo[contentId].publisherId);
         CleengClient.logIn(function(result) {
             CleengWidget.getUserInfo();
             if (result && typeof result.showMessage !== 'undefined' && result.showMessage) {
